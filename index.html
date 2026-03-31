@@ -3,368 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renkli Defter - English Hub</title>
+    <title>Renkli Defter</title>
     <style>
-        /* --- MAVİ TEMA VE TAM EKRAN (FULLSCREEN) AYARLARI --- */
-        :root {
-            --blue-dark: #0f172a;   /* Gece Mavisi */
-            --blue-main: #1e3a8a;   /* Derin Mavi */
-            --blue-light: #3b82f6;  /* Parlak Mavi */
-            --blue-accent: #60a5fa; /* Açık Mavi (Vurgu) */
-            --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* --- GENEL AYARLAR --- */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--blue-dark), var(--blue-main), var(--blue-light));
-            background-attachment: fixed;
-            color: var(--white);
+            margin: 0;
+            padding: 0;
+            background-color: #4ca771; /* GÃ¶rseldeki yeÅŸil tonu */
+            font-family: 'Nunito', sans-serif;
+            color: #000;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* --- ÜST MENÜ (NAVBAR) - CAM EFEKTİ --- */
-        nav {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 20px 40px;
-            display: flex;
             justify-content: space-between;
+        }
+
+        /* --- ANA KONTEYNER --- */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
             align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--white);
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            cursor: pointer;
-        }
-        
-        .nav-links button {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 10px 25px;
-            margin-left: 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links button:hover, .nav-links button.active {
-            background: var(--blue-light);
-            border-color: var(--blue-accent);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* --- SAYFA GEÇİŞ KONTROLÜ (SPA) --- */
-        .page-section {
-            display: none;
-            padding: 40px 20px;
+            flex: 1;
+            padding: 40px;
             max-width: 1200px;
             margin: 0 auto;
-            flex-grow: 1;
             width: 100%;
-            animation: fadeIn 0.5s ease-in-out;
+            box-sizing: border-box;
         }
 
-        .active-page {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- CAM EFEKTLİ KARTLAR (GLASSMORPHISM) --- */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        /* --- 1. ÖĞRENCİ PANELİ --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .class-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 40px 20px;
-            text-align: center;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .class-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--blue-accent);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .class-card h3 {
-            font-size: 2.2rem;
-            margin: 15px 0;
-            color: var(--blue-accent);
-        }
-
-        .class-card p {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            color: #e2e8f0;
-        }
-
-        .emoji-icon {
-            font-size: 3.5rem;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-        }
-
-        /* --- 2. YÖNETİCİ PANELİ (PDF YÜKLEME) --- */
-        .form-row {
+        /* --- SOL TARAF (LOGO VE YAZI) --- */
+        .left-side {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .form-row > div {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--blue-accent);
-            letter-spacing: 0.5px;
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        select option {
-            background: var(--blue-main);
-            color: white;
-        }
-
-        select:focus, input[type="text"]:focus {
-            border-color: var(--blue-accent);
-        }
-
-        /* PDF Sürükle Bırak Alanı */
-        .drop-zone {
-            border: 2px dashed var(--blue-accent);
-            border-radius: 20px;
-            padding: 60px 20px;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            background: rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .title-renkli {
+            background-color: #ffd13b;
+            color: #ff5722;
+            padding: 15px 50px;
+            border-radius: 50px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            border: 3px solid #000;
+            transform: rotate(-4deg);
+            margin-bottom: -10px;
+            box-shadow: 4px 4px 0px #000;
+            letter-spacing: 2px;
+            -webkit-text-stroke: 1px #000;
+        }
+
+        .title-defter {
+            background-color: #fff8dc;
+            color: #f44336;
+            padding: 10px 40px;
+            border-radius: 50px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            letter-spacing: 2px;
+            -webkit-text-stroke: 1px #000;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-top: 40px;
+            line-height: 1.4;
+        }
+
+        /* --- SAÄ TARAF (BUTONLAR) --- */
+        .right-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            background-color: #fff8dc;
+            color: #000;
+            border: 3px solid #000;
+            border-radius: 5px;
+            padding: 20px 30px;
+            font-size: 1.4rem;
+            font-weight: 900;
             cursor: pointer;
-            position: relative;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-decoration: none;
         }
 
-        .drop-zone:hover {
-            background: rgba(96, 165, 250, 0.1);
-            border-color: var(--white);
+        .btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px #000;
+            background-color: #fff;
         }
 
-        .drop-zone input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
+        .btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #000;
         }
 
-        .btn-main {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(90deg, var(--blue-light), var(--blue-main));
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        .btn-icon {
+            font-size: 1.8rem;
+            background-color: #81d4fa;
+            border: 2px solid #000;
+            border-radius: 5px;
+            padding: 5px 10px;
         }
 
-        .btn-main:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(90deg, var(--blue-accent), var(--blue-light));
+        /* 6, 7 ve 8. SÄ±nÄ±f ButonlarÄ± Ä°Ã§in Ã–zel Ayar */
+        .btn-class {
+            justify-content: center;
         }
 
-        /* Footer */
+        /* --- FOOTER --- */
         footer {
             text-align: center;
             padding: 20px;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--glass-border);
-            background: rgba(15, 23, 42, 0.4);
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Mobil Uyumluluk */
+        @media (max-width: 768px) {
+            .right-side {
+                grid-template-columns: 1fr;
+            }
+            .title-renkli { font-size: 2.5rem; }
+            .title-defter { font-size: 1.8rem; }
+            .subtitle { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo" onclick="switchPage('student-page', 'btn-student')">?? Renkli Defter</div>
-        <div class="nav-links">
-            <button id="btn-student" class="active" onclick="switchPage('student-page', 'btn-student')">İngilizce Öğren</button>
-            <button id="btn-admin" onclick="switchPage('admin-page', 'btn-admin')">Yönetici Paneli (PDF)</button>
-        </div>
-    </nav>
-
-    <main id="student-page" class="page-section active-page">
-        <div class="glass-panel" style="text-align: center; margin-bottom: 40px; padding: 30px;">
-            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Welcome to English Hub! ??</h1>
-            <p style="font-size: 1.2rem; color: #cbd5e1;">Grammar, Vocabulary ve Reading egzersizleri ile İngilizceni geliştir.</p>
-        </div>
-
-        <div class="dashboard-grid">
-            <div class="class-card">
-                <div class="emoji-icon">????</div>
-                <h3>6. Sınıf</h3>
-                <p>Temel kelime dağarcığını genişlet, günlük konuşma kalıplarını öğren ve eğlenceli okuma parçalarını keşfet.</p>
-            </div>
-            
-            <div class="class-card">
-                <div class="emoji-icon">???</div>
-                <h3>7. Sınıf</h3>
-                <p>Dilbilgisini (Grammar) derinleştir. Geçmiş ve gelecek zaman kurgularıyla kendi hikayeni İngilizce yazmaya başla.</p>
-            </div>
-            
-            <div class="class-card">
-                <div class="emoji-icon">??</div>
-                <h3>8. Sınıf (LGS)</h3>
-                <p>LGS İngilizce hedefine odaklan! Soru köklerini anlama, paragraf analizleri ve hız kazandıran test taktikleri.</p>
+    <div class="container">
+        <div class="left-side">
+            <div class="title-renkli">RENKLÄ°</div>
+            <div class="title-defter">DEFTER</div>
+            <div class="subtitle">
+                6, 7, 8 SÄ±nÄ±flar Ä°Ã§in<br>
+                PDF'ler Bulunur
             </div>
         </div>
-    </main>
 
-    <main id="admin-page" class="page-section">
-        <div class="glass-panel">
-            <h1 style="font-size: 2.2rem; margin-bottom: 10px; color: var(--blue-accent);">Soru Havuzu Yönetimi</h1>
-            <p style="margin-bottom: 30px; color: #cbd5e1;">PDF formatındaki İngilizce testlerini sisteme yükleyin.</p>
-
-            <div class="form-row">
-                <div>
-                    <label>Sınıf Seviyesi Seçin</label>
-                    <select>
-                        <option>6. Sınıf İngilizce</option>
-                        <option>7. Sınıf İngilizce</option>
-                        <option>8. Sınıf İngilizce (LGS)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Test Tipi</label>
-                    <select>
-                        <option>Vocabulary (Kelime)</option>
-                        <option>Grammar (Dilbilgisi)</option>
-                        <option>Reading (Okuma)</option>
-                        <option>LGS Denemesi</option>
-                    </select>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <label>Test / Konu Başlığı</label>
-                <input type="text" placeholder="Örn: Unit 1 - Friendship Vocabulary Test">
-            </div>
-
-            <div class="drop-zone">
-                <div style="font-size: 4rem; margin-bottom: 15px;">??</div>
-                <h3 id="file-name" style="font-size: 1.5rem; color: var(--white);">PDF Dosyasını Buraya Sürükle veya Seç</h3>
-                <p style="color: #94a3b8; margin-top: 10px;">Yalnızca İngilizce içerikli .pdf dosyalarını yükleyiniz.</p>
-                <input type="file" id="pdfInput" accept=".pdf">
-            </div>
-
-            <button class="btn-main" onclick="alert('İngilizce PDF sisteme yüklendi! (Arka plan kodlaması yapıldığında sorular otomatik ayrıştırılacaktır.)')">Sisteme Yükle ve Parçala</button>
+        <div class="right-side">
+            <a href="#" class="btn">
+                <span class="btn-icon">ğŸ“</span>
+                Notlar
+            </a>
+            <a href="#" class="btn">
+                <span class="btn-icon">ğŸ“‹</span>
+                YazÄ±lÄ± HazÄ±rlÄ±k
+            </a>
+            <a href="#" class="btn btn-class">6. SÄ±nÄ±f</a>
+            <a href="#" class="btn btn-class">7. SÄ±nÄ±f</a>
+            <a href="#" class="btn btn-class" style="grid-column: span 2; max-width: 300px; margin: 0 auto; width: 100%;">8. SÄ±nÄ±f [LGS]</a>
         </div>
-    </main>
+    </div>
 
     <footer>
-        <p>&copy; 2026 Renkli Defter - English Hub. Tüm hakları saklıdır.</p>
+        BY: ALP EREN
     </footer>
-
-    <script>
-        function switchPage(pageId, btnId) {
-            // Tüm sayfaları gizle
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => page.classList.remove('active-page'));
-            
-            // İstenen sayfayı göster
-            document.getElementById(pageId).classList.add('active-page');
-
-            // Butonların aktiflik durumunu güncelle
-            const buttons = document.querySelectorAll('.nav-links button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if(btnId) {
-                document.getElementById(btnId).classList.add('active');
-            }
-        }
-
-        // PDF dosya adı yazdırma
-        const fileInput = document.getElementById('pdfInput');
-        const fileNameDisplay = document.getElementById('file-name');
-
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                fileNameDisplay.textContent = "Seçilen Dosya: " + e.target.files[0].name;
-                fileNameDisplay.style.color = "var(--blue-accent)";
-            }
-        });
-    </script>
 
 </body>
 </html>
