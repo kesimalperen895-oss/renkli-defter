@@ -3,182 +3,1425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renkli Defter</title>
+    <title>RENKLİ DEFTER | English Hub - Premium Eğitim Platformu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Figtree:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        /* --- GENEL AYARLAR --- */
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
+        /* ══════════════════════════════════════════
+           CSS DEĞİŞKENLERİ
+        ══════════════════════════════════════════ */
+        :root {
+            --bg: #fdf6ec;
+            --bg-dark: #0f0e17;
+            --text: #1a1a2e;
+            --text-light: #6b6b8a;
+            --white: #ffffff;
 
+            --green-main: #2dba4e;
+            --green-light: #e8f9ed;
+            --green-dark: #1a8a35;
+            
+            --yellow: #ffe94a;
+            --yellow-dark: #e6c800;
+            --orange: #ff6b35;
+            --red: #ff2d55;
+            --blue: #0095ff;
+            --purple: #7b5ea7;
+            --pink: #ff7eb3;
+            --cyan: #00e5ff;
+
+            --sinif6: #00c853;
+            --sinif7: #0095ff;
+            --sinif8: #ff2d55;
+
+            --shadow-brutal: 5px 5px 0px #000;
+            --shadow-brutal-lg: 8px 8px 0px #000;
+            --border: 3px solid #000;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+
+            --font-display: 'Baloo 2', cursive;
+            --font-body: 'Figtree', sans-serif;
+
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ══════════════════════════════════════════
+           RESET & BASE
+        ══════════════════════════════════════════ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #4ca771; /* Görseldeki yeşil tonu */
-            font-family: 'Nunito', sans-serif;
-            color: #000;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--bg); color: var(--text);
+            font-family: var(--font-body); overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: var(--bg); border-left: 2px solid rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb {
+            background: var(--green-main); border-radius: 10px;
+            border: 3px solid var(--bg);
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--green-dark); }
+
+        /* ══════════════════════════════════════════
+           SAYFA / ROUTER SİSTEMİ
+        ══════════════════════════════════════════ */
+        .page { display: none; min-height: 100vh; animation: pageIn 0.5s var(--ease-smooth) forwards; }
+        .page.active { display: block; }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* --- ANA KONTEYNER --- */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
-            flex: 1;
-            padding: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
+        /* ══════════════════════════════════════════
+           NAVBAR
+        ══════════════════════════════════════════ */
+        .navbar {
+            position: sticky; top: 0; z-index: 999;
+            background: var(--green-main); border-bottom: var(--border);
+            padding: 0 32px; display: flex; align-items: center;
+            justify-content: space-between; height: 75px; gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .nav-logo {
+            font-family: var(--font-display); font-size: 1.6rem; font-weight: 900;
+            color: #fff; display: flex; align-items: center; gap: 10px; cursor: pointer;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+        .nav-logo .logo-badge {
+            background: var(--yellow); color: #000; padding: 4px 12px;
+            border-radius: 8px; border: 2px solid #000; box-shadow: 3px 3px 0px #000;
+            font-size: 0.9rem; transform: rotate(-4deg); display: inline-block;
+            text-shadow: none; transition: transform 0.2s;
+        }
+        .nav-logo:hover .logo-badge { transform: rotate(0deg) scale(1.1); }
+
+        .nav-links { display: flex; align-items: center; gap: 6px; }
+        .nav-btn {
+            display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+            border-radius: 10px; font-family: var(--font-body); font-size: 0.95rem;
+            font-weight: 800; cursor: pointer; transition: all 0.2s;
+            border: 2px solid transparent; background: transparent; color: rgba(255,255,255,0.9);
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.2); color: #fff; transform: translateY(-2px); }
+        .nav-btn.active { background: var(--yellow); color: #000; border-color: #000; box-shadow: 3px 3px 0px #000; transform: translateY(0); }
+        .mobile-menu-btn {
+            display: none; background: rgba(0,0,0,0.2); border: 2px solid #000; color: white;
+            border-radius: 8px; padding: 8px 12px; font-size: 1.4rem; cursor: pointer; box-shadow: 2px 2px 0px #000;
         }
 
-        /* --- SOL TARAF (LOGO VE YAZI) --- */
-        .left-side {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 40px;
+        /* ══════════════════════════════════════════
+           GENEL BİLEŞENLER
+        ══════════════════════════════════════════ */
+        .section { padding: 90px 5%; position: relative; }
+        .section-center { text-align: center; }
+        .section-tag {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--white);
+            color: var(--text); border: 2px solid #000; box-shadow: 3px 3px 0px #000;
+            border-radius: 50px; padding: 8px 18px; font-weight: 900; font-size: 0.9rem;
+            margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;
         }
-
-        .title-renkli {
-            background-color: #ffd13b;
-            color: #ff5722;
-            padding: 15px 50px;
-            border-radius: 50px;
-            font-size: 3.5rem;
-            font-weight: 900;
-            border: 3px solid #000;
-            transform: rotate(-4deg);
-            margin-bottom: -10px;
-            box-shadow: 4px 4px 0px #000;
-            letter-spacing: 2px;
-            -webkit-text-stroke: 1px #000;
-        }
-
-        .title-defter {
-            background-color: #fff8dc;
-            color: #f44336;
-            padding: 10px 40px;
-            border-radius: 50px;
-            font-size: 2.2rem;
-            font-weight: 900;
-            border: 3px solid #000;
-            box-shadow: 4px 4px 0px #000;
-            letter-spacing: 2px;
-            -webkit-text-stroke: 1px #000;
-            z-index: 2;
-        }
-
-        .subtitle {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-top: 40px;
-            line-height: 1.4;
-        }
-
-        /* --- SAĞ TARAF (BUTONLAR) --- */
-        .right-side {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
+        .section-title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 15px; line-height: 1.2; color: var(--text); }
+        .section-sub { color: var(--text-light); font-size: 1.15rem; max-width: 650px; margin: 0 auto 50px; line-height: 1.6; font-weight: 500; }
+        
         .btn {
-            background-color: #fff8dc;
-            color: #000;
-            border: 3px solid #000;
-            border-radius: 5px;
-            padding: 20px 30px;
-            font-size: 1.4rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px #000;
-            transition: all 0.2s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px 32px; border-radius: var(--radius-sm); font-family: var(--font-display);
+            font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all 0.2s var(--ease-spring);
+            border: var(--border); text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .btn-yellow { background: var(--yellow); color: #000; box-shadow: var(--shadow-brutal); }
+        .btn-yellow:hover { transform: translate(-4px, -4px); box-shadow: 9px 9px 0px #000; }
+        .btn-yellow:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
+        
+        .btn-green { background: var(--green-main); color: #fff; box-shadow: var(--shadow-brutal); }
+        .btn-green:hover { transform: translate(-4px, -4px); box-shadow: 9px 9px 0px #000; }
+        
+        .btn-outline { background: #fff; color: #000; box-shadow: var(--shadow-brutal); }
+        .btn-outline:hover { transform: translate(-4px, -4px); box-shadow: 9px 9px 0px #000; background: var(--bg); }
 
-        .btn:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 7px 7px 0px #000;
-            background-color: #fff;
+        /* ══════════════════════════════════════════
+           HERO BÖLÜMÜ
+        ══════════════════════════════════════════ */
+        .hero-section {
+            background: var(--green-main); position: relative; overflow: hidden;
+            padding: 100px 5% 40px; display: flex; align-items: center; gap: 60px; min-height: 600px;
+            border-bottom: var(--border);
         }
-
-        .btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px #000;
+        .hero-bg-pattern {
+            position: absolute; inset: 0; opacity: 0.05; pointer-events: none;
+            background-image: radial-gradient(#000 2px, transparent 2px); background-size: 30px 30px;
         }
-
-        .btn-icon {
-            font-size: 1.8rem;
-            background-color: #81d4fa;
-            border: 2px solid #000;
-            border-radius: 5px;
-            padding: 5px 10px;
+        .hero-content { flex: 1.2; padding-bottom: 60px; position: relative; z-index: 2; }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--yellow);
+            border: 2px solid #000; border-radius: 50px; padding: 8px 16px; color: #000;
+            font-size: 0.9rem; font-weight: 900; margin-bottom: 25px; box-shadow: 3px 3px 0px #000;
+            transform: rotate(-2deg);
         }
-
-        /* 6, 7 ve 8. Sınıf Butonları İçin Özel Ayar */
-        .btn-class {
-            justify-content: center;
+        .hero-title {
+            font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); font-weight: 900;
+            color: #fff; line-height: 1.05; text-shadow: 4px 4px 0px rgba(0,0,0,0.3); margin-bottom: 25px;
         }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .hero-title .highlight {
+            background: var(--orange); color: #fff; display: inline-block; padding: 0 15px;
+            border-radius: 12px; transform: rotate(-1.5deg); border: 3px solid #000;
+            box-shadow: 5px 5px 0px #000; text-shadow: none;
         }
+        .hero-subtitle {
+            color: rgba(255,255,255,0.95); font-size: 1.3rem; max-width: 600px;
+            line-height: 1.7; margin-bottom: 40px; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .hero-cta-group { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
 
-        /* Mobil Uyumluluk */
+        .hero-visual {
+            flex: 1; display: flex; justify-content: center; align-items: center;
+            position: relative; z-index: 2; height: 500px;
+        }
+        .hero-cards-cluster { position: relative; width: 100%; height: 100%; }
+        
+        .floating-card {
+            position: absolute; background: #fff; border: var(--border); border-radius: var(--radius);
+            padding: 20px; box-shadow: 8px 8px 0px #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 800;
+            animation: float-random 6s ease-in-out infinite alternate;
+        }
+        .fc-1 { width: 180px; height: 220px; top: 10%; left: 10%; transform: rotate(-10deg); background: var(--sinif6); color: #fff; font-size: 1.5rem; animation-delay: 0s; }
+        .fc-2 { width: 220px; height: 280px; top: 30%; right: 5%; transform: rotate(8deg); background: var(--orange); color: #000; font-size: 2rem; z-index: 3; animation-delay: -2s; border-color:#000; }
+        .fc-3 { width: 160px; height: 160px; bottom: 10%; left: 30%; transform: rotate(-5deg); background: var(--yellow); color: #000; font-size: 1.2rem; animation-delay: -4s; border-radius: 50%; }
+        
+        @keyframes float-random {
+            0% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+            100% { transform: translateY(-25px) rotate(calc(var(--rot, 0deg) + 5deg)); }
+        }
+        .fc-1 { --rot: -10deg; } .fc-2 { --rot: 8deg; } .fc-3 { --rot: -5deg; }
+
+        .fc-icon { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 3px 3px 0px rgba(0,0,0,0.2); }
+        .fc-text { text-align: center; line-height: 1.2; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+
+        /* ══════════════════════════════════════════
+           STATS BANT
+        ══════════════════════════════════════════ */
+        .stats-bar {
+            background: var(--text); border-bottom: var(--border); padding: 30px 5%;
+            display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap;
+        }
+        .stat-item { display: flex; align-items: center; gap: 15px; }
+        .stat-icon { font-size: 2.5rem; background: rgba(255,255,255,0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2); }
+        .stat-number { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--yellow); line-height: 1; margin-bottom: 5px; }
+        .stat-label { font-size: 0.95rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ══════════════════════════════════════════
+           SINIF KARTLARI (ANA SAYFA)
+        ══════════════════════════════════════════ */
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .class-card {
+            background: var(--white); border: var(--border); border-radius: var(--radius-lg);
+            overflow: hidden; cursor: pointer; transition: all 0.3s var(--ease-spring);
+            box-shadow: var(--shadow-brutal-lg); position: relative; display: flex; flex-direction: column;
+        }
+        .class-card:hover { transform: translateY(-10px); box-shadow: 15px 15px 0px #000; }
+        
+        .card-header { padding: 40px 30px 30px; position: relative; overflow: hidden; text-align: center; border-bottom: var(--border); }
+        .card-6 .card-header { background: var(--sinif6); }
+        .card-7 .card-header { background: var(--sinif7); }
+        .card-8 .card-header { background: var(--purple); }
+
+        .card-header-bg { position: absolute; right: -20px; top: -30px; font-size: 10rem; opacity: 0.15; line-height: 1; pointer-events: none; transform: rotate(15deg); }
+        .card-emoji { font-size: 4rem; margin-bottom: 15px; display: inline-block; position: relative; z-index: 1; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.3)); }
+        .card-grade { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 3px 3px 0px rgba(0,0,0,0.3); position: relative; z-index: 1; line-height: 1.1; }
+        .card-grade-sub { background: #000; color: var(--yellow); font-size: 0.85rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-top: 12px; border: 2px solid #fff; position: relative; z-index: 1; letter-spacing: 1px; text-transform: uppercase; }
+
+        .card-body { padding: 30px; flex: 1; display: flex; flex-direction: column; }
+        .card-desc { color: var(--text); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px; font-weight: 600; }
+        .card-features { margin-bottom: auto; }
+        .card-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-weight: 700; font-size: 0.95rem; color: var(--text-light); }
+        .card-features li::before { content: '✓'; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--green-light); color: var(--green-dark); border-radius: 50%; font-size: 0.8rem; font-weight: 900; border: 1px solid var(--green-main); }
+
+        .card-cta { display: flex; align-items: center; justify-content: space-between; padding-top: 25px; margin-top: 25px; border-top: 2px dashed #ddd; }
+        .card-pdf-count { font-weight: 900; font-size: 1.2rem; color: var(--text); font-family: var(--font-display); display: flex; align-items: center; gap: 8px; }
+        .card-pdf-count span { background: var(--yellow); padding: 2px 10px; border-radius: 8px; border: 2px solid #000; }
+        
+        .card-arrow { width: 50px; height: 50px; border-radius: 12px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s var(--ease-spring); border: 2px solid #000; box-shadow: 3px 3px 0px rgba(0,0,0,0.3); }
+        .class-card:hover .card-arrow { transform: translateX(8px) rotate(10deg); background: var(--yellow); color: #000; }
+
+        /* ══════════════════════════════════════════
+           NASIL ÇALIŞIR? (STEP BY STEP)
+        ══════════════════════════════════════════ */
+        .steps-section { background: #fff; border-top: var(--border); border-bottom: var(--border); }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 50px auto 0; position: relative; }
+        /* Bağlantı Çizgisi (Desktop) */
+        @media(min-width: 900px) {
+            .steps-grid::before { content: ''; position: absolute; top: 50px; left: 10%; right: 10%; height: 4px; background: repeating-linear-gradient(90deg, #000, #000 10px, transparent 10px, transparent 20px); z-index: 1; }
+        }
+        
+        .step-card { text-align: center; position: relative; z-index: 2; }
+        .step-num { width: 100px; height: 100px; background: var(--yellow); border: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 3rem; font-weight: 900; margin: 0 auto 25px; box-shadow: var(--shadow-brutal); transition: transform 0.3s; }
+        .step-card:hover .step-num { transform: scale(1.1) rotate(-10deg); background: var(--green-main); color: #fff; }
+        .step-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+        .step-desc { color: var(--text-light); font-weight: 500; font-size: 1.05rem; }
+
+        /* ══════════════════════════════════════════
+           ÖZELLİKLER BÖLÜMÜ
+        ══════════════════════════════════════════ */
+        .features-section { background: var(--bg-dark); color: #fff; }
+        .features-section .section-title { color: #fff; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .feat-box { background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); padding: 40px 30px; border-radius: var(--radius-lg); transition: all 0.3s; position: relative; overflow: hidden; }
+        .feat-box:hover { background: rgba(255,255,255,0.08); border-color: var(--yellow); transform: translateY(-5px); }
+        .feat-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+        .feat-box:hover::before { transform: scaleX(1); }
+        
+        .feat-icon { font-size: 3.5rem; margin-bottom: 20px; display: inline-block; background: #000; width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.2); }
+        .feat-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; margin-bottom: 15px; color: #fff; }
+        .feat-desc { color: rgba(255,255,255,0.6); font-size: 1.05rem; line-height: 1.7; }
+
+        /* ══════════════════════════════════════════
+           ÖĞRENCİ YORUMLARI (TESTIMONIALS)
+        ══════════════════════════════════════════ */
+        .testi-section { background: var(--yellow); border-bottom: var(--border); }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .testi-card { background: #fff; border: var(--border); border-radius: var(--radius-lg); padding: 40px 30px; box-shadow: var(--shadow-brutal); position: relative; }
+        .testi-quote { font-size: 4rem; color: var(--green-light); position: absolute; top: 10px; right: 20px; font-family: Georgia, serif; line-height: 1; pointer-events: none; }
+        .testi-text { font-size: 1.1rem; font-weight: 600; font-style: italic; color: var(--text); margin-bottom: 30px; position: relative; z-index: 2; line-height: 1.6; }
+        .testi-user { display: flex; align-items: center; gap: 15px; border-top: 2px dashed #eee; padding-top: 20px; }
+        .testi-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid #000; }
+        .testi-info h4 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; line-height: 1.2; }
+        .testi-info span { color: var(--text-light); font-size: 0.9rem; font-weight: 700; background: #f0f0f0; padding: 2px 8px; border-radius: 6px; }
+
+        /* ══════════════════════════════════════════
+           BLOG / ÇALIŞMA TAKTİKLERİ
+        ══════════════════════════════════════════ */
+        .blog-section { background: var(--bg); }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .blog-card { background: #fff; border: var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-brutal); transition: transform 0.3s; cursor: pointer; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: 12px 12px 0px #000; }
+        .blog-img-ph { height: 200px; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 4rem; border-bottom: var(--border); }
+        .blog-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .blog-cat { display: inline-block; background: var(--green-light); color: var(--green-dark); font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; margin-bottom: 15px; border: 1.5px solid var(--green-main); align-self: flex-start; }
+        .blog-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; line-height: 1.3; }
+        .blog-desc { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; flex: 1; }
+        .blog-footer { border-top: 1px solid #eee; padding-top: 15px; font-size: 0.85rem; font-weight: 700; color: #888; display: flex; justify-content: space-between; }
+
+        /* ══════════════════════════════════════════
+           SSS (Sıkça Sorulan Sorular - Accordion)
+        ══════════════════════════════════════════ */
+        .faq-section { background: #fff; border-top: var(--border); border-bottom: var(--border); }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg); border: var(--border); border-radius: var(--radius-sm); margin-bottom: 15px; overflow: hidden; box-shadow: 4px 4px 0px #000; transition: all 0.3s; }
+        .faq-item.active { background: var(--yellow); }
+        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; user-select: none; }
+        .faq-icon { width: 30px; height: 30px; background: #000; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); background: #fff; color: #000; border: 2px solid #000; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: all 0.3s ease-out; font-weight: 500; font-size: 1.05rem; color: var(--text); }
+        .faq-item.active .faq-answer { padding: 0 25px 20px; max-height: 300px; border-top: 2px dashed rgba(0,0,0,0.1); margin-top: 10px; padding-top: 15px; }
+
+        /* ══════════════════════════════════════════
+           İLETİŞİM BÖLÜMÜ
+        ══════════════════════════════════════════ */
+        .contact-section { background: var(--blue); color: #fff; }
+        .contact-section .section-title { color: #fff; }
+        .contact-wrapper { display: flex; gap: 50px; max-width: 1100px; margin: 0 auto; background: var(--text); border: var(--border); border-radius: var(--radius-lg); box-shadow: 15px 15px 0px rgba(0,0,0,0.5); overflow: hidden; }
+        
+        .contact-info { flex: 1; padding: 50px; background: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="2" fill="%23ffffff" fill-opacity="0.1"/></svg>'); }
+        .c-info-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 40px; }
+        .c-icon { font-size: 2.5rem; background: var(--yellow); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 2px solid #000; box-shadow: 4px 4px 0px #000; }
+        .c-text h4 { font-family: var(--font-display); font-size: 1.4rem; color: var(--yellow); margin-bottom: 5px; }
+        .c-text p { color: rgba(255,255,255,0.8); font-size: 1.05rem; font-weight: 500; }
+        
+        .contact-form { flex: 1.2; background: #fff; padding: 50px; color: var(--text); display: flex; flex-direction: column; gap: 20px; border-left: var(--border); }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-weight: 800; font-size: 0.95rem; text-transform: uppercase; color: var(--text-light); }
+        .form-control { width: 100%; padding: 15px 20px; border-radius: 12px; border: 2px solid #ddd; font-family: var(--font-body); font-size: 1rem; font-weight: 600; background: #f9f9f9; transition: all 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--blue); background: #fff; box-shadow: 4px 4px 0px rgba(0,149,255,0.2); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        /* ══════════════════════════════════════════
+           İNGİLİZCE HUB SAYFALARI (PDF GRID)
+        ══════════════════════════════════════════ */
+        .page-header { background: var(--green-main); padding: 60px 5% 50px; border-bottom: var(--border); position: relative; overflow: hidden; }
+        .page-header::before { content: ''; position: absolute; right: -60px; top: -60px; width: 350px; height: 350px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+        .page-header-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+        .page-header-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin-bottom: 10px; text-shadow: 3px 3px 0px rgba(0,0,0,0.2); }
+        .page-header-sub { color: rgba(255,255,255,0.9); font-size: 1.15rem; font-weight: 500; max-width: 600px; line-height: 1.6; }
+        .page-header-breadcrumb { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.9rem; color: rgba(255,255,255,0.8); font-weight: 700; background: rgba(0,0,0,0.2); display: inline-flex; padding: 6px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+        .page-header-breadcrumb span { color: rgba(255,255,255,0.5); }
+        .breadcrumb-link { cursor: pointer; transition: color 0.2s; }
+        .breadcrumb-link:hover { color: var(--yellow); }
+
+        .sinif-page-wrap { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
+        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; background: #fff; padding: 20px; border-radius: var(--radius-lg); border: var(--border); box-shadow: var(--shadow-brutal); }
+        .filter-label { font-weight: 900; font-size: 1rem; color: var(--text); text-transform: uppercase; letter-spacing: 1px; margin-right: 10px; display: flex; align-items: center; gap: 8px; }
+        
+        .topic-tab, .filter-chip { padding: 10px 24px; border-radius: 12px; border: 2px solid #ddd; background: #f9f9f9; font-family: var(--font-body); font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: var(--text-light); }
+        .topic-tab:hover, .filter-chip:hover { border-color: #999; color: var(--text); background: #fff; transform: translateY(-2px); }
+        
+        .topic-tab.active-6 { background: var(--sinif6); border-color: #000; color: #fff; box-shadow: 3px 3px 0px #000; transform: translateY(0); }
+        .topic-tab.active-7 { background: var(--sinif7); border-color: #000; color: #fff; box-shadow: 3px 3px 0px #000; transform: translateY(0); }
+        .topic-tab.active-8 { background: var(--sinif8); border-color: #000; color: #fff; box-shadow: 3px 3px 0px #000; transform: translateY(0); }
+        .filter-chip.active { background: var(--yellow); border-color: #000; color: #000; box-shadow: 3px 3px 0px #000; transform: translateY(0); }
+
+        .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .pdf-card { background: var(--white); border: var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s var(--ease-spring); box-shadow: var(--shadow-brutal); display: flex; flex-direction: column; }
+        .pdf-card:hover { transform: translateY(-6px); box-shadow: 10px 10px 0px #000; }
+
+        .pdf-card-color { height: 140px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 2px solid #eee; }
+        .pdf-card-color .bg-text { position: absolute; font-size: 6rem; opacity: 0.1; right: -10px; bottom: -20px; transform: rotate(-15deg); }
+        .pdf-icon { width: 70px; height: 85px; background: #fff; border-radius: 8px 8px 20px 8px; border: 3px solid #000; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 4px 4px 0px rgba(0,0,0,0.2); position: relative; z-index: 1; }
+        .pdf-icon::before { content: ''; position: absolute; top: -3px; right: -3px; width: 0; height: 0; border-left: 15px solid transparent; border-top: 15px solid #000; border-right: 15px solid #000; border-bottom: 15px solid transparent; border-radius: 0 8px 0 0; background: #eee; }
+
+        .pdf-card-info { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .pdf-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+        .pdf-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 900; border: 1.5px solid rgba(0,0,0,0.1); text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-6 { background: #e8f9ed; color: var(--green-dark); border-color: var(--sinif6); }
+        .badge-7 { background: #e8f5ff; color: #005fa3; border-color: var(--sinif7); }
+        .badge-8 { background: #fff0f3; color: #c0002f; border-color: var(--sinif8); }
+        .badge-cat { background: #f5f5f5; color: #555; }
+        .badge-new { background: var(--yellow); color: #000; border-color: #000; box-shadow: 2px 2px 0px #000; animation: pulse-badge 2s infinite; }
+        
+        @keyframes pulse-badge { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        .pdf-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; margin-bottom: 10px; line-height: 1.3; color: var(--text); flex: 1; }
+        .pdf-meta { display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #eee; }
+        
+        .pdf-download-btn { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #000; background: #fff; color: #000; font-family: var(--font-display); font-weight: 900; font-size: 1rem; cursor: pointer; box-shadow: 4px 4px 0px #000; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; }
+        .pdf-download-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; background: var(--green-main); color: #fff; }
+
+        /* ══════════════════════════════════════════
+           YAZILI HAZIRLIK SAYFASI
+        ══════════════════════════════════════════ */
+        .yazili-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .yazili-card { background: var(--white); border: var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-brutal); transition: all 0.3s; cursor: pointer; display: flex; flex-direction: column; }
+        .yazili-card:hover { transform: translateY(-8px); box-shadow: 12px 12px 0px #000; }
+        
+        .yazili-card-top { padding: 30px; display: flex; align-items: flex-start; gap: 20px; flex: 1; }
+        .yazili-icon-wrap { width: 70px; height: 70px; border-radius: 16px; border: 2px solid rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; flex-shrink: 0; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); }
+        .wi-6 { background: #e8f9ed; color: var(--green-dark); }
+        .wi-7 { background: #e8f5ff; color: #0095ff; }
+        .wi-8 { background: #fff0f3; color: var(--red); }
+        .wi-lgs { background: #f3edff; color: var(--purple); }
+
+        .yazili-card-content { flex: 1; }
+        .yazili-card-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+        .yazili-card-meta { font-size: 0.9rem; color: var(--text-light); font-weight: 700; display: flex; flex-direction: column; gap: 5px; }
+        .yazili-badge { display: inline-block; padding: 2px 8px; background: #f0f0f0; border-radius: 6px; font-size: 0.8rem; border: 1px solid #ddd; }
+        
+        .yazili-card-footer { padding: 20px 30px; background: #fafafa; border-top: 2px solid #eee; display: flex; align-items: center; justify-content: space-between; }
+        .yazili-score { display: flex; flex-direction: column; gap: 2px; }
+        .score-stars { color: var(--yellow-dark); font-size: 1.1rem; letter-spacing: 2px; }
+        .score-text { font-size: 0.8rem; font-weight: 700; color: #888; }
+        
+        .btn-download-sm { background: var(--text); color: #fff; border: 2px solid #000; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-family: var(--font-body); cursor: pointer; transition: all 0.2s; box-shadow: 2px 2px 0px #000; }
+        .yazili-card:hover .btn-download-sm { background: var(--yellow); color: #000; }
+
+        /* ══════════════════════════════════════════
+           ÖĞRENCİ PANELİ
+        ══════════════════════════════════════════ */
+        .ogrenci-layout { padding: 50px 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
+        @media(max-width: 900px) { .ogrenci-layout { grid-template-columns: 1fr; } }
+        
+        .student-main { display: flex; flex-direction: column; gap: 40px; }
+        .student-sidebar { display: flex; flex-direction: column; gap: 30px; }
+
+        .student-hero { background: var(--text); border: var(--border); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-brutal-lg); display: flex; align-items: center; gap: 30px; flex-wrap: wrap; position: relative; overflow: hidden; }
+        .student-hero::after { content: '🎓'; position: absolute; right: -20px; top: -30px; font-size: 15rem; opacity: 0.05; pointer-events: none; }
+        
+        .student-avatar-wrap { position: relative; }
+        .student-avatar { width: 100px; height: 100px; border-radius: 50%; background: var(--yellow); border: 4px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; flex-shrink: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .student-level-badge { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); background: var(--red); color: #fff; padding: 2px 10px; border-radius: 20px; font-weight: 900; font-size: 0.8rem; border: 2px solid #fff; white-space: nowrap; }
+        
+        .student-info-text { flex: 1; z-index: 2; }
+        .student-name { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 5px; line-height: 1; }
+        .student-grade-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); color: #fff; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); }
+        
+        .student-stats-box { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 20px; display: flex; gap: 30px; border: 1px solid rgba(255,255,255,0.1); z-index: 2; }
+        .s-stat { text-align: center; }
+        .s-stat-num { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--yellow); line-height: 1; margin-bottom: 5px; }
+        .s-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+        .panel-card { background: #fff; border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-brutal); overflow: hidden; }
+        .pc-header { padding: 25px 30px; border-bottom: 2px solid #eee; display: flex; align-items: center; justify-content: space-between; background: #fafafa; }
+        .pc-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        
+        .ra-list { display: flex; flex-direction: column; }
+        .ra-item { display: flex; align-items: center; gap: 20px; padding: 20px 30px; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; }
+        .ra-item:hover { background: #f9f9f9; }
+        .ra-item:last-child { border-bottom: none; }
+        .ra-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .ra-item-text { flex: 1; }
+        .ra-item-name { font-weight: 800; font-size: 1.05rem; margin-bottom: 4px; color: var(--text); }
+        .ra-item-time { font-size: 0.85rem; color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .ra-item-badge { font-size: 0.8rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; flex-shrink: 0; border: 1.5px solid transparent; }
+
+        /* Rozetler (Badges) */
+        .badges-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 25px; }
+        .badge-item { background: #fafafa; border: 2px solid #eee; border-radius: 16px; padding: 20px 15px; text-align: center; transition: all 0.2s; }
+        .badge-item.earned { background: #fff; border-color: var(--yellow); box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
+        .badge-item:hover { transform: translateY(-3px); }
+        .badge-icon { font-size: 2.5rem; margin-bottom: 10px; filter: grayscale(100%) opacity(0.5); transition: all 0.3s; }
+        .badge-item.earned .badge-icon { filter: grayscale(0%) opacity(1); filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2)); transform: scale(1.1); }
+        .badge-title { font-weight: 800; font-size: 0.9rem; color: var(--text-light); }
+        .badge-item.earned .badge-title { color: var(--text); }
+
+        /* ══════════════════════════════════════════
+           TOAST BİLDİRİM
+        ══════════════════════════════════════════ */
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
+        .toast { background: var(--text); color: #fff; border: 3px solid #000; border-radius: 12px; padding: 16px 24px; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; box-shadow: 6px 6px 0px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 12px; transform: translateX(120%) rotate(5deg); opacity: 0; transition: all 0.4s var(--ease-spring); max-width: 350px; pointer-events: auto; }
+        .toast.show { transform: translateX(0) rotate(0deg); opacity: 1; }
+        .toast.toast-success { background: var(--green-main); }
+        .toast.toast-error { background: var(--red); }
+        .toast.toast-warning { background: var(--orange); }
+
+        /* ══════════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════════ */
+        footer { background: var(--text); border-top: var(--border); padding: 80px 5% 30px; color: #fff; position: relative; overflow: hidden; }
+        .footer-blob { position: absolute; background: rgba(255,255,255,0.03); border-radius: 50%; pointer-events: none; }
+        .fb-1 { width: 400px; height: 400px; top: -200px; right: -100px; }
+        .fb-2 { width: 200px; height: 200px; bottom: 50px; left: -100px; }
+
+        .footer-top { display: flex; justify-content: space-between; gap: 50px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto 60px; position: relative; z-index: 2; }
+        .footer-brand { flex: 1.5; min-width: 300px; }
+        .footer-brand .logo-badge { background: var(--yellow); color: #000; padding: 8px 16px; border-radius: 10px; font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; border: 3px solid #000; display: inline-block; margin-bottom: 20px; box-shadow: 4px 4px 0px #000; transform: rotate(-2deg); }
+        .footer-brand p { color: rgba(255,255,255,0.6); max-width: 350px; line-height: 1.8; font-size: 1rem; font-weight: 500; margin-bottom: 25px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-link { width: 45px; height: 45px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: all 0.2s; cursor: pointer; }
+        .social-link:hover { background: var(--yellow); color: #000; border-color: #000; transform: translateY(-5px); box-shadow: 4px 4px 0px #000; }
+
+        .footer-links-col { flex: 1; min-width: 200px; }
+        .footer-links-col h4 { font-family: var(--font-display); font-weight: 900; color: #fff; margin-bottom: 25px; font-size: 1.3rem; display: inline-block; border-bottom: 3px solid var(--green-main); padding-bottom: 5px; }
+        .footer-links-col a { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.6); font-size: 1rem; font-weight: 600; margin-bottom: 12px; transition: all 0.2s; cursor: pointer; }
+        .footer-links-col a::before { content: '→'; font-weight: 900; color: var(--yellow); opacity: 0; transform: translateX(-10px); transition: all 0.2s; }
+        .footer-links-col a:hover { color: #fff; transform: translateX(5px); }
+        .footer-links-col a:hover::before { opacity: 1; transform: translateX(0); }
+
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .footer-credit { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: rgba(255,255,255,0.8); }
+        .footer-credit strong { color: var(--yellow); letter-spacing: 1px; }
+        .footer-copy { font-size: 0.9rem; color: rgba(255,255,255,0.4); font-weight: 600; }
+
+        /* ══════════════════════════════════════════
+           MOBİL UYUMLULUK
+        ══════════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .hero-section { flex-direction: column; text-align: center; padding-top: 120px; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { margin: 0 auto 40px; }
+            .hero-cta-group { justify-content: center; }
+            .contact-wrapper { flex-direction: column; gap: 0; }
+            .contact-info, .contact-form { padding: 30px; }
+            .contact-form { border-left: none; border-top: var(--border); }
+        }
         @media (max-width: 768px) {
-            .right-side {
-                grid-template-columns: 1fr;
+            .navbar { padding: 0 20px; }
+            .nav-links {
+                position: absolute; top: 75px; left: 0; right: 0;
+                background: var(--text); flex-direction: column;
+                padding: 20px; gap: 10px; border-bottom: var(--border);
+                display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             }
-            .title-renkli { font-size: 2.5rem; }
-            .title-defter { font-size: 1.8rem; }
-            .subtitle { font-size: 1.5rem; }
+            .nav-links.open { display: flex; animation: slideDown 0.3s ease-out; }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+            .nav-btn { width: 100%; justify-content: flex-start; padding: 15px; font-size: 1.1rem; border-color: rgba(255,255,255,0.1); }
+            .mobile-menu-btn { display: block; }
+            
+            .stats-bar { gap: 30px; flex-direction: column; align-items: flex-start; }
+            .stat-item { width: 100%; }
+            .student-hero { justify-content: center; text-align: center; }
+            .student-stats-box { flex-direction: column; gap: 15px; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="left-side">
-            <div class="title-renkli">RENKLİ</div>
-            <div class="title-defter">DEFTER</div>
-            <div class="subtitle">
-                6, 7, 8 Sınıflar İçin<br>
-                PDF'ler Bulunur
+    <div class="toast-container" id="toastContainer"></div>
+
+    <header class="navbar">
+        <div class="nav-logo" onclick="navigate('home')">
+            <span class="logo-badge">📓 R-D</span>
+            <span style="display:none; sm:display:inline;">ENGLISH HUB</span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <nav class="nav-links" id="navLinks">
+            <button class="nav-btn active" id="nav-home" onclick="navigate('home')">🏠 Ana Sayfa</button>
+            <button class="nav-btn" onclick="document.getElementById('siniflar').scrollIntoView({behavior:'smooth'})">📚 Sınıflar</button>
+            <button class="nav-btn" id="nav-ogrenci" onclick="navigate('ogrenci')">📋 Öğrenci Paneli</button>
+            <button class="nav-btn" onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'})">✉️ İletişim</button>
+        </nav>
+    </header>
+
+    <div class="page active" id="page-home">
+        
+        <div class="hero-section">
+            <div class="hero-bg-pattern"></div>
+            <div class="hero-bg-shapes">
+                <div class="hero-circle hc1"></div>
+                <div class="hero-circle hc2"></div>
+                <div class="hero-circle hc3"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-eyebrow">🚀 %100 ÜCRETSİZ İNGİLİZCE MATERYALLERİ</div>
+                <h1 class="hero-title">
+                    Sınavlarda <span class="highlight">A+ Almaya</span><br>Hazır Mısın?
+                </h1>
+                <p class="hero-subtitle">
+                    5, 6, 7 ve 8. Sınıf öğrencileri için MEB müfredatına tam uyumlu kelime listeleri, grammar notları, okuma parçaları ve LGS denemeleri. Sıkıcı kitapları bırak, Renkli Defter ile öğren!
+                </p>
+                <div class="hero-cta-group">
+                    <button class="btn btn-yellow" onclick="document.getElementById('siniflar').scrollIntoView({behavior:'smooth'})">
+                        📖 SINIFINI SEÇ & BAŞLA
+                    </button>
+                    <button class="btn btn-outline" onclick="document.getElementById('nasil-calisir').scrollIntoView({behavior:'smooth'})">
+                        🤔 NASIL ÇALIŞIR?
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-cards-cluster">
+                    <div class="floating-card fc-1">
+                        <div class="fc-icon">📝</div>
+                        <div class="fc-text">Vocabulary<br>Lists</div>
+                    </div>
+                    <div class="floating-card fc-2">
+                        <div class="fc-icon">🏆</div>
+                        <div class="fc-text">LGS 2026<br>Deneme</div>
+                        <div style="background:#000;color:#fff;font-size:0.8rem;padding:3px 10px;border-radius:10px;margin-top:10px;">YENİ EKLENDİ</div>
+                    </div>
+                    <div class="floating-card fc-3">
+                        <div class="fc-icon">⚙️</div>
+                        <div class="fc-text">Grammar</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="right-side">
-            <a href="#" class="btn">
-                <span class="btn-icon">📝</span>
-                Notlar
-            </a>
-            <a href="#" class="btn">
-                <span class="btn-icon">📋</span>
-                Yazılı Hazırlık
-            </a>
-            <a href="#" class="btn btn-class">6. Sınıf</a>
-            <a href="#" class="btn btn-class">7. Sınıf</a>
-            <a href="#" class="btn btn-class" style="grid-column: span 2; max-width: 300px; margin: 0 auto; width: 100%;">8. Sınıf [LGS]</a>
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-icon">📥</div>
+                <div>
+                    <div class="stat-number" id="statDownload">15.840+</div>
+                    <div class="stat-label">İndirilen PDF</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">📄</div>
+                <div>
+                    <div class="stat-number">145+</div>
+                    <div class="stat-label">Özel Materyal</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">👨‍🎓</div>
+                <div>
+                    <div class="stat-number">4.500+</div>
+                    <div class="stat-label">Aktif Öğrenci</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⭐</div>
+                <div>
+                    <div class="stat-number">4.9/5</div>
+                    <div class="stat-label">Memnuniyet</div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section" id="siniflar" style="background: var(--bg);">
+            <div class="section-center">
+                <div class="section-tag">📚 İNGİLİZCE KATEGORİLERİ</div>
+                <h2 class="section-title">Hangi Sınıftasın?</h2>
+                <p class="section-sub">Senin için özel olarak hazırlanmış, seviyene uygun İngilizce PDF materyallerine ücretsiz eriş.</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="class-card card-6" onclick="navigate('sinif6')">
+                    <div class="card-header">
+                        <div class="card-header-bg">📗</div>
+                        <span class="card-emoji">📗</span>
+                        <div class="card-grade">6. Sınıf English</div>
+                        <div class="card-grade-sub">Temel Eğitim Dönemi</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">İngilizceye güçlü bir başlangıç! Life, Yummy Breakfast, Downtown üniteleri ve kelime listeleri.</p>
+                        <ul class="card-features">
+                            <li>40+ Vocabulary Listesi</li>
+                            <li>Görsel Grammar Anlatımları</li>
+                            <li>Kısa Okuma Parçaları (A1-A2)</li>
+                        </ul>
+                        <div class="card-cta">
+                            <div class="card-pdf-count"><span>24</span> PDF</div>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="class-card card-7" onclick="navigate('sinif7')">
+                    <div class="card-header">
+                        <div class="card-header-bg">📘</div>
+                        <span class="card-emoji">📘</span>
+                        <div class="card-grade">7. Sınıf English</div>
+                        <div class="card-grade-sub">LGS Hazırlık Aşaması</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">Zorlaşan dilbilgisi konularını kolayca anla. Appearance, Sports, Biographies üniteleri.</p>
+                        <ul class="card-features">
+                            <li>Detaylı Tense Özetleri</li>
+                            <li>Okuma & Anlama Testleri</li>
+                            <li>Yazılı Öncesi Hazırlık Soruları</li>
+                        </ul>
+                        <div class="card-cta">
+                            <div class="card-pdf-count"><span>31</span> PDF</div>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="class-card card-8" onclick="navigate('sinif8')">
+                    <div class="card-header">
+                        <div class="card-header-bg">📕</div>
+                        <span class="card-emoji">🏆</span>
+                        <div class="card-grade">8. Sınıf [LGS]</div>
+                        <div class="card-grade-sub">Sınav Odaklı Taktikler</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-desc">LGS İngilizce sınavına eksiksiz hazırlan. Friendship, Teen Life, In the Kitchen tam özetler.</p>
+                        <ul class="card-features">
+                            <li>LGS Çıkmış Kelime Analizi</li>
+                            <li>Soru Kökü Çevirileri & Taktikler</li>
+                            <li>Gerçek Sınav Formatında Denemeler</li>
+                        </ul>
+                        <div class="card-cta">
+                            <div class="card-pdf-count"><span>30</span> PDF</div>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section section" id="nasil-calisir">
+            <div class="section-center">
+                <div class="section-tag">🛠️ SİSTEM NASIL İŞLİYOR?</div>
+                <h2 class="section-title">Başarıya Giden 3 Basit Adım</h2>
+                <p class="section-sub">Karmaşık üyelik formları veya ücretli abonelikler yok. Sadece eğitim var.</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3 class="step-title">Sınıfını & Konunu Seç</h3>
+                    <p class="step-desc">6, 7 veya 8. sınıf kategorilerinden eksik olduğun üniteyi veya beceriyi (Grammar, Reading) bul.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num" style="background:var(--cyan);">2</div>
+                    <h3 class="step-title">Tek Tıkla PDF İndir</h3>
+                    <p class="step-desc">Uzun reklamları beklemeden, "Ücretsiz İndir" butonuna basarak PDF notunu anında cihazına kaydet.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num" style="background:var(--pink);">3</div>
+                    <h3 class="step-title">Çalış ve Başar</h3>
+                    <p class="step-desc">Renkli ve akılda kalıcı notlarla çalış, testleri çöz ve İngilizce dersindeki notlarını yükselt!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section section">
+            <div class="section-center">
+                <div class="section-tag" style="background:rgba(255,255,255,0.1);color:var(--yellow);border-color:rgba(255,255,255,0.2);">✨ ENGLISH HUB FARK YARATIR</div>
+                <h2 class="section-title">Neden Bizi Seçmelisin?</h2>
+                <p class="section-sub" style="color:rgba(255,255,255,0.7);">Sıradan ders notlarından çok daha fazlasını sunuyoruz.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feat-box">
+                    <div class="feat-icon">🎯</div>
+                    <h3 class="feat-title">LGS Odaklı Müfredat</h3>
+                    <p class="feat-desc">Tüm materyaller, Milli Eğitim Bakanlığı'nın güncel İngilizce müfredatına ve yeni nesil LGS soru tiplerine %100 uygun olarak hazırlanır.</p>
+                </div>
+                <div class="feat-box">
+                    <div class="feat-icon">🧠</div>
+                    <h3 class="feat-title">Görsel Hafıza Teknikleri</h3>
+                    <p class="feat-desc">Uzun sıkıcı metinler yerine; tablolar, zihin haritaları ve emojilerle desteklenmiş, akılda kalıcı tasarım dili kullanıyoruz.</p>
+                </div>
+                <div class="feat-box">
+                    <div class="feat-icon">📱</div>
+                    <h3 class="feat-title">Mobil Uyumlu PDF'ler</h3>
+                    <p class="feat-desc">PDF'lerimiz telefon ekranlarında bile kolayca okunacak font büyüklüklerinde tasarlanır. Gittiğin her yerde çalışabilirsin.</p>
+                </div>
+                <div class="feat-box">
+                    <div class="feat-icon">💸</div>
+                    <h3 class="feat-title">Tamamen Ücretsiz</h3>
+                    <p class="feat-desc">Eğitimde fırsat eşitliğine inanıyoruz. Sitemizdeki tüm özellikler ve dökümanlar sonsuza dek ücretsiz kalacaktır.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testi-section section">
+            <div class="section-center">
+                <div class="section-tag" style="background:#fff;color:#000;">💬 BİZ NE DİYORUZ DEĞİL, ONLAR NE DİYOR</div>
+                <h2 class="section-title">Öğrencilerin Deneyimleri</h2>
+            </div>
+            
+            <div class="testi-grid">
+                <div class="testi-card">
+                    <div class="testi-quote">"</div>
+                    <p class="testi-text">"8. sınıfta LGS İngilizce kelimelerini ezberlemek çok zor geliyordu. Buradaki renkli PDF'ler sayesinde kelime sorularını artık hiç kaçırmıyorum."</p>
+                    <div class="testi-user">
+                        <div class="testi-avatar">A</div>
+                        <div class="testi-info">
+                            <h4>Ahmet Y.</h4>
+                            <span>8. Sınıf Öğrencisi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-quote">"</div>
+                    <p class="testi-text">"İngilizce yazılıları öncesi sabahtan akşama kadar Renkli Defter'den grammar özetlerine çalışıyorum. Notlarım 60'tan 95'e çıktı!"</p>
+                    <div class="testi-user">
+                        <div class="testi-avatar" style="background:var(--blue);">Z</div>
+                        <div class="testi-info">
+                            <h4>Zeynep K.</h4>
+                            <span>7. Sınıf Öğrencisi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-quote">"</div>
+                    <p class="testi-text">"Bir öğretmen olarak öğrencilerime her derste buradan indirdiğim Reading parçalarını dağıtıyorum. İçerikler gerçekten çok kaliteli."</p>
+                    <div class="testi-user">
+                        <div class="testi-avatar" style="background:var(--green-main);">M</div>
+                        <div class="testi-info">
+                            <h4>Mustafa T.</h4>
+                            <span>İngilizce Öğretmeni</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-section section">
+            <div class="section-center">
+                <div class="section-tag">📝 REHBERLİK & BLOG</div>
+                <h2 class="section-title">Nasıl Daha İyi Çalışırsın?</h2>
+                <p class="section-sub">İngilizce öğrenimini hızlandıracak bilimsel taktikler ve ipuçları.</p>
+            </div>
+            
+            <div class="blog-grid">
+                <div class="blog-card" onclick="showToast('Blog yazısı yakında eklenecek!','warning')">
+                    <div class="blog-img-ph">🧠</div>
+                    <div class="blog-content">
+                        <span class="blog-cat">Kelime Ezberi</span>
+                        <h3 class="blog-title">Flashcard Tekniği ile Kelime Nasıl Ezberlenir?</h3>
+                        <p class="blog-desc">Unutmaya son! Aralıklı tekrar sistemi ve flashcard'lar kullanarak İngilizce kelimeleri kalıcı hafızaya atmanın yolları.</p>
+                        <div class="blog-footer">
+                            <span>Okuma Süresi: 4 dk</span>
+                            <span style="color:var(--text);">Devamını Oku →</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-card" onclick="showToast('Blog yazısı yakında eklenecek!','warning')">
+                    <div class="blog-img-ph" style="background:var(--cyan);">🎯</div>
+                    <div class="blog-content">
+                        <span class="blog-cat" style="color:#00838f;border-color:#00e5ff;background:#e0f7fa;">LGS Taktikleri</span>
+                        <h3 class="blog-title">LGS İngilizce Soru Kökleri Neden Önemli?</h3>
+                        <p class="blog-desc">LGS sınavında sorunun yarısını anlamak, doğru şıkkı bulmanın anahtarıdır. En çok çıkan 20 soru kökü analizi.</p>
+                        <div class="blog-footer">
+                            <span>Okuma Süresi: 6 dk</span>
+                            <span style="color:var(--text);">Devamını Oku →</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-card" onclick="showToast('Blog yazısı yakında eklenecek!','warning')">
+                    <div class="blog-img-ph" style="background:var(--pink);">🎧</div>
+                    <div class="blog-content">
+                        <span class="blog-cat" style="color:#c2185b;border-color:#ff7eb3;background:#fce4ec;">Pratik</span>
+                        <h3 class="blog-title">İngilizce Dinleme (Listening) Becerisini Geliştirme</h3>
+                        <p class="blog-desc">Sadece test çözerek İngilizce öğrenilmez. Günlük hayatta oyun oynarken veya müzik dinlerken listening pratiği yapma yolları.</p>
+                        <div class="blog-footer">
+                            <span>Okuma Süresi: 5 dk</span>
+                            <span style="color:var(--text);">Devamını Oku →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section section">
+            <div class="section-center">
+                <div class="section-tag">❓ MERAK EDİLENLER</div>
+                <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Tüm PDF materyalleri gerçekten ücretsiz mi?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Evet, Renkli Defter - English Hub platformunda yer alan tüm PDF kelime listeleri, dilbilgisi notları, okuma parçaları ve LGS denemeleri %100 ücretsizdir. Hiçbir zaman gizli ücret talep edilmeyecektir.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>İçerikler Milli Eğitim müfredatına uygun mu?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Kesinlikle. Materyallerimizin tamamı devlet okullarında okutulan güncel MEB İngilizce ders kitaplarındaki ünitelere ve LGS kazanımlarına birebir uyumlu olarak hazırlanmaktadır.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>PDF'leri nasıl indirebilirim? Üyelik şart mı?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Hayır, üyelik şart değil. Ana sayfadan veya üst menüden sınıfınızı seçin. İlgilendiğiniz konunun altındaki "Ücretsiz İndir" butonuna tıkladığınızda PDF dosyası anında cihazınıza kaydedilir.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Soru bankası veya deneme cevap anahtarlarına nasıl ulaşırım?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        İndirdiğiniz her testin veya deneme sınavının PDF dosyasının en son sayfasında o teste ait detaylı bir cevap anahtarı yer almaktadır.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section section" id="iletisim">
+            <div class="section-center">
+                <div class="section-tag" style="background:#fff;color:var(--blue);border-color:#fff;">📩 BİZE YAZIN</div>
+                <h2 class="section-title">Bir Önerin mi Var?</h2>
+                <p class="section-sub" style="color:rgba(255,255,255,0.8);">Eksik bulduğun bir konu, eklenmesini istediğin bir deneme varsa bize ulaş.</p>
+            </div>
+            
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3 style="font-family:var(--font-display);font-size:2rem;margin-bottom:30px;color:#fff;">İletişim Bilgileri</h3>
+                    
+                    <div class="c-info-item">
+                        <div class="c-icon">📍</div>
+                        <div class="c-text">
+                            <h4>Merkez</h4>
+                            <p>İstanbul, Türkiye (Dijital Platform)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="c-info-item">
+                        <div class="c-icon">✉️</div>
+                        <div class="c-text">
+                            <h4>E-Posta</h4>
+                            <p>iletisim@renklidefter.com.tr</p>
+                        </div>
+                    </div>
+                    
+                    <div class="c-info-item">
+                        <div class="c-icon">📸</div>
+                        <div class="c-text">
+                            <h4>Sosyal Medya</h4>
+                            <p>@renklidefter_english</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3 style="font-family:var(--font-display);font-size:2rem;margin-bottom:20px;">Mesaj Gönder</h3>
+                    
+                    <div class="form-group">
+                        <label>Adınız Soyadınız</label>
+                        <input type="text" class="form-control" placeholder="Örn: Alp Eren">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>E-Posta Adresiniz</label>
+                        <input type="email" class="form-control" placeholder="Örn: mail@adresiniz.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Konu</label>
+                        <select class="form-control" style="appearance:none;">
+                            <option>Döküman İsteği</option>
+                            <option>Hata Bildirimi (Cevap Anahtarı vs.)</option>
+                            <option>Teşekkür / Diğer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mesajınız</label>
+                        <textarea class="form-control" placeholder="Lütfen mesajınızı buraya yazın..."></textarea>
+                    </div>
+                    
+                    <button class="btn btn-green" style="width:100%;margin-top:10px;" onclick="showToast('✅ Mesajınız başarıyla iletildi! En kısa sürede döneceğiz.','success')">
+                        Gönder 🚀
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div><div class="page" id="page-sinif6">
+        <div class="page-header" style="background: var(--sinif6);">
+            <div class="page-header-content">
+                <div class="page-header-breadcrumb">
+                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
+                    <span style="margin:0 5px;">/</span>
+                    <span style="color:#fff;">6. Sınıf English</span>
+                </div>
+                <h1 class="page-header-title">📗 6. Sınıf PDF Havuzu</h1>
+                <p class="page-header-sub">Vocabulary listeleri, grammar kuralları ve ünite testleri ile İngilizce temellerini sağlam at.</p>
+            </div>
+        </div>
+        <div class="sinif-page-wrap">
+            <div class="filter-bar">
+                <span class="filter-label">Kategoriler:</span>
+                <div id="tabs6" style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="topic-tab active-6" onclick="filterTabs('6','Tümü',this)">📚 Tümü</button>
+                    <button class="topic-tab" onclick="filterTabs('6','Vocabulary',this)">📝 Vocabulary</button>
+                    <button class="topic-tab" onclick="filterTabs('6','Grammar',this)">⚙️ Grammar</button>
+                    <button class="topic-tab" onclick="filterTabs('6','Reading',this)">📖 Reading</button>
+                    <button class="topic-tab" onclick="filterTabs('6','Test',this)">🎯 Testler</button>
+                </div>
+            </div>
+            <div class="pdf-grid" id="pdfGrid6"></div>
         </div>
     </div>
 
+    <div class="page" id="page-sinif7">
+        <div class="page-header" style="background: var(--sinif7);">
+            <div class="page-header-content">
+                <div class="page-header-breadcrumb">
+                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
+                    <span style="margin:0 5px;">/</span>
+                    <span style="color:#fff;">7. Sınıf English</span>
+                </div>
+                <h1 class="page-header-title">📘 7. Sınıf PDF Havuzu</h1>
+                <p class="page-header-sub">Zorlayıcı kelimeler, tenseler ve okuma anlama egzersizleriyle LGS'ye erkenden hazırlan.</p>
+            </div>
+        </div>
+        <div class="sinif-page-wrap">
+            <div class="filter-bar">
+                <span class="filter-label">Kategoriler:</span>
+                <div id="tabs7" style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="topic-tab active-7" onclick="filterTabs('7','Tümü',this)">📚 Tümü</button>
+                    <button class="topic-tab" onclick="filterTabs('7','Vocabulary',this)">📝 Vocabulary</button>
+                    <button class="topic-tab" onclick="filterTabs('7','Grammar',this)">⚙️ Grammar</button>
+                    <button class="topic-tab" onclick="filterTabs('7','Reading',this)">📖 Reading</button>
+                    <button class="topic-tab" onclick="filterTabs('7','Test',this)">🎯 Testler</button>
+                </div>
+            </div>
+            <div class="pdf-grid" id="pdfGrid7"></div>
+        </div>
+    </div>
+
+    <div class="page" id="page-sinif8">
+        <div class="page-header" style="background: var(--purple);">
+            <div class="page-header-content">
+                <div class="page-header-breadcrumb">
+                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
+                    <span style="margin:0 5px;">/</span>
+                    <span style="color:#fff;">8. Sınıf [LGS English]</span>
+                </div>
+                <h1 class="page-header-title">🏆 8. Sınıf LGS Havuzu</h1>
+                <p class="page-header-sub">LGS İngilizce sınavına yönelik çıkmış soru analizi, kelime avı ve gerçek sınav formatında denemeler.</p>
+            </div>
+        </div>
+        <div class="sinif-page-wrap">
+            <div class="filter-bar">
+                <span class="filter-label">Kategoriler:</span>
+                <div id="tabs8" style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="topic-tab active-8" onclick="filterTabs('8','Tümü',this)">📚 Tümü</button>
+                    <button class="topic-tab" onclick="filterTabs('8','Vocabulary',this)">📝 LGS Vocabulary</button>
+                    <button class="topic-tab" onclick="filterTabs('8','Grammar',this)">⚙️ LGS Grammar</button>
+                    <button class="topic-tab" onclick="filterTabs('8','Deneme',this)">🏆 LGS Denemeleri</button>
+                    <button class="topic-tab" onclick="filterTabs('8','Taktik',this)">💡 Taktikler</button>
+                </div>
+            </div>
+            <div class="pdf-grid" id="pdfGrid8"></div>
+        </div>
+    </div>
+
+    <div class="page" id="page-ogrenci">
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-header-breadcrumb">
+                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
+                    <span style="margin:0 5px;">/</span>
+                    <span style="color:#fff;">Öğrenci Paneli</span>
+                </div>
+                <h1 class="page-header-title">📋 Senin Panelin</h1>
+                <p class="page-header-sub">İndirdiğin notları takip et, istatistiklerini gör ve kazandığın rozetlerle motivasyonunu yüksek tut!</p>
+            </div>
+        </div>
+        
+        <div class="ogrenci-layout">
+            <div class="student-main">
+                <div class="student-hero">
+                    <div class="student-avatar-wrap">
+                        <div class="student-avatar">😎</div>
+                        <div class="student-level-badge">Seviye 12</div>
+                    </div>
+                    
+                    <div class="student-info-text">
+                        <div class="student-name">Merhaba, Alp!</div>
+                        <div class="student-grade-badge">🏆 LGS Savaşçısı (8. Sınıf)</div>
+                        <p style="color:rgba(255,255,255,0.7);margin-top:10px;font-weight:600;">Sınava hazırlanırken harika gidiyorsun. Bugün hedeflerini tamamlamayı unutma!</p>
+                    </div>
+                    
+                    <div class="student-stats-box">
+                        <div class="s-stat">
+                            <div class="s-stat-num">42</div>
+                            <div class="s-stat-label">İndirilen PDF</div>
+                        </div>
+                        <div class="s-stat">
+                            <div class="s-stat-num">18</div>
+                            <div class="s-stat-label">Deneme</div>
+                        </div>
+                        <div class="s-stat">
+                            <div class="s-stat-num">🔥 7</div>
+                            <div class="s-stat-label">Günlük Seri</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div class="pc-title">📂 Son Etkinliklerin</div>
+                        <span style="font-size:0.9rem;color:var(--text-light);font-weight:700;cursor:pointer;">Tümünü Gör →</span>
+                    </div>
+                    <div class="ra-list">
+                        <div class="ra-item">
+                            <div class="ra-icon" style="background:var(--sinif8);color:#fff;">🏆</div>
+                            <div class="ra-item-text">
+                                <div class="ra-item-name">LGS English Deneme - Set 2</div>
+                                <div class="ra-item-time">🕒 Dün 14:30'da indirildi</div>
+                            </div>
+                            <button class="btn-download-sm" style="background:#fff;color:#000;" onclick="showToast('Dosya tekrar indiriliyor.','success')">Tekrar İndir</button>
+                        </div>
+                        <div class="ra-item">
+                            <div class="ra-icon" style="background:var(--orange);color:#fff;">📝</div>
+                            <div class="ra-item-text">
+                                <div class="ra-item-name">Unit 1 - Friendship Vocabulary Flashcards</div>
+                                <div class="ra-item-time">🕒 2 gün önce indirildi</div>
+                            </div>
+                            <button class="btn-download-sm" style="background:#fff;color:#000;" onclick="showToast('Dosya tekrar indiriliyor.','success')">Tekrar İndir</button>
+                        </div>
+                        <div class="ra-item">
+                            <div class="ra-icon" style="background:var(--cyan);color:#000;">💡</div>
+                            <div class="ra-item-text">
+                                <div class="ra-item-name">LGS Soru Kökleri Taktikleri Modülü</div>
+                                <div class="ra-item-time">🕒 5 gün önce indirildi</div>
+                            </div>
+                            <button class="btn-download-sm" style="background:#fff;color:#000;" onclick="showToast('Dosya tekrar indiriliyor.','success')">Tekrar İndir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-sidebar">
+                <div class="panel-card">
+                    <div class="pc-header">
+                        <div class="pc-title">🎖️ Rozetlerin</div>
+                    </div>
+                    <div class="badges-grid">
+                        <div class="badge-item earned" title="İlk PDF'ini indirdin!">
+                            <div class="badge-icon">🐣</div>
+                            <div class="badge-title">İlk Adım</div>
+                        </div>
+                        <div class="badge-item earned" title="Art arda 7 gün sitemizi ziyaret ettin.">
+                            <div class="badge-icon">🔥</div>
+                            <div class="badge-title">Ateşli Öğrenci</div>
+                        </div>
+                        <div class="badge-item earned" title="10 adet Vocabulary listesi indirdin.">
+                            <div class="badge-icon">🧠</div>
+                            <div class="badge-title">Kelime Avcısı</div>
+                        </div>
+                        <div class="badge-item" title="Kilitli: 10 adet LGS Denemesi indir.">
+                            <div class="badge-icon">👑</div>
+                            <div class="badge-title">LGS Kralı</div>
+                        </div>
+                        <div class="badge-item" title="Kilitli: Grammar notlarının %80'ini incele.">
+                            <div class="badge-icon">⚙️</div>
+                            <div class="badge-title">Grammar Prof'u</div>
+                        </div>
+                        <div class="badge-item" title="Kilitli: 30 gün kesintisiz çalışma.">
+                            <div class="badge-icon">💎</div>
+                            <div class="badge-title">Efsanevi</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel-card" style="background:var(--yellow);border:var(--border);">
+                    <div style="padding:25px;text-align:center;">
+                        <div style="font-size:3rem;margin-bottom:10px;">🚀</div>
+                        <h3 style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:10px;">Sınıf Değiştir</h3>
+                        <p style="font-size:0.9rem;font-weight:600;margin-bottom:20px;">LGS bitti mi? Lise materyalleri sitemize çok yakında eklenecek!</p>
+                        <button class="btn-outline" style="width:100%;font-size:0.9rem;padding:10px;" onclick="showToast('Lise bölümü yapım aşamasındadır.','warning')">Ayarları Güncelle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <footer>
-        BY: ALP EREN
+        <div class="footer-blob fb-1"></div>
+        <div class="footer-blob fb-2"></div>
+        
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo-badge">📓 RENKLİ DEFTER</div>
+                <p>Türkiye'nin en kapsamlı, modern ve tamamen ücretsiz ortaokul İngilizce destek platformu. LGS'ye hazırlanan yüz binlerce öğrencinin tercihi.</p>
+                <div class="social-links">
+                    <a class="social-link" onclick="showToast('Instagram sayfasına yönlendiriliyorsunuz','success')">📸</a>
+                    <a class="social-link" onclick="showToast('Youtube kanalına yönlendiriliyorsunuz','success')">▶️</a>
+                    <a class="social-link" onclick="showToast('X hesabına yönlendiriliyorsunuz','success')">🐦</a>
+                </div>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Hızlı Erişim</h4>
+                <a onclick="navigate('home')">Ana Sayfa</a>
+                <a onclick="navigate('sinif6')">6. Sınıf PDF'leri</a>
+                <a onclick="navigate('sinif7')">7. Sınıf PDF'leri</a>
+                <a onclick="navigate('sinif8')">LGS English Denemeleri</a>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Kategoriler</h4>
+                <a onclick="showToast('Tüm Vocabulary Listeleri sayfası yakında','warning')">Vocabulary Listeleri</a>
+                <a onclick="showToast('Tüm Grammar Notları sayfası yakında','warning')">Grammar Kuralları</a>
+                <a onclick="showToast('Tüm Reading Parçaları sayfası yakında','warning')">Reading Egzersizleri</a>
+            </div>
+
+            <div class="footer-links-col">
+                <h4>Destek</h4>
+                <a onclick="document.getElementById('iletisim').scrollIntoView({behavior:'smooth'}); navigate('home');">İletişim</a>
+                <a onclick="showToast('Sıkça Sorulan Sorular ana sayfadadır.','success')">Sıkça Sorulan Sorular</a>
+                <a onclick="showToast('Gizlilik Politikası gösteriliyor','success')">Gizlilik Politikası</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-credit">© 2026 RENKLİ DEFTER English Hub — Yaratıcı: <strong>ALP EREN</strong></div>
+            <div class="footer-copy">Tüm hakları saklıdır. Eğitim amaçlıdır, ticari izinsiz kullanılamaz.</div>
+        </div>
     </footer>
 
+
+    <script>
+    // ── DEVASA VERİ TABANI (Dummy Data) ──────────────────────────────────────────────────
+    const PDF_DATA = {
+        '6': [
+            // Unit 1
+            { id:1, title:'Unit 1 - Life: Word List', ders:'Vocabulary', sinif:'6', new:false, color:'#00c853', icon:'📝', pages:2, size:'0.5 MB' },
+            { id:2, title:'Present Simple Tense Rules', ders:'Grammar', sinif:'6', new:true, color:'#00c853', icon:'⚙️', pages:4, size:'1.1 MB' },
+            { id:3, title:'Unit 1 - Life: Reading Text', ders:'Reading', sinif:'6', new:false, color:'#00c853', icon:'📖', pages:2, size:'0.8 MB' },
+            { id:4, title:'Unit 1 - Revision Test', ders:'Test', sinif:'6', new:false, color:'#00c853', icon:'🎯', pages:3, size:'0.7 MB' },
+            // Unit 2
+            { id:5, title:'Unit 2 - Yummy Breakfast Vocab', ders:'Vocabulary', sinif:'6', new:false, color:'#66bb6a', icon:'📝', pages:2, size:'0.6 MB' },
+            { id:6, title:'Expressing Likes & Dislikes', ders:'Grammar', sinif:'6', new:false, color:'#66bb6a', icon:'⚙️', pages:3, size:'0.9 MB' },
+            { id:7, title:'Food Reading Comprehension', ders:'Reading', sinif:'6', new:false, color:'#66bb6a', icon:'📖', pages:2, size:'0.7 MB' },
+            // Unit 3
+            { id:8, title:'Unit 3 - Downtown Words', ders:'Vocabulary', sinif:'6', new:true, color:'#26a69a', icon:'📝', pages:3, size:'0.8 MB' },
+            { id:9, title:'Present Continuous Tense', ders:'Grammar', sinif:'6', new:false, color:'#26a69a', icon:'⚙️', pages:5, size:'1.4 MB' },
+            { id:10, title:'Comparative Adjectives', ders:'Grammar', sinif:'6', new:true, color:'#26a69a', icon:'⚙️', pages:3, size:'1.0 MB' },
+            // Unit 4
+            { id:11, title:'Unit 4 - Weather and Emotions', ders:'Vocabulary', sinif:'6', new:false, color:'#5c6bc0', icon:'📝', pages:2, size:'0.6 MB' },
+            { id:12, title:'General Revision Test (Units 1-4)', ders:'Test', sinif:'6', new:false, color:'#5c6bc0', icon:'🎯', pages:8, size:'2.1 MB' },
+        ],
+        '7': [
+            // Unit 1
+            { id:13, title:'Unit 1 - Appearance & Personality', ders:'Vocabulary', sinif:'7', new:true, color:'#0095ff', icon:'📝', pages:3, size:'0.7 MB' },
+            { id:14, title:'Describing People Reading', ders:'Reading', sinif:'7', new:false, color:'#0095ff', icon:'📖', pages:2, size:'0.6 MB' },
+            { id:15, title:'Unit 1 - Quick Test', ders:'Test', sinif:'7', new:false, color:'#0095ff', icon:'🎯', pages:3, size:'0.8 MB' },
+            // Unit 2
+            { id:16, title:'Unit 2 - Sports Vocabulary', ders:'Vocabulary', sinif:'7', new:false, color:'#42a5f5', icon:'📝', pages:3, size:'0.9 MB' },
+            { id:17, title:'Simple Present vs Present Cont.', ders:'Grammar', sinif:'7', new:false, color:'#42a5f5', icon:'⚙️', pages:4, size:'1.1 MB' },
+            { id:18, title:'Famous Athletes Biographies', ders:'Reading', sinif:'7', new:true, color:'#42a5f5', icon:'📖', pages:4, size:'1.2 MB' },
+            // Unit 3
+            { id:19, title:'Unit 3 - Biographies Vocab', ders:'Vocabulary', sinif:'7', new:false, color:'#26c6da', icon:'📝', pages:2, size:'0.5 MB' },
+            { id:20, title:'Past Simple Tense Review', ders:'Grammar', sinif:'7', new:false, color:'#26c6da', icon:'⚙️', pages:5, size:'1.5 MB' },
+            // Unit 4 & Beyond
+            { id:21, title:'Unit 4 - Wild Animals Vocab', ders:'Vocabulary', sinif:'7', new:false, color:'#66bb6a', icon:'📝', pages:3, size:'0.8 MB' },
+            { id:22, title:'Should / Shouldn\'t Usage', ders:'Grammar', sinif:'7', new:true, color:'#66bb6a', icon:'⚙️', pages:2, size:'0.6 MB' },
+            { id:23, title:'General English Mid-term Test', ders:'Test', sinif:'7', new:true, color:'#7e57c2', icon:'🎯', pages:10, size:'2.8 MB' },
+            { id:24, title:'Future Tense (Will)', ders:'Grammar', sinif:'7', new:false, color:'#7e57c2', icon:'⚙️', pages:4, size:'1.0 MB' },
+        ],
+        '8': [
+            // LGS Denemeleri
+            { id:25, title:'LGS English Deneme - Set 1', ders:'Deneme', sinif:'8', new:false, color:'#ff2d55', icon:'🏆', pages:8, size:'2.2 MB' },
+            { id:26, title:'LGS English Deneme - Set 2', ders:'Deneme', sinif:'8', new:true, color:'#ff2d55', icon:'🏆', pages:8, size:'2.1 MB' },
+            { id:27, title:'LGS English Deneme - Set 3', ders:'Deneme', sinif:'8', new:false, color:'#ff2d55', icon:'🏆', pages:10, size:'2.5 MB' },
+            // Unit 1
+            { id:28, title:'Unit 1 - Friendship Vocabulary', ders:'Vocabulary', sinif:'8', new:false, color:'#ff6b35', icon:'📝', pages:4, size:'1.0 MB' },
+            { id:29, title:'Making Offers & Invitations', ders:'Grammar', sinif:'8', new:false, color:'#ff6b35', icon:'⚙️', pages:3, size:'0.8 MB' },
+            // Unit 2
+            { id:30, title:'Unit 2 - Teen Life Words', ders:'Vocabulary', sinif:'8', new:false, color:'#ab47bc', icon:'📝', pages:3, size:'0.9 MB' },
+            { id:31, title:'Expressing Preferences (Prefer)', ders:'Grammar', sinif:'8', new:true, color:'#ab47bc', icon:'⚙️', pages:3, size:'0.9 MB' },
+            // Taktikler
+            { id:32, title:'LGS Soru Kökleri (Question Roots)', ders:'Taktik', sinif:'8', new:false, color:'#ef5350', icon:'💡', pages:5, size:'1.2 MB' },
+            { id:33, title:'Tablo ve Grafik Okuma Taktikleri', ders:'Taktik', sinif:'8', new:true, color:'#ef5350', icon:'💡', pages:6, size:'1.8 MB' },
+            // Unit 3
+            { id:34, title:'Unit 3 - In The Kitchen Vocab', ders:'Vocabulary', sinif:'8', new:false, color:'#8d6e63', icon:'📝', pages:4, size:'1.1 MB' },
+            { id:35, title:'Sequence Words (First, Then..)', ders:'Grammar', sinif:'8', new:false, color:'#8d6e63', icon:'⚙️', pages:2, size:'0.6 MB' },
+            { id:36, title:'LGS Mega Deneme Sınavı', ders:'Deneme', sinif:'8', new:true, color:'#1a1a2e', icon:'🏆', pages:15, size:'4.5 MB' },
+        ]
+    };
+
+    // ── ROUTER (Sayfa Geçişleri) ──────────────────────────────────────────
+    const ROUTES = {
+        'home': 'page-home',
+        'sinif6': 'page-sinif6',
+        'sinif7': 'page-sinif7',
+        'sinif8': 'page-sinif8',
+        'ogrenci': 'page-ogrenci'
+    };
+
+    function navigate(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(ROUTES[page]);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Navbar Buton Güncellemesi
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if (page === 'home') document.getElementById('nav-home')?.classList.add('active');
+        if (page === 'ogrenci') document.getElementById('nav-ogrenci')?.classList.add('active');
+
+        // Mobil menü kapatma
+        document.getElementById('navLinks').classList.remove('open');
+
+        // Eğer kategori sayfaları ilk defa açılıyorsa gridi doldur
+        if (page === 'sinif6' && !document.getElementById('pdfGrid6').hasChildNodes()) renderPDFGrid('6');
+        if (page === 'sinif7' && !document.getElementById('pdfGrid7').hasChildNodes()) renderPDFGrid('7');
+        if (page === 'sinif8' && !document.getElementById('pdfGrid8').hasChildNodes()) renderPDFGrid('8');
+    }
+
+    // ── PDF GRID OLUŞTURUCU ──────────────────────────────────────────────
+    function renderPDFGrid(sinif, filter = 'Tümü') {
+        const grid = document.getElementById(`pdfGrid${sinif}`);
+        grid.innerHTML = '';
+        const items = PDF_DATA[sinif].filter(p => filter === 'Tümü' || p.ders.includes(filter));
+        
+        const badgeClass = { '6':'badge-6', '7':'badge-7', '8':'badge-8' };
+
+        items.forEach(pdf => {
+            const card = document.createElement('div');
+            card.className = 'pdf-card';
+            card.innerHTML = `
+                <div class="pdf-card-color" style="background:${pdf.color}">
+                    <div class="bg-text">${pdf.icon}</div>
+                    <div class="pdf-icon" style="color:${pdf.color}">${pdf.icon}</div>
+                </div>
+                <div class="pdf-card-info">
+                    <div class="pdf-badges">
+                        <span class="pdf-badge ${badgeClass[sinif]}">${sinif}. Sınıf</span>
+                        <span class="pdf-badge badge-cat">${pdf.ders}</span>
+                        ${pdf.new ? '<span class="pdf-badge badge-new">YENİ</span>' : ''}
+                    </div>
+                    <div class="pdf-title">${pdf.title}</div>
+                    <div class="pdf-meta">
+                        <span>Sayfa: ${pdf.pages}</span>
+                        <span>Boyut: ${pdf.size}</span>
+                    </div>
+                    <button class="pdf-download-btn" onclick="handleDownload('${pdf.title}')">
+                        📥 HEMEN İNDİR
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        if (items.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:80px 20px;background:#f9f9f9;border-radius:20px;border:2px dashed #ddd;">
+                    <div style="font-size:4rem;margin-bottom:15px;opacity:0.5;">📭</div>
+                    <h3 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:10px;">Bu kategoride henüz dosya yok</h3>
+                    <p style="color:var(--text-light);">Eğitmenlerimiz yeni materyaller eklemek için çalışıyor. Lütfen daha sonra tekrar kontrol et.</p>
+                </div>`;
+        }
+    }
+
+    // ── TAB FİLTRELEME ───────────────────────────────────────────────────
+    function filterTabs(sinif, filter, btn) {
+        const container = document.getElementById(`tabs${sinif}`);
+        container.querySelectorAll('.topic-tab').forEach(t => t.className = 'topic-tab');
+        btn.classList.add(`active-${sinif}`);
+        renderPDFGrid(sinif, filter);
+    }
+
+    // ── ACCORDION (FAQ) ──────────────────────────────────────────────────
+    function toggleFaq(element) {
+        const parent = element.parentElement;
+        parent.classList.toggle('active');
+    }
+
+    // ── İNDİRME SİMÜLASYONU VE TOAST BİLDİRİMLER ─────────────────────────
+    function handleDownload(title) {
+        showToast(`📥 "${title}" bilgisayarına indiriliyor...`, 'success');
+    }
+
+    function showToast(message, type = 'default') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span>${message}</span>`;
+        container.appendChild(toast);
+        
+        requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => container.removeChild(toast), 400);
+        }, 3500);
+    }
+
+    // ── MOBİL MENÜ TOGGLE ────────────────────────────────────────────────
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // ── ANA SAYFA SAYAÇ ANİMASYONU ───────────────────────────────────────
+    (function animateCounter() {
+        const el = document.getElementById('statDownload');
+        if (!el) return;
+        let start = 12000, end = 15840, dur = 2500, startTime = null;
+        function step(ts) {
+            if (!startTime) startTime = ts;
+            const progress = Math.min((ts - startTime) / dur, 1);
+            const ease = 1 - Math.pow(2, -10 * progress);
+            const val = Math.floor(start + (end - start) * ease);
+            el.textContent = val.toLocaleString('tr-TR') + '+';
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        setTimeout(() => requestAnimationFrame(step), 800);
+    })();
+
+    </script>
 </body>
 </html>
+
