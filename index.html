@@ -1,795 +1,516 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENKLİ DEFTER | Türkiye'nin İngilizce Platformu</title>
+    <title>RENKLİ DEFTER | Free English Exercises</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Figtree:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* ══════════════════════════════════════════
-           CSS DEĞİŞKENLERİ (DARK MODE NEO-BRUTALISM)
+           NEO-BRUTALIST DARK THEME VARIABLES
         ══════════════════════════════════════════ */
         :root {
             --bg-main: #0f0e17;
-            --bg-card: #1a1a2e;
-            --bg-nav: #07070a;
+            --bg-card: #16161e;
+            --bg-sidebar: #0a0a0f;
             
             --text-main: #fffffe;
             --text-muted: #a7a9be;
-            --text-dark: #0f0e17;
+            --text-dark: #000000;
 
-            --neon-yellow: #ffe94a;
-            --neon-green: #00f5a0;
-            --neon-pink: #ff006e;
-            --neon-blue: #00b4ff;
-            --neon-orange: #ff6b35;
-            --neon-purple: #c77dff;
+            --primary-yellow: #ffe94a;
+            --primary-green: #00f5a0;
+            --primary-orange: #ff6b35;
+            --primary-blue: #00b4ff;
+            --primary-pink: #ff006e;
 
-            --border-width: 3px;
-            --border-color: #ffffff;
+            --border-thick: 3px solid #fff;
+            --border-thin: 1px solid rgba(255, 255, 255, 0.2);
             
-            --shadow-brutal: 6px 6px 0px var(--neon-yellow);
-            --shadow-brutal-hover: 10px 10px 0px var(--neon-yellow);
-            
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
+            --shadow-green: 5px 5px 0px var(--primary-green);
+            --shadow-yellow: 5px 5px 0px var(--primary-yellow);
+            --shadow-blue: 5px 5px 0px var(--primary-blue);
+            --shadow-pink: 5px 5px 0px var(--primary-pink);
 
-            --font-display: 'Baloo 2', cursive;
-            --font-body: 'Figtree', sans-serif;
-
-            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
         }
 
         /* ══════════════════════════════════════════
-           RESET & BASE
+           RESET & GLOBALS
         ══════════════════════════════════════════ */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: var(--bg-main); color: var(--text-main);
-            font-family: var(--font-body); overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; line-height: 1.6;
+            background-color: var(--bg-main); color: var(--text-main);
+            font-family: var(--font-body); display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden; line-height: 1.5;
         }
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; cursor: pointer; }
         ul { list-style: none; }
-        img { max-width: 100%; display: block; }
 
-        ::-webkit-scrollbar { width: 14px; }
-        ::-webkit-scrollbar-track { background: var(--bg-main); border-left: 2px solid rgba(255,255,255,0.1); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-yellow); border-radius: 10px; border: 3px solid var(--bg-main); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-orange); }
-
-        /* ══════════════════════════════════════════
-           SAYFA / ROUTER SİSTEMİ
-        ══════════════════════════════════════════ */
-        .page { display: none; min-height: 100vh; animation: pageIn 0.5s var(--ease-spring) forwards; }
-        .page.active { display: block; }
-        @keyframes pageIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); border-left: var(--border-thin); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-green); border: 2px solid var(--bg-main); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-yellow); }
 
         /* ══════════════════════════════════════════
-           NAVBAR
+           HEADER
         ══════════════════════════════════════════ */
-        .navbar {
-            position: sticky; top: 0; z-index: 999;
-            background: rgba(7, 7, 10, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 80px; gap: 16px;
+        .header {
+            background: var(--bg-sidebar); border-bottom: var(--border-thick);
+            padding: 15px 30px; display: flex; align-items: center; justify-content: space-between;
+            z-index: 100;
         }
-        .nav-logo {
-            font-family: var(--font-display); font-size: 1.8rem; font-weight: 900;
-            color: #fff; display: flex; align-items: center; gap: 12px; cursor: pointer;
-            text-shadow: 2px 2px 0px #000;
+        .logo {
+            font-family: var(--font-head); font-size: 2rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: -1px; display: flex; align-items: center; gap: 10px; cursor: pointer;
         }
-        .nav-logo .logo-badge {
-            background: var(--neon-yellow); color: var(--text-dark); padding: 4px 12px;
-            border-radius: var(--radius-sm); border: 2px solid var(--border-color);
-            box-shadow: 4px 4px 0px var(--border-color); font-size: 1rem; transform: rotate(-4deg);
-            text-shadow: none; transition: transform 0.2s;
+        .logo span {
+            background: var(--primary-green); color: var(--text-dark); padding: 5px 15px;
+            border: 3px solid #fff; box-shadow: 4px 4px 0px #fff; transform: rotate(-3deg);
+            transition: transform 0.2s;
         }
-        .nav-logo:hover .logo-badge { transform: rotate(0deg) scale(1.1); }
+        .logo:hover span { transform: rotate(0deg) scale(1.05); }
 
-        .nav-links { display: flex; align-items: center; gap: 10px; }
-        .nav-btn {
-            display: flex; align-items: center; gap: 8px; padding: 10px 20px;
-            border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 1rem;
-            font-weight: 800; cursor: pointer; transition: all 0.2s;
-            border: 2px solid transparent; background: transparent; color: var(--text-muted);
+        .top-nav { display: flex; gap: 12px; }
+        .top-nav-btn {
+            background: var(--bg-card); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 1rem;
+            padding: 8px 16px; border: 2px solid #fff; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
         }
-        .nav-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
-        .nav-btn.active { background: var(--neon-yellow); color: var(--text-dark); border-color: var(--border-color); box-shadow: 4px 4px 0px var(--border-color); }
-        .mobile-menu-btn {
-            display: none; background: transparent; border: 2px solid #fff; color: white;
-            border-radius: 8px; padding: 8px 12px; font-size: 1.4rem; cursor: pointer;
+        .top-nav-btn:hover { background: var(--primary-yellow); color: #000; box-shadow: var(--shadow-yellow); transform: translate(-3px, -3px); }
+        .top-nav-btn.active { background: var(--primary-green); color: #000; box-shadow: var(--shadow-green); transform: translate(-3px, -3px); }
+
+        /* ══════════════════════════════════════════
+           LAYOUT (Sidebar + Main)
+        ══════════════════════════════════════════ */
+        .layout { display: flex; flex: 1; overflow: hidden; }
+
+        /* SIDEBAR (AGENDAWEB STYLE) */
+        .sidebar {
+            width: 300px; background: var(--bg-sidebar); border-right: var(--border-thick);
+            padding: 20px 0; overflow-y: auto; display: flex; flex-direction: column;
+        }
+        .sidebar-section { margin-bottom: 25px; }
+        .sidebar-title {
+            font-family: var(--font-head); font-size: 1.1rem; color: var(--text-dark);
+            background: var(--primary-yellow); padding: 8px 20px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+            border-top: 2px solid #fff; border-bottom: 2px solid #fff;
+        }
+        .sidebar-list { display: flex; flex-direction: column; padding: 0 15px; gap: 4px; }
+        .side-link {
+            color: var(--text-main); font-weight: 700; font-size: 0.95rem;
+            padding: 8px 12px; border: 2px solid transparent; cursor: pointer; transition: all 0.1s;
+            display: flex; justify-content: space-between; align-items: center; border-radius: 4px;
+        }
+        .side-link:hover { background: var(--primary-green); color: #000; border-color: #fff; box-shadow: 3px 3px 0px #fff; transform: translateX(4px); }
+        .side-link.active { background: var(--primary-pink); color: #fff; border-color: #fff; box-shadow: 3px 3px 0px #fff; transform: translateX(4px); }
+        .side-link span.count { font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; }
+        .side-link:hover span.count { background: #000; color: #fff; }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1; padding: 30px 40px; overflow-y: auto; background: var(--bg-main);
         }
 
         /* ══════════════════════════════════════════
-           GENEL BİLEŞENLER
+           HOME GRID (AGENDAWEB CATEGORIES)
         ══════════════════════════════════════════ */
-        .section { padding: 100px 5%; position: relative; }
-        .section-center { text-align: center; }
-        .section-tag {
-            display: inline-flex; align-items: center; gap: 8px; background: var(--neon-blue);
-            color: var(--text-dark); border: 2px solid #fff; box-shadow: 4px 4px 0px #fff;
-            border-radius: 50px; padding: 8px 18px; font-weight: 900; font-size: 0.9rem;
-            margin-bottom: 25px; letter-spacing: 1px; text-transform: uppercase;
-        }
-        .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 20px; line-height: 1.1; color: #fff; }
-        .section-sub { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto 50px; line-height: 1.6; font-weight: 500; }
+        .home-view { display: block; }
         
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 16px 32px; border-radius: var(--radius-sm); font-family: var(--font-display);
-            font-size: 1.2rem; font-weight: 900; cursor: pointer; transition: all 0.2s var(--ease-spring);
-            border: var(--border-width) solid var(--border-color); text-transform: uppercase; letter-spacing: 0.5px;
+        .ad-banner {
+            background: var(--primary-blue); color: #000; border: var(--border-thick);
+            padding: 15px; text-align: center; font-family: var(--font-head); font-weight: 900;
+            font-size: 1.2rem; text-transform: uppercase; margin-bottom: 30px; box-shadow: var(--shadow-blue);
         }
-        .btn-yellow { background: var(--neon-yellow); color: var(--text-dark); box-shadow: var(--shadow-brutal); }
-        .btn-yellow:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-brutal-hover); }
-        .btn-yellow:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--neon-yellow); }
+
+        .category-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px;
+        }
         
-        .btn-outline { background: var(--bg-main); color: var(--text-main); box-shadow: 6px 6px 0px var(--border-color); }
-        .btn-outline:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px var(--border-color); background: #fff; color: #000; }
+        .cat-box {
+            background: var(--bg-card); border: var(--border-thick);
+            transition: all 0.2s; display: flex; flex-direction: column;
+        }
+        .cat-box:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-yellow); border-color: var(--primary-yellow); }
+        
+        .cat-box-header {
+            background: var(--primary-yellow); color: #000; padding: 15px 20px;
+            font-family: var(--font-head); font-size: 1.4rem; font-weight: 900;
+            text-transform: uppercase; border-bottom: var(--border-thick);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .cat-box-header.blue { background: var(--primary-blue); }
+        .cat-box-header.green { background: var(--primary-green); }
+        .cat-box-header.pink { background: var(--primary-pink); color: #fff; }
+        .cat-box-header.orange { background: var(--primary-orange); }
+
+        .cat-links { padding: 15px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .cat-link-item {
+            color: var(--text-muted); font-weight: 700; font-size: 0.95rem; cursor: pointer;
+            padding: 6px; display: flex; align-items: center; gap: 8px; transition: color 0.2s;
+        }
+        .cat-link-item::before { content: '■'; color: var(--primary-yellow); font-size: 0.7rem; }
+        .cat-link-item:hover { color: #fff; text-decoration: underline; text-decoration-color: var(--primary-green); text-decoration-thickness: 2px; }
 
         /* ══════════════════════════════════════════
-           HERO BÖLÜMÜ
+           EXERCISE LIST VIEW
         ══════════════════════════════════════════ */
-        .hero-section {
-            position: relative; overflow: hidden; padding: 120px 5% 80px;
-            display: flex; align-items: center; gap: 60px; min-height: 80vh;
-            border-bottom: var(--border-width) solid var(--border-color);
-            background: radial-gradient(circle at 100% 0%, rgba(0, 245, 160, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 0% 100%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        .exercise-view { display: none; }
+        
+        .view-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: var(--border-thick); padding-bottom: 20px; margin-bottom: 30px;
         }
-        .hero-content { flex: 1.2; position: relative; z-index: 2; }
-        .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px; background: var(--neon-green);
-            border: 2px solid #fff; border-radius: 50px; padding: 8px 16px; color: #000;
-            font-size: 0.95rem; font-weight: 900; margin-bottom: 25px; box-shadow: 4px 4px 0px #fff;
-            transform: rotate(-2deg); text-transform: uppercase;
+        .view-title {
+            font-family: var(--font-head); font-size: 2.5rem; font-weight: 900;
+            color: #fff; text-transform: uppercase;
         }
-        .hero-title {
-            font-family: var(--font-display); font-size: clamp(3.2rem, 6vw, 5.5rem); font-weight: 900;
-            color: #fff; line-height: 1.05; margin-bottom: 25px;
+        .view-title span { color: var(--primary-green); }
+        
+        .back-btn {
+            background: transparent; color: #fff; border: 2px solid #fff;
+            padding: 8px 16px; font-family: var(--font-head); font-weight: 700;
+            cursor: pointer; transition: all 0.2s; text-transform: uppercase; display: flex; gap: 8px; align-items: center;
         }
-        .hero-title .highlight {
-            background: var(--neon-pink); color: #fff; display: inline-block; padding: 0 15px;
-            border-radius: 12px; transform: rotate(1.5deg); border: 3px solid #fff;
-            box-shadow: 6px 6px 0px #fff;
-        }
-        .hero-subtitle { color: var(--text-muted); font-size: 1.35rem; max-width: 650px; line-height: 1.7; margin-bottom: 40px; font-weight: 500; }
-        .hero-cta-group { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .back-btn:hover { background: var(--primary-pink); color: #fff; border-color: var(--primary-pink); box-shadow: 4px 4px 0px #fff; transform: translate(-2px, -2px); }
 
-        .hero-visual { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; height: 500px; perspective: 1000px; }
-        .hero-cards-cluster { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
-        
-        .floating-card {
-            position: absolute; background: var(--bg-card); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-md); padding: 25px; box-shadow: 10px 10px 0px #000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-family: var(--font-display); font-weight: 800; text-align: center;
-            animation: float-random 6s ease-in-out infinite alternate;
+        .ex-list-container {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px;
         }
-        .fc-1 { width: 200px; height: 240px; top: 5%; left: 5%; transform: rotate(-8deg) translateZ(20px); background: var(--neon-blue); color: #000; box-shadow: 8px 8px 0px #fff; animation-delay: 0s; border-color: #000; }
-        .fc-2 { width: 240px; height: 300px; top: 25%; right: 0; transform: rotate(6deg) translateZ(50px); background: var(--neon-yellow); color: #000; font-size: 2rem; z-index: 3; animation-delay: -2s; border-color:#000; box-shadow: 12px 12px 0px #fff; }
-        .fc-3 { width: 180px; height: 180px; bottom: 5%; left: 25%; transform: rotate(-5deg) translateZ(10px); background: var(--neon-green); color: #000; font-size: 1.2rem; animation-delay: -4s; border-radius: 50%; border-color:#000; box-shadow: 8px 8px 0px #fff; }
         
-        @keyframes float-random {
-            0% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-            100% { transform: translateY(-30px) rotate(calc(var(--rot, 0deg) + 6deg)); }
+        .ex-group {
+            background: var(--bg-card); border: 2px solid #444; padding: 20px;
         }
-        .fc-1 { --rot: -8deg; } .fc-2 { --rot: 6deg; } .fc-3 { --rot: -5deg; }
-        .fc-icon { font-size: 4rem; margin-bottom: 15px; }
-        .fc-text { line-height: 1.2; font-size: 1.4rem; }
-        .fc-badge { background:#000; color:#fff; font-size:0.85rem; padding:4px 12px; border-radius:12px; margin-top:15px; border: 2px solid #fff; }
+        .ex-group-title {
+            color: var(--primary-yellow); font-family: var(--font-head); font-size: 1.2rem;
+            font-weight: 900; margin-bottom: 15px; border-bottom: 1px dashed #666; padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .ex-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 10px; border-bottom: 1px solid #333; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 500; transition: all 0.2s; cursor: pointer;
+        }
+        .ex-item:last-child { border-bottom: none; }
+        .ex-item:hover { background: rgba(255,255,255,0.05); color: #fff; border-left: 4px solid var(--primary-green); padding-left: 15px; }
+        .ex-item .level { font-size: 0.75rem; background: #333; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
 
         /* ══════════════════════════════════════════
-           İSTATİSTİKLER BANT
+           MOBILE RESPONSIVENESS
         ══════════════════════════════════════════ */
-        .stats-bar {
-            background: var(--neon-yellow); border-bottom: var(--border-width) solid var(--border-color);
-            padding: 35px 5%; display: flex; align-items: center; justify-content: center; gap: 70px; flex-wrap: wrap;
+        .mobile-toggle { display: none; background: transparent; border: 2px solid #fff; color: #fff; padding: 5px 15px; font-family: var(--font-head); font-weight: 700; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .layout { flex-direction: column; }
+            .sidebar { width: 100%; max-height: 300px; border-right: none; border-bottom: var(--border-thick); display: none; }
+            .sidebar.open { display: flex; }
+            .mobile-toggle { display: block; }
+            .top-nav { display: none; }
         }
-        .stat-item { display: flex; align-items: center; gap: 18px; }
-        .stat-icon { font-size: 2.5rem; background: #000; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 2px solid #fff; box-shadow: 4px 4px 0px #fff; }
-        .stat-number { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: #000; line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-size: 0.95rem; font-weight: 900; color: #333; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* ══════════════════════════════════════════
-           TÜRKİYE'YE ÖZEL MÜFREDAT KARTLARI
-        ══════════════════════════════════════════ */
-        .cards-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;
-            max-width: 1200px; margin: 0 auto;
-        }
-        .class-card {
-            background: var(--bg-card); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s var(--ease-spring);
-            box-shadow: 8px 8px 0px rgba(255,255,255,0.1); position: relative; display: flex; flex-direction: column;
-        }
-        .class-card:hover { transform: translateY(-10px); box-shadow: 15px 15px 0px var(--neon-yellow); border-color: var(--neon-yellow); }
-        
-        .card-header { padding: 40px 30px 30px; position: relative; overflow: hidden; text-align: center; border-bottom: var(--border-width) solid var(--border-color); }
-        .card-56 { background: var(--neon-green); color: #000; }
-        .card-7 { background: var(--neon-blue); color: #000; }
-        .card-8 { background: var(--neon-pink); color: #fff; }
-
-        .card-header-bg { position: absolute; right: -20px; top: -30px; font-size: 10rem; opacity: 0.15; line-height: 1; pointer-events: none; transform: rotate(15deg); }
-        .card-emoji { font-size: 4rem; margin-bottom: 15px; display: inline-block; position: relative; z-index: 1; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.4)); }
-        .card-grade { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; text-shadow: 2px 2px 0px rgba(0,0,0,0.2); position: relative; z-index: 1; line-height: 1.1; }
-        .card-grade-sub { background: #000; color: #fff; font-size: 0.85rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; display: inline-block; margin-top: 15px; border: 2px solid #fff; position: relative; z-index: 1; letter-spacing: 1px; text-transform: uppercase; }
-
-        .card-body { padding: 30px; flex: 1; display: flex; flex-direction: column; }
-        .card-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px; font-weight: 500; }
-        .card-features { margin-bottom: auto; }
-        .card-features li { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-weight: 700; font-size: 0.95rem; color: #fff; }
-        .card-features li::before { content: '✓'; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--neon-yellow); color: #000; border-radius: 50%; font-size: 0.8rem; font-weight: 900; }
-
-        .card-cta { display: flex; align-items: center; justify-content: space-between; padding-top: 25px; margin-top: 25px; border-top: 2px dashed rgba(255,255,255,0.1); }
-        .card-pdf-count { font-weight: 900; font-size: 1.2rem; color: #fff; font-family: var(--font-display); display: flex; align-items: center; gap: 8px; }
-        .card-pdf-count span { background: #fff; color: #000; padding: 2px 10px; border-radius: 8px; }
-        
-        .card-arrow { width: 50px; height: 50px; border-radius: 12px; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s var(--ease-spring); }
-        .class-card:hover .card-arrow { transform: translateX(8px) rotate(10deg); background: var(--neon-yellow); box-shadow: 4px 4px 0px #000; border: 2px solid #000; }
-
-        /* ══════════════════════════════════════════
-           ÖZELLİKLER BÖLÜMÜ (MEB/TÜRKİYE ODAKLI)
-        ══════════════════════════════════════════ */
-        .features-section { background: var(--bg-nav); border-top: var(--border-width) solid var(--border-color); border-bottom: var(--border-width) solid var(--border-color); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .feat-box { background: var(--bg-main); border: 2px solid rgba(255,255,255,0.2); padding: 40px 30px; border-radius: var(--radius-lg); transition: all 0.3s; position: relative; overflow: hidden; }
-        .feat-box:hover { border-color: var(--neon-cyan); transform: translateY(-5px); box-shadow: 8px 8px 0px rgba(0, 229, 255, 0.3); }
-        .feat-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--neon-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
-        .feat-box:hover::before { transform: scaleX(1); }
-        
-        .feat-icon { font-size: 3rem; margin-bottom: 20px; display: inline-block; background: #fff; color: #000; width: 70px; height: 70px; border-radius: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid #000; box-shadow: 4px 4px 0px #000; }
-        .feat-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; color: #fff; }
-        .feat-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
-
-        /* ══════════════════════════════════════════
-           ÖĞRENCİ YORUMLARI (LOKAL)
-        ══════════════════════════════════════════ */
-        .testi-section { background: var(--neon-purple); border-bottom: var(--border-width) solid var(--border-color); }
-        .testi-section .section-title { color: #000; }
-        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .testi-card { background: var(--bg-main); border: var(--border-width) solid #000; border-radius: var(--radius-lg); padding: 40px 30px; box-shadow: 8px 8px 0px #000; position: relative; }
-        .testi-quote { font-size: 4rem; color: var(--neon-yellow); position: absolute; top: 10px; right: 20px; font-family: Georgia, serif; line-height: 1; pointer-events: none; opacity: 0.5; }
-        .testi-text { font-size: 1.1rem; font-weight: 600; font-style: italic; color: #fff; margin-bottom: 30px; position: relative; z-index: 2; line-height: 1.6; }
-        .testi-user { display: flex; align-items: center; gap: 15px; border-top: 2px dashed rgba(255,255,255,0.2); padding-top: 20px; }
-        .testi-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid #fff; }
-        .testi-info h4 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; line-height: 1.2; color: #fff; }
-        .testi-info span { color: #000; font-size: 0.85rem; font-weight: 800; background: var(--neon-yellow); padding: 2px 8px; border-radius: 6px; }
-
-        /* ══════════════════════════════════════════
-           İNGİLİZCE PDF GRID SİSTEMİ
-        ══════════════════════════════════════════ */
-        .page-header { background: var(--bg-nav); padding: 60px 5% 50px; border-bottom: var(--border-width) solid var(--border-color); position: relative; overflow: hidden; }
-        .page-header::before { content: ''; position: absolute; right: -50px; top: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.02); border: 2px dashed rgba(255,255,255,0.1); }
-        .page-header-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
-        
-        .sinif-page-wrap { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
-        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 2px solid rgba(255,255,255,0.2); }
-        .filter-label { font-weight: 900; font-size: 1rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-right: 10px; }
-        
-        .topic-tab { padding: 10px 24px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); background: transparent; font-family: var(--font-body); font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
-        .topic-tab:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
-        .topic-tab.active-tab { background: var(--neon-yellow); border-color: var(--border-color); color: #000; box-shadow: 3px 3px 0px #fff; }
-
-        .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .pdf-card { background: var(--bg-card); border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); overflow: hidden; transition: all 0.3s var(--ease-spring); display: flex; flex-direction: column; }
-        .pdf-card:hover { transform: translateY(-6px); border-color: var(--neon-yellow); box-shadow: 8px 8px 0px rgba(255, 233, 74, 0.3); }
-
-        .pdf-card-color { height: 130px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 2px solid rgba(255,255,255,0.1); }
-        .pdf-card-color .bg-text { position: absolute; font-size: 6rem; opacity: 0.1; right: -10px; bottom: -20px; transform: rotate(-15deg); color: #000; }
-        .pdf-icon { width: 70px; height: 85px; background: var(--bg-main); border-radius: 8px 8px 20px 8px; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 4px 4px 0px #000; position: relative; z-index: 1; }
-
-        .pdf-card-info { padding: 25px; flex: 1; display: flex; flex-direction: column; }
-        .pdf-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
-        .pdf-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 900; border: 1.5px solid transparent; text-transform: uppercase; color: #000; }
-        .badge-cat { background: #fff; }
-        .badge-new { background: var(--neon-pink); color: #fff; animation: pulse-badge 2s infinite; }
-        
-        .pdf-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; margin-bottom: 10px; line-height: 1.3; color: #fff; flex: 1; }
-        .pdf-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed rgba(255,255,255,0.1); }
-        
-        .pdf-download-btn { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #fff; background: transparent; color: #fff; font-family: var(--font-display); font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; }
-        .pdf-download-btn:hover { background: var(--neon-yellow); color: #000; border-color: #000; box-shadow: 4px 4px 0px #fff; }
-
-        /* ══════════════════════════════════════════
-           TOAST BİLDİRİM
-        ══════════════════════════════════════════ */
-        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
-        .toast { background: var(--neon-yellow); color: #000; border: 3px solid #000; border-radius: 12px; padding: 16px 24px; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; box-shadow: 6px 6px 0px #fff; display: flex; align-items: center; gap: 12px; transform: translateX(120%) rotate(5deg); opacity: 0; transition: all 0.4s var(--ease-spring); max-width: 350px; pointer-events: auto; }
-        .toast.show { transform: translateX(0) rotate(0deg); opacity: 1; }
-
-        /* ══════════════════════════════════════════
-           FOOTER (İSTANBUL/TÜRKİYE DETAYLI)
-        ══════════════════════════════════════════ */
-        footer { background: var(--bg-nav); border-top: var(--border-width) solid var(--border-color); padding: 80px 5% 30px; color: #fff; position: relative; overflow: hidden; }
-        .footer-top { display: flex; justify-content: space-between; gap: 50px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto 60px; position: relative; z-index: 2; }
-        .footer-brand { flex: 1.5; min-width: 300px; }
-        .footer-brand .logo-badge { background: var(--neon-yellow); color: #000; padding: 8px 16px; border-radius: 10px; font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; border: 3px solid #000; display: inline-block; margin-bottom: 20px; box-shadow: 4px 4px 0px #fff; transform: rotate(-2deg); }
-        .footer-brand p { color: var(--text-muted); max-width: 350px; line-height: 1.8; font-size: 1rem; font-weight: 500; margin-bottom: 25px; }
-        
-        .footer-links-col { flex: 1; min-width: 200px; }
-        .footer-links-col h4 { font-family: var(--font-display); font-weight: 900; color: #fff; margin-bottom: 25px; font-size: 1.3rem; display: inline-block; border-bottom: 3px solid var(--neon-blue); padding-bottom: 5px; }
-        .footer-links-col p { color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: 600;}
-        .footer-links-col a { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 1rem; font-weight: 600; margin-bottom: 12px; transition: all 0.2s; cursor: pointer; }
-        .footer-links-col a:hover { color: var(--neon-yellow); transform: translateX(5px); }
-
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .footer-credit { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: #fff; }
-        .footer-credit strong { color: var(--neon-yellow); letter-spacing: 1px; }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 0 20px; height: 70px; }
-            .nav-links { position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-nav); flex-direction: column; padding: 20px; gap: 10px; border-bottom: var(--border-width) solid #fff; display: none; }
-            .nav-links.open { display: flex; }
-            .mobile-menu-btn { display: block; }
-            .hero-section { flex-direction: column; text-align: center; padding-top: 100px; }
-            .hero-visual { display: none; }
-            .stats-bar { flex-direction: column; align-items: flex-start; gap: 30px; }
+        @media (max-width: 600px) {
+            .cat-links { grid-template-columns: 1fr; }
+            .ex-list-container { grid-template-columns: 1fr; }
+            .view-header { flex-direction: column; align-items: flex-start; gap: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="toast-container" id="toastContainer"></div>
-
-    <header class="navbar">
-        <div class="nav-logo" onclick="navigate('home')">
-            <span class="logo-badge">📓 R-D</span>
-            <span style="display:none; sm:display:inline;">RENKLİ DEFTER</span>
+    <header class="header">
+        <div class="logo" onclick="goHome()">
+            📓 <span>RENKLİ DEFTER</span>
         </div>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        <nav class="nav-links" id="navLinks">
-            <button class="nav-btn active" id="nav-home" onclick="navigate('home')">🏠 Ana Sayfa</button>
-            <button class="nav-btn" onclick="navigate('sinif6')">6. Sınıf</button>
-            <button class="nav-btn" onclick="navigate('sinif7')">7. Sınıf</button>
-            <button class="nav-btn" onclick="navigate('sinif8')">8. Sınıf [LGS]</button>
-        </nav>
+        <button class="mobile-toggle" onclick="toggleSidebar()">☰ MENU</button>
+        <div class="top-nav">
+            <button class="top-nav-btn active" id="nav-home" onclick="goHome()">Index</button>
+            <button class="top-nav-btn" onclick="openCategory('Verbs')">Verbs</button>
+            <button class="top-nav-btn" onclick="openCategory('Grammar')">Grammar</button>
+            <button class="top-nav-btn" onclick="openCategory('Vocabulary')">Vocabulary</button>
+            <button class="top-nav-btn" onclick="openCategory('Reading')">Reading</button>
+        </div>
     </header>
 
-    <div class="page active" id="page-home">
+    <div class="layout">
         
-        <div class="hero-section">
-            <div class="hero-content">
-                <div class="hero-eyebrow">🇹🇷 TÜRKİYE'NİN İNGİLİZCE PLATFORMU</div>
-                <h1 class="hero-title">
-                    LGS'de ve Yazılılarda <br><span class="highlight">A+ Almaya</span> Hazır Mısın?
-                </h1>
-                <p class="hero-subtitle">
-                    5, 6, 7 ve 8. Sınıf öğrencilerine özel, MEB müfredatına %100 uyumlu Türkçe açıklamalı grammar notları, kelime çevirileri ve LGS odaklı PDF'ler. Tamamen ücretsiz.
-                </p>
-                <div class="hero-cta-group">
-                    <button class="btn btn-yellow" onclick="document.getElementById('siniflar').scrollIntoView({behavior:'smooth'})">
-                        📖 SINIFINI SEÇ & BAŞLA
-                    </button>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="hero-cards-cluster">
-                    <div class="floating-card fc-1">
-                        <div class="fc-icon">🇹🇷</div>
-                        <div class="fc-text">Türkçe<br>Çevirili</div>
-                    </div>
-                    <div class="floating-card fc-2">
-                        <div class="fc-icon">🏆</div>
-                        <div class="fc-text">LGS 2026<br>Uyumlu</div>
-                        <div class="fc-badge">MEB MÜFREDATI</div>
-                    </div>
-                    <div class="floating-card fc-3">
-                        <div class="fc-icon">📝</div>
-                        <div class="fc-text">Vocabulary</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-icon">📥</div>
-                <div>
-                    <div class="stat-number">15.840+</div>
-                    <div class="stat-label">İndirilen PDF</div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">🇹🇷</div>
-                <div>
-                    <div class="stat-number">81 İl</div>
-                    <div class="stat-label">Erişim Ağı</div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">👨‍🎓</div>
-                <div>
-                    <div class="stat-number">4.500+</div>
-                    <div class="stat-label">Ortaokul Öğrencisi</div>
-                </div>
-            </div>
-        </div>
-
-        <section class="section" id="siniflar">
-            <div class="section-center">
-                <div class="section-tag">📚 MEB MÜFREDATI</div>
-                <h2 class="section-title">Hangi Sınıftasın?</h2>
-                <p class="section-sub">Okuldaki ders kitabınla birebir uyumlu, Türkçe açıklamalarla desteklenmiş İngilizce PDF materyallerine ücretsiz eriş.</p>
-            </div>
-
-            <div class="cards-grid">
-                <div class="class-card card-56" onclick="navigate('sinif6')">
-                    <div class="card-header">
-                        <div class="card-header-bg">📗</div>
-                        <span class="card-emoji">📗</span>
-                        <div class="card-grade">5 ve 6. Sınıf</div>
-                        <div class="card-grade-sub">İngilizce Temeli</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">İngilizceye güçlü bir başlangıç yap. Life, Yummy Breakfast gibi ünitelerin Türkçe çevirili kelime listeleri.</p>
-                        <ul class="card-features">
-                            <li>Türkçe Anlamlı Vocabulary</li>
-                            <li>Görsel ve Basit Grammar</li>
-                            <li>Okul Yazılısına Hazırlık</li>
-                        </ul>
-                        <div class="card-cta">
-                            <div class="card-pdf-count"><span>24</span> PDF Döküman</div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="class-card card-7" onclick="navigate('sinif7')">
-                    <div class="card-header">
-                        <div class="card-header-bg">📘</div>
-                        <span class="card-emoji">📘</span>
-                        <div class="card-grade">7. Sınıf English</div>
-                        <div class="card-grade-sub">LGS Ön Hazırlık</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Zorlaşan dilbilgisi konularını (Tenseler vb.) Türkçe mantığıyla kolayca anla ve okulda fark yarat.</p>
-                        <ul class="card-features">
-                            <li>Detaylı Tense Özetleri</li>
-                            <li>Çevirili Reading Parçaları</li>
-                            <li>Ünite Sonu Kazanım Testleri</li>
-                        </ul>
-                        <div class="card-cta">
-                            <div class="card-pdf-count"><span>31</span> PDF Döküman</div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="class-card card-8" onclick="navigate('sinif8')">
-                    <div class="card-header">
-                        <div class="card-header-bg">📕</div>
-                        <span class="card-emoji">🏆</span>
-                        <div class="card-grade">8. Sınıf [LGS]</div>
-                        <div class="card-grade-sub">Sınav Odaklı Hedef 10/10</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">LGS İngilizce testinde "full" çekmek için özel hazırlandı. Soru kökleri, çıkmış kelimeler ve taktikler.</p>
-                        <ul class="card-features">
-                            <li>LGS Çıkmış Kelime Analizi</li>
-                            <li>Soru Kökü Çevirileri & Taktikler</li>
-                            <li>Yeni Nesil LGS Denemeleri</li>
-                        </ul>
-                        <div class="card-cta">
-                            <div class="card-pdf-count"><span>30</span> PDF Döküman</div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features-section section">
-            <div class="section-center">
-                <div class="section-tag">✨ NEDEN BİZ?</div>
-                <h2 class="section-title">Türkiye Şartlarına Uygun İngilizce</h2>
-                <p class="section-sub">Sadece İngilizce değil, Türkiye'deki sınav sistemine ve öğrenci mantığına göre tasarlanmış içerikler.</p>
-            </div>
+        <aside class="sidebar" id="sidebar">
             
-            <div class="features-grid">
-                <div class="feat-box">
-                    <div class="feat-icon">🇹🇷</div>
-                    <h3 class="feat-title">Türkçe Açıklamalı Grammar</h3>
-                    <p class="feat-desc">İngilizce dilbilgisini anlamakta zorlanıyor musun? Kuralları karmaşık İngilizce terimlerle değil, kendi dilimizde, en sade haliyle anlatıyoruz.</p>
-                </div>
-                <div class="feat-box">
-                    <div class="feat-icon">🎯</div>
-                    <h3 class="feat-title">MEB Sınavlarına %100 Uyum</h3>
-                    <p class="feat-desc">Okulda girdiğin İngilizce yazılıları ve LGS tamamen Milli Eğitim Bakanlığı müfredatına dayalıdır. Bizim içeriklerimiz de öyle!</p>
-                </div>
-                <div class="feat-box">
-                    <div class="feat-icon">💡</div>
-                    <h3 class="feat-title">LGS Soru Kökü Taktikleri</h3>
-                    <p class="feat-desc">"Which of the following..." diye başlayan sorular seni korkutmasın. En sık çıkan soru köklerinin çevirileri ve çözüm taktikleri burada.</p>
+            <div class="sidebar-section">
+                <div class="sidebar-title">English Verbs</div>
+                <div class="sidebar-list">
+                    <div class="side-link" onclick="openTopic('To be')">To be <span class="count">45</span></div>
+                    <div class="side-link" onclick="openTopic('Have got')">Have got <span class="count">32</span></div>
+                    <div class="side-link" onclick="openTopic('Present simple')">Present simple <span class="count">110</span></div>
+                    <div class="side-link" onclick="openTopic('Present continuous')">Present continuous <span class="count">65</span></div>
+                    <div class="side-link" onclick="openTopic('Past simple')">Past simple <span class="count">90</span></div>
+                    <div class="side-link" onclick="openTopic('Past continuous')">Past continuous <span class="count">28</span></div>
+                    <div class="side-link" onclick="openTopic('Present perfect')">Present perfect <span class="count">55</span></div>
+                    <div class="side-link" onclick="openTopic('Future - Will/Going to')">Future <span class="count">48</span></div>
+                    <div class="side-link" onclick="openTopic('Modal verbs')">Modal verbs <span class="count">75</span></div>
+                    <div class="side-link" onclick="openTopic('Irregular verbs')">Irregular verbs <span class="count">80</span></div>
+                    <div class="side-link" onclick="openTopic('Passive voice')">Passive voice <span class="count">40</span></div>
                 </div>
             </div>
-        </section>
 
-        <section class="testi-section section">
-            <div class="section-center">
-                <div class="section-tag" style="background:#fff;color:#000;">💬 BİZ NE DİYORUZ DEĞİL, ONLAR NE DİYOR</div>
-                <h2 class="section-title">Öğrenci Yorumları</h2>
+            <div class="sidebar-section">
+                <div class="sidebar-title" style="background:var(--primary-blue); color:#fff;">Grammar</div>
+                <div class="sidebar-list">
+                    <div class="side-link" onclick="openTopic('Pronouns')">Pronouns <span class="count">42</span></div>
+                    <div class="side-link" onclick="openTopic('Adjectives')">Adjectives <span class="count">36</span></div>
+                    <div class="side-link" onclick="openTopic('Adverbs')">Adverbs <span class="count">25</span></div>
+                    <div class="side-link" onclick="openTopic('Articles')">Articles a/an/the <span class="count">30</span></div>
+                    <div class="side-link" onclick="openTopic('Plurals')">Plurals <span class="count">22</span></div>
+                    <div class="side-link" onclick="openTopic('Prepositions')">Prepositions <span class="count">60</span></div>
+                    <div class="side-link" onclick="openTopic('Quantifiers')">Quantifiers <span class="count">28</span></div>
+                    <div class="side-link" onclick="openTopic('Conditionals')">Conditionals <span class="count">35</span></div>
+                    <div class="side-link" onclick="openTopic('Question words')">Question words <span class="count">40</span></div>
+                    <div class="side-link" onclick="openTopic('Conjunctions')">Conjunctions <span class="count">18</span></div>
+                </div>
             </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title" style="background:var(--primary-green); color:#000;">Vocabulary</div>
+                <div class="sidebar-list">
+                    <div class="side-link" onclick="openTopic('Animals')">Animals <span class="count">30</span></div>
+                    <div class="side-link" onclick="openTopic('Body parts')">Body parts <span class="count">25</span></div>
+                    <div class="side-link" onclick="openTopic('Clothes')">Clothes <span class="count">20</span></div>
+                    <div class="side-link" onclick="openTopic('Colors')">Colors <span class="count">15</span></div>
+                    <div class="side-link" onclick="openTopic('Daily routine')">Daily routine <span class="count">22</span></div>
+                    <div class="side-link" onclick="openTopic('Family')">Family <span class="count">18</span></div>
+                    <div class="side-link" onclick="openTopic('Food and Drinks')">Food - Drinks <span class="count">45</span></div>
+                    <div class="side-link" onclick="openTopic('House & Furniture')">House - furniture <span class="count">35</span></div>
+                    <div class="side-link" onclick="openTopic('Jobs & Professions')">Jobs - professions <span class="count">28</span></div>
+                    <div class="side-link" onclick="openTopic('Numbers')">Numbers <span class="count">40</span></div>
+                    <div class="side-link" onclick="openTopic('Time & Weather')">Time - weather <span class="count">32</span></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title" style="background:var(--primary-pink); color:#fff;">Skills</div>
+                <div class="sidebar-list">
+                    <div class="side-link" onclick="openTopic('Listening A1-A2')">Listening A1-A2 <span class="count">40</span></div>
+                    <div class="side-link" onclick="openTopic('Listening B1-B2')">Listening B1-B2 <span class="count">35</span></div>
+                    <div class="side-link" onclick="openTopic('Reading A1-A2')">Reading A1-A2 <span class="count">50</span></div>
+                    <div class="side-link" onclick="openTopic('Reading B1-B2')">Reading B1-B2 <span class="count">45</span></div>
+                    <div class="side-link" onclick="openTopic('Fairy Tales')">Fairy Tales <span class="count">15</span></div>
+                    <div class="side-link" onclick="openTopic('Short Stories')">Short Stories <span class="count">30</span></div>
+                    <div class="side-link" onclick="openTopic('Dialogues')">Dialogues <span class="count">25</span></div>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="main-content">
             
-            <div class="testi-grid">
-                <div class="testi-card">
-                    <div class="testi-quote">"</div>
-                    <p class="testi-text">"LGS'de İngilizce kelimeleri ezberlemek eziyetti. Buradaki Türkçe anlamlı, ünite ünite ayrılmış renkli PDF'ler hayatımı kurtardı, sınavda full çektim!"</p>
-                    <div class="testi-user">
-                        <div class="testi-avatar">A</div>
-                        <div class="testi-info">
-                            <h4>Ahmet Y.</h4>
-                            <span>8. Sınıf Öğrencisi - İstanbul</span>
+            <div class="ad-banner">
+                🚀 1000+ FREE INTERACTIVE ENGLISH EXERCISES, GRAMMAR RULES, AND WORKSHEETS
+            </div>
+
+            <div id="homeView" class="home-view">
+                <div class="category-grid">
+                    
+                    <div class="cat-box">
+                        <div class="cat-box-header">⚡ ENGLISH VERBS</div>
+                        <div class="cat-links">
+                            <div class="cat-link-item" onclick="openTopic('To be')">To be</div>
+                            <div class="cat-link-item" onclick="openTopic('Have got')">Have got</div>
+                            <div class="cat-link-item" onclick="openTopic('Present simple')">Present simple</div>
+                            <div class="cat-link-item" onclick="openTopic('Present continuous')">Present continuous</div>
+                            <div class="cat-link-item" onclick="openTopic('Past simple')">Past simple</div>
+                            <div class="cat-link-item" onclick="openTopic('Past continuous')">Past continuous</div>
+                            <div class="cat-link-item" onclick="openTopic('Present perfect')">Present perfect</div>
+                            <div class="cat-link-item" onclick="openTopic('Future - Will/Going to')">Future</div>
+                            <div class="cat-link-item" onclick="openTopic('Modal verbs')">Modal verbs</div>
+                            <div class="cat-link-item" onclick="openTopic('Irregular verbs')">Irregular verbs</div>
+                            <div class="cat-link-item" onclick="openTopic('Passive voice')">Passive voice</div>
+                            <div class="cat-link-item" onclick="openTopic('Gerund / Infinitive')">Gerund / Infinitive</div>
                         </div>
                     </div>
-                </div>
-                <div class="testi-card">
-                    <div class="testi-quote">"</div>
-                    <p class="testi-text">"İngilizce yazılıları öncesi sabahtan akşama kadar Renkli Defter'in Türkçe açıklamalı grammar özetlerine çalışıyorum. Notlarım 60'tan 95'e çıktı!"</p>
-                    <div class="testi-user">
-                        <div class="testi-avatar" style="background:var(--neon-blue);">Z</div>
-                        <div class="testi-info">
-                            <h4>Zeynep K.</h4>
-                            <span>7. Sınıf Öğrencisi - Ankara</span>
+
+                    <div class="cat-box">
+                        <div class="cat-box-header blue">📚 GRAMMAR</div>
+                        <div class="cat-links">
+                            <div class="cat-link-item" onclick="openTopic('Pronouns')">Pronouns</div>
+                            <div class="cat-link-item" onclick="openTopic('Adjectives')">Adjectives</div>
+                            <div class="cat-link-item" onclick="openTopic('Adverbs')">Adverbs</div>
+                            <div class="cat-link-item" onclick="openTopic('Articles')">Articles</div>
+                            <div class="cat-link-item" onclick="openTopic('Plurals')">Plurals</div>
+                            <div class="cat-link-item" onclick="openTopic('Prepositions')">Prepositions</div>
+                            <div class="cat-link-item" onclick="openTopic('Quantifiers')">Quantifiers</div>
+                            <div class="cat-link-item" onclick="openTopic('Conditionals')">Conditionals</div>
+                            <div class="cat-link-item" onclick="openTopic('Question words')">Question words</div>
+                            <div class="cat-link-item" onclick="openTopic('Conjunctions')">Conjunctions</div>
+                            <div class="cat-link-item" onclick="openTopic('Relative clauses')">Relative clauses</div>
+                            <div class="cat-link-item" onclick="openTopic('Reported speech')">Reported speech</div>
                         </div>
                     </div>
-                </div>
-                <div class="testi-card">
-                    <div class="testi-quote">"</div>
-                    <p class="testi-text">"Bir öğretmen olarak öğrencilerime her derste buradan indirdiğim LGS denemelerini dağıtıyorum. MEB müfredatıyla bu kadar uyumlu olması harika."</p>
-                    <div class="testi-user">
-                        <div class="testi-avatar" style="background:var(--neon-pink);color:#fff;">M</div>
-                        <div class="testi-info">
-                            <h4>Mustafa T.</h4>
-                            <span>İngilizce Öğretmeni</span>
+
+                    <div class="cat-box">
+                        <div class="cat-box-header green">📝 VOCABULARY</div>
+                        <div class="cat-links">
+                            <div class="cat-link-item" onclick="openTopic('Animals')">Animals</div>
+                            <div class="cat-link-item" onclick="openTopic('Body parts')">Body parts</div>
+                            <div class="cat-link-item" onclick="openTopic('Clothes')">Clothes</div>
+                            <div class="cat-link-item" onclick="openTopic('Colors')">Colors</div>
+                            <div class="cat-link-item" onclick="openTopic('Daily routine')">Daily routine</div>
+                            <div class="cat-link-item" onclick="openTopic('Family')">Family</div>
+                            <div class="cat-link-item" onclick="openTopic('Food and Drinks')">Food - drinks</div>
+                            <div class="cat-link-item" onclick="openTopic('House & Furniture')">House</div>
+                            <div class="cat-link-item" onclick="openTopic('Jobs & Professions')">Jobs</div>
+                            <div class="cat-link-item" onclick="openTopic('Numbers')">Numbers</div>
+                            <div class="cat-link-item" onclick="openTopic('Time & Weather')">Time - weather</div>
+                            <div class="cat-link-item" onclick="openTopic('Transport')">Transport</div>
                         </div>
                     </div>
+
+                    <div class="cat-box">
+                        <div class="cat-box-header pink">🎧 SKILLS & READING</div>
+                        <div class="cat-links">
+                            <div class="cat-link-item" onclick="openTopic('Listening A1-A2')">Listening A1 - A2</div>
+                            <div class="cat-link-item" onclick="openTopic('Listening B1-B2')">Listening B1 - B2</div>
+                            <div class="cat-link-item" onclick="openTopic('Reading A1-A2')">Reading A1 - A2</div>
+                            <div class="cat-link-item" onclick="openTopic('Reading B1-B2')">Reading B1 - B2</div>
+                            <div class="cat-link-item" onclick="openTopic('Fairy Tales')">Fairy tales</div>
+                            <div class="cat-link-item" onclick="openTopic('Short Stories')">Short stories</div>
+                            <div class="cat-link-item" onclick="openTopic('Dialogues')">Dialogues</div>
+                            <div class="cat-link-item" onclick="openTopic('Video exercises')">Video exercises</div>
+                            <div class="cat-link-item" onclick="openTopic('Songs')">Songs worksheets</div>
+                            <div class="cat-link-item" onclick="openTopic('Pronunciation')">Pronunciation</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cat-box">
+                        <div class="cat-box-header orange">🇹🇷 LGS / MEB YAZILI</div>
+                        <div class="cat-links">
+                            <div class="cat-link-item" onclick="openTopic('6. Sınıf Yazılı')">6. Sınıf Yazılı Soruları</div>
+                            <div class="cat-link-item" onclick="openTopic('7. Sınıf Yazılı')">7. Sınıf Yazılı Soruları</div>
+                            <div class="cat-link-item" onclick="openTopic('8. Sınıf LGS Kelime')">8. Sınıf LGS Kelime Avı</div>
+                            <div class="cat-link-item" onclick="openTopic('LGS Çıkmış Sorular')">LGS Çıkmış Sorular</div>
+                            <div class="cat-link-item" onclick="openTopic('LGS Denemeleri')">LGS Genel Denemeler</div>
+                            <div class="cat-link-item" onclick="openTopic('Soru Kökleri Taktikleri')">Soru Kökleri Taktikleri</div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </section>
+
+            <div id="exerciseView" class="exercise-view">
+                <div class="view-header">
+                    <h2 class="view-title">Exercises: <span id="currentTopicName">Present Simple</span></h2>
+                    <button class="back-btn" onclick="goHome()">← MAIN INDEX</button>
+                </div>
+                
+                <div class="ex-list-container" id="exerciseGrid">
+                    </div>
+            </div>
+
+        </main>
     </div>
-
-    <div class="page" id="page-sinif6">
-        <div class="page-header" style="background: var(--neon-green);">
-            <div class="page-header-content">
-                <div class="page-header-breadcrumb">
-                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
-                    <span>/</span>
-                    <span style="color:#000;">6. Sınıf English</span>
-                </div>
-                <h1 class="page-header-title" style="color:#000; text-shadow:none;">📗 6. Sınıf MEB İngilizce</h1>
-                <p class="page-header-sub" style="color:#333; font-weight:700;">Türkçe açıklamalı kelime listeleri ve okul sınavlarına hazırlık notları.</p>
-            </div>
-        </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar">
-                <span class="filter-label">Kategoriler:</span>
-                <div id="tabs6" style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="topic-tab active-tab" onclick="filterTabs('6','Tümü',this)">📚 Tümü</button>
-                    <button class="topic-tab" onclick="filterTabs('6','Vocabulary',this)">📝 Kelime Listeleri (TR Çevirili)</button>
-                    <button class="topic-tab" onclick="filterTabs('6','Grammar',this)">⚙️ Grammar (Türkçe Açıklamalı)</button>
-                </div>
-            </div>
-            <div class="pdf-grid" id="pdfGrid6"></div>
-        </div>
-    </div>
-
-    <div class="page" id="page-sinif7">
-        <div class="page-header" style="background: var(--neon-blue);">
-            <div class="page-header-content">
-                <div class="page-header-breadcrumb">
-                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
-                    <span>/</span>
-                    <span style="color:#000;">7. Sınıf English</span>
-                </div>
-                <h1 class="page-header-title" style="color:#000; text-shadow:none;">📘 7. Sınıf MEB İngilizce</h1>
-                <p class="page-header-sub" style="color:#333; font-weight:700;">LGS öncesi son hazırlık. Detaylı grammar özetleri ve okuma anlama metinleri.</p>
-            </div>
-        </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar">
-                <span class="filter-label">Kategoriler:</span>
-                <div id="tabs7" style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="topic-tab active-tab" onclick="filterTabs('7','Tümü',this)">📚 Tümü</button>
-                    <button class="topic-tab" onclick="filterTabs('7','Vocabulary',this)">📝 Kelime Listeleri</button>
-                    <button class="topic-tab" onclick="filterTabs('7','Grammar',this)">⚙️ Grammar Özetleri</button>
-                    <button class="topic-tab" onclick="filterTabs('7','Test',this)">🎯 Ünite Testleri</button>
-                </div>
-            </div>
-            <div class="pdf-grid" id="pdfGrid7"></div>
-        </div>
-    </div>
-
-    <div class="page" id="page-sinif8">
-        <div class="page-header" style="background: var(--neon-pink);">
-            <div class="page-header-content">
-                <div class="page-header-breadcrumb">
-                    <span class="breadcrumb-link" onclick="navigate('home')">🏠 Ana Sayfa</span>
-                    <span>/</span>
-                    <span style="color:#fff;">8. Sınıf [LGS English]</span>
-                </div>
-                <h1 class="page-header-title" style="color:#fff; text-shadow:none;">🏆 8. Sınıf LGS İngilizce</h1>
-                <p class="page-header-sub" style="color:#fff; font-weight:700;">LGS 2026 sınav formatına uygun denemeler, taktikler ve çıkmış soru analizleri.</p>
-            </div>
-        </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar">
-                <span class="filter-label">Kategoriler:</span>
-                <div id="tabs8" style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="topic-tab active-tab" onclick="filterTabs('8','Tümü',this)">📚 Tümü</button>
-                    <button class="topic-tab" onclick="filterTabs('8','Vocabulary',this)">📝 LGS Kelime Avı</button>
-                    <button class="topic-tab" onclick="filterTabs('8','Taktik',this)">💡 Soru Kökleri & Taktikler</button>
-                    <button class="topic-tab" onclick="filterTabs('8','Deneme',this)">🏆 Yeni Nesil Denemeler</button>
-                </div>
-            </div>
-            <div class="pdf-grid" id="pdfGrid8"></div>
-        </div>
-    </div>
-
-
-    <footer>
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="logo-badge">📓 RENKLİ DEFTER</div>
-                <p>İstanbul'dan tüm Türkiye'ye uzanan, LGS ve okul sınavlarına hazırlanan ortaokul öğrencileri için en kapsamlı ücretsiz İngilizce platformu.</p>
-            </div>
-            
-            <div class="footer-links-col">
-                <h4>Eğitim İçerikleri</h4>
-                <a onclick="navigate('sinif6')">6. Sınıf MEB İngilizce</a>
-                <a onclick="navigate('sinif7')">7. Sınıf MEB İngilizce</a>
-                <a onclick="navigate('sinif8')">8. Sınıf LGS Taktikleri</a>
-            </div>
-
-            <div class="footer-links-col">
-                <h4>İletişim & Destek</h4>
-                <p>📍 İstanbul, Türkiye (Dijital Eğitim Ağı)</p>
-                <p>✉️ info@renklidefter.com.tr</p>
-                <p>🇹🇷 Türkiye'nin her yerinden ücretsiz erişim.</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <div class="footer-credit">© 2026 RENKLİ DEFTER Türkiye — Yaratıcı: <strong>ALP EREN</strong></div>
-            <div class="footer-copy">Milli Eğitim Bakanlığı müfredatı temel alınarak bağımsız hazırlanmıştır. Ticari amaçla kopyalanamaz.</div>
-        </div>
-    </footer>
 
     <script>
-    // ── TÜRKİYE / MEB ODAKLI VERİ TABANI ──────────────────────────────────────
-    const PDF_DATA = {
-        '6': [
-            { id:1, title:'Ünite 1 - Life: Türkçe Çevirili Kelime Listesi', ders:'Vocabulary', sinif:'6', new:false, color:'#00f5a0', icon:'📝', pages:2, size:'0.5 MB' },
-            { id:2, title:'Geniş Zaman (Present Simple) Türkçe Anlatım', ders:'Grammar', sinif:'6', new:true, color:'#00f5a0', icon:'⚙️', pages:4, size:'1.1 MB' },
-            { id:5, title:'Ünite 2 - Yummy Breakfast: Kelime Kartları', ders:'Vocabulary', sinif:'6', new:false, color:'#ff6b35', icon:'📝', pages:2, size:'0.6 MB' },
-            { id:6, title:'Sevdiğimiz/Sevmediğimiz Şeyleri Söyleme (Like/Dislike)', ders:'Grammar', sinif:'6', new:false, color:'#ff6b35', icon:'⚙️', pages:3, size:'0.9 MB' },
-            { id:8, title:'Ünite 3 - Downtown: Tüm Kelimeler ve Anlamları', ders:'Vocabulary', sinif:'6', new:true, color:'#00b4ff', icon:'📝', pages:3, size:'0.8 MB' },
-            { id:9, title:'Şimdiki Zaman (Present Continuous) Kuralları', ders:'Grammar', sinif:'6', new:false, color:'#00b4ff', icon:'⚙️', pages:5, size:'1.4 MB' },
-        ],
-        '7': [
-            { id:13, title:'Ünite 1 - Appearance & Personality Kelimeleri', ders:'Vocabulary', sinif:'7', new:true, color:'#00b4ff', icon:'📝', pages:3, size:'0.7 MB' },
-            { id:14, title:'Geçmiş Zaman (Past Simple) En Sade Anlatım', ders:'Grammar', sinif:'7', new:false, color:'#00b4ff', icon:'⚙️', pages:5, size:'1.3 MB' },
-            { id:16, title:'Ünite 2 - Sports: Çevirili Kelime ve Fiiller', ders:'Vocabulary', sinif:'7', new:false, color:'#ff006e', icon:'📝', pages:3, size:'0.9 MB' },
-            { id:17, title:'Geniş Zaman ve Şimdiki Zaman Karşılaştırması', ders:'Grammar', sinif:'7', new:false, color:'#ff006e', icon:'⚙️', pages:4, size:'1.1 MB' },
-            { id:21, title:'Ünite 4 - Wild Animals Belgesel Kelimeleri', ders:'Vocabulary', sinif:'7', new:false, color:'#00f5a0', icon:'📝', pages:3, size:'0.8 MB' },
-            { id:23, title:'7. Sınıf 1. Dönem İngilizce Yazılı Provası', ders:'Test', sinif:'7', new:true, color:'#c77dff', icon:'🎯', pages:10, size:'2.8 MB' },
-        ],
-        '8': [
-            { id:32, title:'LGS\'de En Çok Çıkan Soru Kökleri ve Türkçe Çevirileri', ders:'Taktik', sinif:'8', new:false, color:'#ffe94a', icon:'💡', pages:5, size:'1.2 MB' },
-            { id:33, title:'Tablo, Grafik ve Davetiye (Invitation) Okuma Taktikleri', ders:'Taktik', sinif:'8', new:true, color:'#ffe94a', icon:'💡', pages:6, size:'1.8 MB' },
-            { id:25, title:'LGS İngilizce Yeni Nesil Deneme Sınavı - Set 1', ders:'Deneme', sinif:'8', new:false, color:'#ff006e', icon:'🏆', pages:8, size:'2.2 MB' },
-            { id:28, title:'Ünite 1 - Friendship: LGS Kelime Avı', ders:'Vocabulary', sinif:'8', new:false, color:'#ff6b35', icon:'📝', pages:4, size:'1.0 MB' },
-            { id:30, title:'Ünite 2 - Teen Life: Çıkmış LGS Kelimeleri', ders:'Vocabulary', sinif:'8', new:false, color:'#c77dff', icon:'📝', pages:3, size:'0.9 MB' },
-            { id:36, title:'2026 LGS İngilizce Mega Deneme Sınavı (Çözümlü)', ders:'Deneme', sinif:'8', new:true, color:'#00b4ff', icon:'🏆', pages:15, size:'4.5 MB' },
-        ]
-    };
+        // Data generation tools for the massive Agendaweb feel
+        const exTypes = [
+            "Affirmative sentences", "Negative sentences", "Questions and interrogatives", 
+            "Mixed exercises", "Multiple choice test", "Fill in the blanks", 
+            "Write the correct form", "Match the sentences", "Choose the correct option",
+            "Error correction", "Drag and drop exercise", "Interactive quiz", 
+            "Grammar rules pdf", "Worksheet to print", "Listening and typing"
+        ];
+        
+        const levels = ["Beginner", "Elementary", "Intermediate", "A1", "A2", "B1"];
 
-    const ROUTES = {
-        'home': 'page-home',
-        'sinif6': 'page-sinif6',
-        'sinif7': 'page-sinif7',
-        'sinif8': 'page-sinif8'
-    };
-
-    function navigate(page) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const target = document.getElementById(ROUTES[page]);
-        if (target) {
-            target.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
         }
-        
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if (page === 'home') document.getElementById('nav-home')?.classList.add('active');
 
-        document.getElementById('navLinks').classList.remove('open');
-
-        if (page === 'sinif6' && !document.getElementById('pdfGrid6').hasChildNodes()) renderPDFGrid('6');
-        if (page === 'sinif7' && !document.getElementById('pdfGrid7').hasChildNodes()) renderPDFGrid('7');
-        if (page === 'sinif8' && !document.getElementById('pdfGrid8').hasChildNodes()) renderPDFGrid('8');
-    }
-
-    function renderPDFGrid(sinif, filter = 'Tümü') {
-        const grid = document.getElementById(`pdfGrid${sinif}`);
-        grid.innerHTML = '';
-        const items = PDF_DATA[sinif].filter(p => filter === 'Tümü' || p.ders.includes(filter));
-
-        items.forEach(pdf => {
-            const card = document.createElement('div');
-            card.className = 'pdf-card';
-            card.innerHTML = `
-                <div class="pdf-card-color" style="background:${pdf.color}">
-                    <div class="bg-text">${pdf.icon}</div>
-                    <div class="pdf-icon" style="color:#000;">${pdf.icon}</div>
-                </div>
-                <div class="pdf-card-info">
-                    <div class="pdf-badges">
-                        <span class="pdf-badge badge-cat">${pdf.ders}</span>
-                        ${pdf.new ? '<span class="pdf-badge badge-new">YENİ</span>' : ''}
-                    </div>
-                    <div class="pdf-title">${pdf.title}</div>
-                    <div class="pdf-meta">
-                        <span>${pdf.pages} Sayfa</span>
-                        <span>${pdf.size}</span>
-                    </div>
-                    <button class="pdf-download-btn" onclick="handleDownload('${pdf.title}')">
-                        📥 HEMEN İNDİR
-                    </button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-
-        if (items.length === 0) {
-            grid.innerHTML = `
-                <div style="grid-column:1/-1;text-align:center;padding:80px 20px;background:var(--bg-card);border-radius:20px;border:2px dashed rgba(255,255,255,0.2);">
-                    <div style="font-size:4rem;margin-bottom:15px;opacity:0.5;">📭</div>
-                    <h3 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:10px;">Bu kategoride henüz dosya yok</h3>
-                    <p style="color:var(--text-muted);">MEB müfredatına uygun yeni dökümanlar ekleniyor.</p>
-                </div>`;
+        function clearActiveLinks() {
+            document.querySelectorAll('.side-link').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.top-nav-btn').forEach(el => el.classList.remove('active'));
         }
-    }
 
-    function filterTabs(sinif, filter, btn) {
-        const container = document.getElementById(`tabs${sinif}`);
-        container.querySelectorAll('.topic-tab').forEach(t => t.className = 'topic-tab');
-        btn.classList.add('active-tab');
-        renderPDFGrid(sinif, filter);
-    }
+        function goHome() {
+            clearActiveLinks();
+            document.getElementById('nav-home').classList.add('active');
+            
+            document.getElementById('exerciseView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'block';
+            
+            const sidebar = document.querySelector('.main-content');
+            sidebar.scrollTop = 0;
+            
+            document.getElementById('sidebar').classList.remove('open');
+        }
 
-    function handleDownload(title) {
-        showToast(`📥 "${title}" indiriliyor... Başarılar dileriz!`);
-    }
+        function openCategory(catName) {
+            alert("This top-nav button would normally filter the homepage or scroll to the " + catName + " section.");
+            goHome();
+        }
 
-    function showToast(message) {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast`;
-        toast.innerHTML = `<span>${message}</span>`;
-        container.appendChild(toast);
-        
-        requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => container.removeChild(toast), 400);
-        }, 3500);
-    }
+        function openTopic(topicName) {
+            clearActiveLinks();
+            
+            // Try to find the link in sidebar to highlight it
+            const sideLinks = document.querySelectorAll('.side-link');
+            sideLinks.forEach(link => {
+                if(link.innerText.includes(topicName)) {
+                    link.classList.add('active');
+                }
+            });
 
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        document.getElementById('navLinks').classList.toggle('open');
-    });
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('exerciseView').style.display = 'block';
+            
+            document.getElementById('currentTopicName').textContent = topicName;
+            
+            const grid = document.getElementById('exerciseGrid');
+            grid.innerHTML = '';
+
+            // Generate massive list of exercises separated by groups
+            const groups = ["Level 1 - Easy", "Level 2 - Medium", "Level 3 - Hard", "Worksheets / PDF"];
+            
+            groups.forEach((groupName, groupIndex) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'ex-group';
+                
+                const title = document.createElement('div');
+                title.className = 'ex-group-title';
+                title.textContent = groupName;
+                groupDiv.appendChild(title);
+                
+                // Add 8-15 exercises per group to simulate agendaweb's dense lists
+                const exCount = Math.floor(Math.random() * 8) + 8; 
+                for(let i=1; i<=exCount; i++) {
+                    const item = document.createElement('div');
+                    item.className = 'ex-item';
+                    
+                    const type = exTypes[Math.floor(Math.random() * exTypes.length)];
+                    const lvl = levels[Math.floor(Math.random() * levels.length)];
+                    
+                    item.innerHTML = `
+                        <span>► ${topicName} - ${type} ${i}</span>
+                        <span class="level">${lvl}</span>
+                    `;
+                    
+                    item.onclick = function() {
+                        alert(`Opening Exercise: ${topicName} - ${type} ${i}`);
+                    };
+                    
+                    groupDiv.appendChild(item);
+                }
+                
+                grid.appendChild(groupDiv);
+            });
+
+            const mainContent = document.querySelector('.main-content');
+            mainContent.scrollTop = 0;
+            
+            document.getElementById('sidebar').classList.remove('open');
+        }
 
     </script>
 </body>
