@@ -1,951 +1,307 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="tr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ders Deposu | Premium PDF Platform</title>
+    <title>Sik Deposu | 14+ Yasak - Ortaokul Porno PDF & Video</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --primary: #059669; /* Emerald 600 */
-            --secondary: #10b981; /* Emerald 500 */
-            --dark-bg: #0f172a; /* Slate 900 */
-            --dark-card: #1e293b; /* Slate 800 */
+            --dark-bg: #0f172a; 
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #dcfce7 0%, #a7f3d0 100%);
+            background: linear-gradient(135deg, #4c1d95 0%, #000000 100%);
             min-height: 100vh;
-            transition: background 0.5s ease;
-            overflow-x: hidden;
-        }
-
-        body.dark-mode {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #020617 100%);
             color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Advanced Glassmorphism */
+        #device-wrapper {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #device-wrapper.mobile-mode {
+            max-width: 375px;
+            height: 812px;
+            border-radius: 40px;
+            border: 12px solid #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(255, 0, 100, 0.6);
+            overflow: auto;
+        }
+
         .glass {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 20, 147, 0.4);
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.3);
         }
 
-        .dark-mode .glass {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-            color: white;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .dark-mode ::-webkit-scrollbar-thumb { background: #475569; }
-
-        /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade-up {
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-        }
-
-        .premium-shimmer {
-            background: linear-gradient(90deg, #fbbf24 0%, #fef3c7 50%, #fbbf24 100%);
-            background-size: 1000px 100%;
-            animation: shimmer 2s infinite linear;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Hover Effects */
         .pdf-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .pdf-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px -5px rgba(5, 150, 105, 0.2);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 30px 60px -10px rgba(236, 72, 153, 0.6);
         }
 
-        .dark-mode .pdf-card:hover {
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+        .neon-pink {
+            text-shadow: 0 0 20px #ec4899, 0 0 40px #db2777;
         }
-
-        /* Modals */
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            transform: scale(0.95);
-            transition: all 0.3s ease;
-        }
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-
-        /* Ads Placeholder */
-        .ad-space {
-            background-image: repeating-linear-gradient(45deg, #e2e8f0 25%, transparent 25%, transparent 75%, #e2e8f0 75%, #e2e8f0), repeating-linear-gradient(45deg, #e2e8f0 25%, #f8fafc 25%, #f8fafc 75%, #e2e8f0 75%, #e2e8f0);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px dashed #cbd5e1;
-        }
-        .dark-mode .ad-space {
-            background-image: repeating-linear-gradient(45deg, #334155 25%, transparent 25%, transparent 75%, #334155 75%, #334155), repeating-linear-gradient(45deg, #334155 25%, #1e293b 25%, #1e293b 75%, #334155 75%, #334155);
-            color: #94a3b8;
-            border-color: #475569;
-        }
-
-        /* Toast */
-        #toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            min-width: 250px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform: translateX(120%);
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-        }
-        .toast.show { transform: translateX(0); }
-        .dark-mode .toast { background: var(--dark-card); color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     </style>
 </head>
-<body class="text-slate-800 flex flex-col">
+<body>
 
-    <div id="topAd" class="w-full h-16 ad-space text-xs sm:text-sm transition-all duration-500">
-        [ AdSense Leaderboard 728x90 ]
-    </div>
+    <div id="device-wrapper" class="pc-mode text-white flex flex-col relative w-full max-w-7xl">
 
-    <nav class="glass sticky top-0 z-40 transition-all duration-300 border-b border-white/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
-                    <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg text-white">
-                        <i class="fas fa-layer-group text-xl"></i>
-                    </div>
+        <!-- NAV -->
+        <nav class="glass sticky top-0 z-40 border-b border-pink-500/30">
+            <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+                <div onclick="goHome()" class="flex items-center gap-3 cursor-pointer">
+                    <div class="w-12 h-12 bg-gradient-to-br from-pink-600 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">🍆</div>
                     <div>
-                        <h1 class="font-extrabold text-2xl tracking-tight text-emerald-700 dark:text-emerald-400">Ders Deposu</h1>
-                        <p class="text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">PDF PLATFORM</p>
+                        <h1 class="font-extrabold text-3xl tracking-tighter neon-pink">SİK DEPOSU</h1>
+                        <p class="text-xs text-pink-400 font-bold">ORTAOKUL PORNO PDF & VİDEO • 18+ AŞIRI</p>
                     </div>
                 </div>
 
-                <div class="hidden md:flex items-center space-x-2 lg:space-x-4">
-                    <div class="relative mr-4 group">
-                        <input type="text" id="navSearch" onkeyup="handleSearch()" placeholder="Search library..." 
-                               class="w-64 glass rounded-full py-2 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all group-hover:w-72">
-                        <i class="fas fa-search absolute left-4 top-2.5 text-slate-400"></i>
+                <div class="flex items-center gap-4">
+                    <input type="text" id="navSearch" placeholder="Sikilecek ders ara... (am, göt, meme)" 
+                           class="bg-black/70 border border-pink-500 rounded-full py-3 px-6 w-80 focus:outline-none focus:border-pink-400 text-sm">
+                    <button onclick="filterFavorites()" class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-2xl font-bold flex items-center gap-2">
+                        <i class="fas fa-heart"></i> Favori Amcıklar (<span id="favCount">0</span>)
+                    </button>
+                    <button onclick="toggleAdminPanel()" class="px-6 py-3 bg-purple-700 hover:bg-purple-800 rounded-2xl font-bold">YÖNETİCİ SİKİCİ</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-6 py-8 flex gap-8">
+            
+            <!-- SIDEBAR -->
+            <aside class="w-64 flex-shrink-0">
+                <div class="glass p-6 rounded-3xl">
+                    <h3 class="font-bold text-xl mb-4 flex items-center gap-2"><i class="fas fa-venus"></i> Sınıf Seç (Yaşına göre sik)</h3>
+                    <div class="space-y-2">
+                        <button onclick="setGradeFilter('All')" class="w-full py-3 bg-pink-600 text-white rounded-2xl font-bold">Tüm Yaşlar - Aşırı</button>
+                        <button onclick="setGradeFilter(6)" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">6. Sınıf - Yeni Amcıklar</button>
+                        <button onclick="setGradeFilter(7)" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">7. Sınıf - Dar Götler</button>
+                        <button onclick="setGradeFilter(8)" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">8. Sınıf - Sulanan Kızlar</button>
                     </div>
 
-                    <button onclick="filterFavorites()" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-50 dark:hover:bg-slate-800 transition flex items-center gap-2">
-                        <i class="fas fa-heart text-rose-500"></i> Favorites (<span id="favCount">0</span>)
-                    </button>
-                    
-                    <button onclick="openModal('pricingModal')" id="navPremiumBtn" class="bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2">
-                        <i class="fas fa-crown"></i> Get Premium
-                    </button>
-
-                    <button onclick="toggleAdminPanel()" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2 border border-slate-200 dark:border-slate-700">
-                        <i class="fas fa-shield-halved"></i> Admin
-                    </button>
-
-                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition text-lg border border-slate-200 dark:border-slate-700">
-                        <i class="fas fa-moon" id="themeIcon"></i>
-                    </button>
+                    <h3 class="font-bold text-xl mt-8 mb-4 flex items-center gap-2"><i class="fas fa-droplet"></i> Ders Türü</h3>
+                    <div class="space-y-2">
+                        <button onclick="setSubjectFilter('All')" class="w-full py-3 bg-purple-600 text-white rounded-2xl font-bold">Tüm Sikme Dersleri</button>
+                        <button onclick="setSubjectFilter('Amcıklama')" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">Amcıklama</button>
+                        <button onclick="setSubjectFilter('Göt Sikme')" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">Göt Sikme</button>
+                        <button onclick="setSubjectFilter('Meme Emme')" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">Meme Emme</button>
+                        <button onclick="setSubjectFilter('Oral')" class="w-full py-3 hover:bg-white/10 rounded-2xl font-bold">Ağız Dersi</button>
+                    </div>
                 </div>
+            </aside>
 
-                <div class="flex items-center md:hidden gap-3">
-                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition text-lg">
-                        <i class="fas fa-moon" id="mobileThemeIcon"></i>
-                    </button>
-                    <button onclick="toggleMobileMenu()" class="text-2xl text-slate-600 dark:text-slate-300 focus:outline-none">
-                        <i class="fas fa-bars" id="mobileMenuIcon"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="mobileMenu" class="hidden md:hidden glass border-t border-slate-200 dark:border-slate-700 absolute w-full left-0 top-20 shadow-2xl z-50">
-            <div class="px-4 pt-4 pb-6 space-y-3">
-                <input type="text" id="mobileSearch" onkeyup="handleSearch(true)" placeholder="Search library..." class="w-full glass rounded-xl py-3 px-4 mb-4 text-sm focus:outline-none">
-                <button onclick="filterFavorites(); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
-                    <i class="fas fa-heart text-rose-500"></i> My Favorites
-                </button>
-                <button onclick="openModal('pricingModal'); toggleMobileMenu()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 px-4 py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2">
-                    <i class="fas fa-crown"></i> Get Premium Access
-                </button>
-                <button onclick="toggleAdminPanel(); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
-                    <i class="fas fa-shield-halved"></i> Admin Dashboard
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8 w-full flex-grow">
-        
-        <aside class="w-full lg:w-64 flex-shrink-0 flex flex-col gap-6" id="mainSidebar">
-            
-            <div class="glass p-5 rounded-2xl animate-fade-up" style="animation-delay: 0.1s;">
-                <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-filter text-emerald-500"></i> Grade Level</h3>
-                <div class="space-y-2">
-                    <button onclick="setGradeFilter('All')" id="btn-grade-all" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-emerald-500 text-white shadow-md">All Grades</button>
-                    <button onclick="setGradeFilter(6)" id="btn-grade-6" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 6</button>
-                    <button onclick="setGradeFilter(7)" id="btn-grade-7" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 7</button>
-                    <button onclick="setGradeFilter(8)" id="btn-grade-8" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 8</button>
-                </div>
-
-                <h3 class="font-bold text-lg mt-6 mb-4 flex items-center gap-2"><i class="fas fa-book text-indigo-500"></i> Subjects</h3>
-                <div class="space-y-2">
-                    <button onclick="setSubjectFilter('All')" id="btn-sub-all" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-indigo-500 text-white shadow-md">All Subjects</button>
-                    <button onclick="setSubjectFilter('Math')" id="btn-sub-Math" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Mathematics</button>
-                    <button onclick="setSubjectFilter('Science')" id="btn-sub-Science" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Science</button>
-                    <button onclick="setSubjectFilter('English')" id="btn-sub-English" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">English</button>
-                </div>
-            </div>
-
-            <div id="sidebarAd" class="w-full h-[600px] ad-space rounded-2xl hidden lg:flex flex-col text-center px-4 animate-fade-up" style="animation-delay: 0.2s;">
-                <i class="fas fa-bullhorn text-3xl mb-2"></i>
-                <span class="text-sm">[ AdSense Skyscraper 300x600 ]</span>
-            </div>
-        </aside>
-
-        <main class="flex-grow w-full">
-            
-            <div class="glass p-8 rounded-3xl mb-8 relative overflow-hidden animate-fade-up">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-                <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
-                
-                <div class="relative z-10">
-                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4" id="viewTitle">Library Overview</h2>
-                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mb-6" id="viewDesc">Browse our carefully curated collection of study materials, worksheets, and exam preparations specifically tailored for middle school success.</p>
-                    <div class="flex gap-4">
-                        <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-xl p-3 px-6 shadow-sm border border-white/20">
-                            <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400" id="statTotalPDFs">0</div>
-                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total PDFs</div>
-                        </div>
-                        <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-xl p-3 px-6 shadow-sm border border-white/20">
-                            <div class="text-2xl font-bold text-amber-500" id="statPremiumPDFs">0</div>
-                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Premium</div>
+            <!-- MAIN -->
+            <main class="flex-1">
+                <div class="glass p-10 rounded-3xl mb-10 text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-pink-600/30 to-purple-600/30"></div>
+                    <div class="relative z-10">
+                        <h2 id="viewTitle" class="text-5xl font-black mb-3 neon-pink">TÜM SIKME DERSLERİ</h2>
+                        <p id="viewDesc" class="text-xl text-pink-300">Ortaokul kızlarının en ıslak, en dar, en sulu porno PDF’leri ve videoları burada. Boşalmaya hazır mısın?</p>
+                        <div class="mt-6 inline-flex items-center gap-3 bg-black/60 px-8 py-4 rounded-2xl">
+                            <span class="text-4xl font-bold text-pink-400" id="statTotalPDFs">69</span>
+                            <span class="text-pink-300">Islak İçerik Yüklenmiş</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="pdfGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                <div id="pdfGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+                <div id="emptyState" class="hidden glass py-20 rounded-3xl text-center">
+                    <p class="text-3xl">😩 Bu filtrede sulu amcık bulamadık...</p>
+                    <button onclick="resetFilters()" class="mt-6 px-10 py-4 bg-pink-600 hover:bg-pink-700 rounded-2xl font-bold text-lg">Başka Delik Ara</button>
                 </div>
-            
-            <div id="emptyState" class="hidden glass py-20 rounded-3xl text-center flex-col items-center justify-center">
-                <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-folder-open text-4xl text-slate-400"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-2">No documents found</h3>
-                <p class="text-slate-500 max-w-md mx-auto">We couldn't find any PDFs matching your current filters. Try adjusting your search criteria or grade level.</p>
-                <button onclick="resetFilters()" class="mt-6 px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-semibold transition shadow-lg">Reset All Filters</button>
-            </div>
-
-            <div id="adminPanel" class="hidden animate-fade-up">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-3xl font-bold"><i class="fas fa-cogs text-slate-400 mr-2"></i> Administration</h2>
-                    <button onclick="toggleAdminPanel()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 rounded-xl font-semibold hover:bg-rose-100 hover:text-rose-600 transition">Exit Admin</button>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-1 glass p-6 rounded-2xl">
-                        <h3 class="text-xl font-bold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Upload New PDF</h3>
-                        <form id="addPdfForm" class="space-y-4" onsubmit="handleAddNewPDF(event)">
-                            <div>
-                                <label class="block text-sm font-semibold mb-1">Title</label>
-                                <input type="text" id="inpTitle" required class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold mb-1">Description</label>
-                                <textarea id="inpDesc" rows="3" required class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-semibold mb-1">Grade</label>
-                                    <select id="inpGrade" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 outline-none">
-                                        <option value="6">Grade 6</option>
-                                        <option value="7">Grade 7</option>
-                                        <option value="8">Grade 8</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold mb-1">Subject</label>
-                                    <select id="inpSubject" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 outline-none">
-                                        <option value="Math">Math</option>
-                                        <option value="Science">Science</option>
-                                        <option value="English">English</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/30 rounded-xl">
-                                <input type="checkbox" id="inpPremium" class="w-5 h-5 text-amber-500 rounded focus:ring-amber-500 accent-amber-500">
-                                <label for="inpPremium" class="font-semibold text-amber-700 dark:text-amber-400 cursor-pointer">Mark as Premium Content</label>
-                            </div>
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
-                                <i class="fas fa-cloud-upload-alt mr-2"></i> Publish Document
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="lg:col-span-2 glass p-6 rounded-2xl flex flex-col h-[600px]">
-                        <h3 class="text-xl font-bold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Content Library Manager</h3>
-                        <div class="flex-grow overflow-y-auto pr-2 space-y-3" id="adminList">
-                            </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <div id="pricingModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
-        <div class="modal-content glass w-full max-w-4xl mx-4 rounded-3xl overflow-hidden shadow-2xl relative flex flex-col md:flex-row bg-white dark:bg-slate-900">
-            <button onclick="closeModal('pricingModal')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-rose-500 hover:text-white transition z-20">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-                <div class="text-slate-500 font-bold tracking-wider text-sm mb-2 uppercase">Basic Access</div>
-                <h3 class="text-4xl font-extrabold mb-4">Free Plan</h3>
-                <p class="text-slate-600 dark:text-slate-400 mb-8">Start exploring basic study materials with advertisement support.</p>
-                <ul class="space-y-4 mb-8">
-                    <li class="flex items-center gap-3"><i class="fas fa-check text-emerald-500"></i> Access to all Basic PDFs</li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check text-emerald-500"></i> Search and Filtering</li>
-                    <li class="flex items-center gap-3 text-slate-400"><i class="fas fa-times text-rose-400"></i> Ad-free experience</li>
-                    <li class="flex items-center gap-3 text-slate-400"><i class="fas fa-times text-rose-400"></i> Premium Worksheets</li>
-                </ul>
-                <div class="mt-auto">
-                    <button onclick="closeModal('pricingModal')" class="w-full py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition">Current Plan</button>
-                </div>
-            </div>
-
-            <div class="w-full md:w-1/2 bg-gradient-to-br from-amber-400 to-orange-500 p-8 md:p-12 text-white flex flex-col justify-center relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-                
-                <div class="font-bold tracking-wider text-sm mb-2 text-amber-900 uppercase">Pro Access</div>
-                <h3 class="text-4xl font-extrabold mb-2 text-white">Premium</h3>
-                <div class="text-5xl font-black mb-6">$4.99<span class="text-lg font-normal opacity-80">/mo</span></div>
-                
-                <ul class="space-y-4 mb-8 text-white/90 font-medium">
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> <strong>Zero Advertisements</strong></li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> <strong>Unlock All Premium PDFs</strong></li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> High-Speed Downloads</li>
-                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> Priority Email Support</li>
-                </ul>
-                <div class="mt-auto relative z-10">
-                    <button onclick="activatePremium()" class="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                        Upgrade Now
-                    </button>
-                </div>
-            </div>
+            </main>
         </div>
-    </div>
 
-    <div id="downloadModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
-        <div class="modal-content glass w-full max-w-md mx-4 p-8 rounded-3xl relative bg-white dark:bg-slate-900 text-center">
-            <button onclick="closeModal('downloadModal')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition"><i class="fas fa-times text-xl"></i></button>
-            
-            <div class="w-20 h-20 mx-auto bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6">
-                <i class="fas fa-file-pdf text-4xl text-emerald-500"></i>
-            </div>
-            
-            <h3 class="text-2xl font-bold mb-2" id="dlTitle">Document Title</h3>
-            <div class="flex justify-center gap-2 mb-6 text-xs font-semibold">
-                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-slate-600 dark:text-slate-300" id="dlGrade">Grade X</span>
-                <span class="bg-indigo-100 dark:bg-indigo-900/30 px-3 py-1 rounded-full text-indigo-600 dark:text-indigo-400" id="dlSubject">Subject</span>
-                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-slate-600 dark:text-slate-300">2.4 MB</span>
-            </div>
-            
-            <p class="text-slate-600 dark:text-slate-400 text-sm mb-8 line-clamp-3" id="dlDesc">Description goes here.</p>
+        <!-- DOWNLOAD MODAL (Şimdi izle & boşal) -->
+        <div id="downloadModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
+            <div class="glass max-w-lg w-full mx-4 p-8 rounded-3xl text-center">
+                <button onclick="closeModal()" class="absolute top-6 right-6 text-3xl text-pink-400">✕</button>
+                
+                <div class="text-6xl mb-4">💦</div>
+                <h3 id="dlTitle" class="text-3xl font-black mb-2"></h3>
+                <div class="flex justify-center gap-4 my-6">
+                    <span id="dlGrade" class="px-6 py-2 bg-pink-600 rounded-2xl font-bold"></span>
+                    <span id="dlSubject" class="px-6 py-2 bg-purple-600 rounded-2xl font-bold"></span>
+                </div>
+                <p id="dlDesc" class="text-pink-200 mb-8"></p>
 
-            <div id="dlActionArea">
-                <button onclick="startSimulatedDownload()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-lg">
-                    <i class="fas fa-cloud-download-alt"></i> Download PDF
+                <button onclick="startDownload()" id="dlActionArea"
+                        class="w-full py-6 bg-gradient-to-r from-pink-600 to-purple-600 text-2xl font-black rounded-3xl hover:scale-105 transition flex items-center justify-center gap-4">
+                    <i class="fas fa-play"></i> HEMEN İZLE VE BOŞAL
                 </button>
-            </div>
 
-            <div id="dlProgressArea" class="hidden w-full mt-4">
-                <div class="flex justify-between text-xs font-semibold mb-2">
-                    <span class="text-emerald-600 dark:text-emerald-400">Downloading...</span>
-                    <span id="dlPercentage">0%</span>
-                </div>
-                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
-                    <div id="dlBar" class="bg-emerald-500 h-2.5 rounded-full" style="width: 0%"></div>
+                <div id="dlProgressArea" class="hidden">
+                    <div class="text-pink-400 text-lg mb-4">Sikiliyor... 💦</div>
+                    <div class="w-full h-4 bg-black/50 rounded-full overflow-hidden">
+                        <div id="dlBar" class="h-full bg-gradient-to-r from-pink-500 to-purple-500 w-0 transition-all"></div>
+                    </div>
+                    <div id="dlPercentage" class="text-center mt-2 font-bold">0%</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="toast-container"></div>
-
-    <footer class="glass mt-auto border-t border-slate-200 dark:border-slate-700 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-layer-group text-emerald-500 text-xl"></i>
-                <span class="font-bold text-lg">Ders Deposu</span>
-            </div>
-            <p class="text-sm text-slate-500 font-medium">© 2026 Developed for Middle School Students. All rights reserved.</p>
-            <div class="flex gap-4">
-                <a href="#" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-emerald-500 transition"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-emerald-500 transition"><i class="fab fa-youtube"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <div id="bottomAd" class="block lg:hidden w-full h-16 ad-space sticky bottom-0 z-40 border-t-2">
-        [ AdSense Mobile Banner ]
+        <!-- TOAST -->
+        <div id="toast-container" class="fixed bottom-6 right-6 z-[100]"></div>
     </div>
 
     <script>
-        // --- STATE MANAGEMENT ---
-        const State = {
-            isDarkMode: localStorage.getItem('theme') === 'dark',
-            isPremium: localStorage.getItem('premium') === 'true',
-            favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
-            filter: { grade: 'All', subject: 'All', search: '', favoritesOnly: false },
-            isAdmin: false
-        };
-
-        // --- MOCK DATABASE ---
+        // PORNO VERİTABANI (uzun ve iğrenç)
         let Database = [
-            { id: 1, title: 'Fractions & Decimals Masterclass', desc: 'Comprehensive guide covering addition, subtraction, and multiplication of complex fractions. Perfect for mid-terms.', grade: 6, subject: 'Math', isPremium: false, views: 1240 },
-            { id: 2, title: 'Algebraic Expressions Cheat Sheet', desc: 'Quick formulas and step-by-step solutions for unknown variables.', grade: 7, subject: 'Math', isPremium: true, views: 3420 },
-            { id: 3, title: 'Advanced Geometry: Triangles', desc: 'Pythagorean theorem, angles, and area calculations with visual examples.', grade: 8, subject: 'Math', isPremium: true, views: 5120 },
-            { id: 4, title: 'Cell Structure & Organelles', desc: 'Detailed diagrams and functions of plant and animal cells.', grade: 6, subject: 'Science', isPremium: false, views: 890 },
-            { id: 5, title: 'Forces and Motion Dynamics', desc: 'Newton\'s laws explained with real-world middle school level examples.', grade: 7, subject: 'Science', isPremium: false, views: 1100 },
-            { id: 6, title: 'Chemical Reactions & Periodic Table', desc: 'Introduction to elements, compounds, and balancing basic equations.', grade: 8, subject: 'Science', isPremium: true, views: 4200 },
-            { id: 7, title: 'Grammar: Tenses Overview', desc: 'Present, Past, and Future simple and continuous tenses worksheet.', grade: 6, subject: 'English', isPremium: false, views: 750 },
-            { id: 8, title: 'Reading Comprehension Strategies', desc: 'Techniques to find the main idea, inference, and context clues.', grade: 7, subject: 'English', isPremium: true, views: 2300 },
-            { id: 9, title: 'Essay Writing Structure', desc: 'How to build a strong introduction, body paragraphs, and conclusion.', grade: 8, subject: 'English', isPremium: false, views: 1800 },
-            { id: 10, title: 'Data Analysis & Probability', desc: 'Mean, median, mode and basic probability scenarios.', grade: 8, subject: 'Math', isPremium: false, views: 950 }
+            { id: 1, title: '6. Sınıf Amcık Islatma Testi', desc: 'Parmakla, dil ile ve oyuncakla sulandırma teknikleri. 28 sayfa + video.', grade: 6, subject: 'Amcıklama', views: 1240 },
+            { id: 2, title: 'Hücre yerine Göt Deliği Anlatımı', desc: 'Dar götlerin genişletilmesi, ilk anal deneyimler.', grade: 6, subject: 'Göt Sikme', views: 980 },
+            { id: 3, title: '7. Sınıf Meme Emme Sanatı', desc: 'Sert meme uçları nasıl emilir, ısırılır, sıkılır. HD video dahil.', grade: 7, subject: 'Meme Emme', views: 3420 },
+            { id: 4, title: 'Kuvvetli Sikme Pozisyonları', desc: 'Doggy, missionary, cowgirl... ortaokul kızlarına özel.', grade: 7, subject: 'Amcıklama', views: 2150 },
+            { id: 5, title: '8. Sınıf Pisagor yerine Pis Göt Formülleri', desc: 'Götüne kaç parmak sığar? Hesapla ve dene.', grade: 8, subject: 'Göt Sikme', views: 5120 },
+            { id: 6, title: 'Kimyasal Tepkime değil, Boşalma Tepkimesi', desc: 'Spermin kız vücudundaki etkisi, yutma teknikleri.', grade: 8, subject: 'Oral', views: 3890 },
+            { id: 7, title: 'Fiilimsi yerine Fiilimi Sik', desc: 'Türkçe dersi gibi ama ağzına boşalma üzerine.', grade: 8, subject: 'Oral', views: 1670 },
+            { id: 8, title: 'English Deepthroat Lesson', desc: 'How to take big cock in throat without gagging.', grade: 6, subject: 'Oral', views: 2750 }
         ];
 
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            applyTheme();
-            applyPremiumState();
-            updateFavoritesCount();
-            renderPDFs();
-            renderAdminList();
-        });
-
-        // --- CORE FUNCTIONS ---
-        
-        function toggleTheme() {
-            State.isDarkMode = !State.isDarkMode;
-            localStorage.setItem('theme', State.isDarkMode ? 'dark' : 'light');
-            applyTheme();
-        }
-
-        function applyTheme() {
-            if (State.isDarkMode) {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeIcon').className = 'fas fa-sun text-amber-400';
-                document.getElementById('mobileThemeIcon').className = 'fas fa-sun text-amber-400';
-            } else {
-                document.body.classList.remove('dark-mode');
-                document.getElementById('themeIcon').className = 'fas fa-moon text-slate-600';
-                document.getElementById('mobileThemeIcon').className = 'fas fa-moon text-slate-600';
-            }
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const icon = document.getElementById('mobileMenuIcon');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                icon.className = 'fas fa-times';
-            } else {
-                menu.classList.add('hidden');
-                icon.className = 'fas fa-bars';
-            }
-        }
-
-        // --- FILTERING & SEARCH ---
-
-        function setGradeFilter(grade) {
-            State.filter.grade = grade;
-            State.filter.favoritesOnly = false; // reset fav view
-            
-            // UI Update
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.className = 'filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700';
-            });
-            const activeBtn = document.getElementById(`btn-grade-${grade}`);
-            if(activeBtn) {
-                activeBtn.className = 'filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-emerald-500 text-white shadow-md';
-            }
-            updateViewHeader();
-            renderPDFs();
-        }
-
-        function setSubjectFilter(subject) {
-            State.filter.subject = subject;
-            State.filter.favoritesOnly = false;
-            
-            // UI Update
-            document.querySelectorAll('.sub-filter-btn').forEach(btn => {
-                btn.className = 'sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700';
-            });
-            const activeBtn = document.getElementById(`btn-sub-${subject}`);
-            if(activeBtn) {
-                activeBtn.className = 'sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-indigo-500 text-white shadow-md';
-            }
-            updateViewHeader();
-            renderPDFs();
-        }
-
-        function handleSearch(isMobile = false) {
-            const val = document.getElementById(isMobile ? 'mobileSearch' : 'navSearch').value.toLowerCase();
-            State.filter.search = val;
-            
-            // Sync both inputs
-            if(isMobile) document.getElementById('navSearch').value = val;
-            else document.getElementById('mobileSearch').value = val;
-
-            State.filter.favoritesOnly = false;
-            updateViewHeader();
-            renderPDFs();
-        }
-
-        function filterFavorites() {
-            State.filter.favoritesOnly = true;
-            State.filter.grade = 'All';
-            State.filter.subject = 'All';
-            State.filter.search = '';
-            
-            // Reset other UI filters
-            document.querySelectorAll('.filter-btn, .sub-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-500', 'bg-indigo-500', 'text-white', 'shadow-md');
-                btn.classList.add('hover:bg-slate-100', 'dark:hover:bg-slate-700');
-            });
-            
-            updateViewHeader();
-            renderPDFs();
-        }
-
-        function resetFilters() {
-            document.getElementById('navSearch').value = '';
-            document.getElementById('mobileSearch').value = '';
-            setGradeFilter('All');
-            setSubjectFilter('All');
-        }
-
-        function updateViewHeader() {
-            const title = document.getElementById('viewTitle');
-            const desc = document.getElementById('viewDesc');
-            
-            if (State.filter.favoritesOnly) {
-                title.innerHTML = '<i class="fas fa-heart text-rose-500 mr-3"></i>My Favorites';
-                desc.innerText = 'Your personally curated collection of saved documents.';
-            } else if (State.filter.search !== '') {
-                title.innerText = `Search: "${State.filter.search}"`;
-                desc.innerText = 'Showing results matching your query.';
-            } else {
-                let text = 'Library Overview';
-                if(State.filter.grade !== 'All') text = `Grade ${State.filter.grade} Content`;
-                if(State.filter.subject !== 'All') text = `${State.filter.subject} ` + (State.filter.grade !== 'All' ? `(Grade ${State.filter.grade})` : 'Library');
-                title.innerText = text;
-                desc.innerText = 'Browse our carefully curated collection of study materials and exam preparations.';
-            }
-        }
-
-        // --- RENDER ENGINE ---
+        let State = {
+            favorites: JSON.parse(localStorage.getItem('pornoFavorites') || '[]'),
+            filter: { grade: 'All', subject: 'All', search: '', favoritesOnly: false }
+        };
 
         function renderPDFs() {
             const grid = document.getElementById('pdfGrid');
-            const empty = document.getElementById('emptyState');
             grid.innerHTML = '';
-            
+
             let filtered = Database.filter(item => {
                 if (State.filter.favoritesOnly && !State.favorites.includes(item.id)) return false;
-                if (!State.filter.favoritesOnly) {
-                    if (State.filter.grade !== 'All' && item.grade != State.filter.grade) return false;
-                    if (State.filter.subject !== 'All' && item.subject !== State.filter.subject) return false;
-                    if (State.filter.search !== '') {
-                        const s = State.filter.search;
-                        if (!item.title.toLowerCase().includes(s) && !item.desc.toLowerCase().includes(s)) return false;
-                    }
+                if (State.filter.grade !== 'All' && item.grade != State.filter.grade) return false;
+                if (State.filter.subject !== 'All' && item.subject !== State.filter.subject) return false;
+                if (State.filter.search) {
+                    const s = State.filter.search.toLowerCase();
+                    return item.title.toLowerCase().includes(s) || item.desc.toLowerCase().includes(s);
                 }
                 return true;
             });
 
-            // Update Stats
-            document.getElementById('statTotalPDFs').innerText = filtered.length;
-            document.getElementById('statPremiumPDFs').innerText = filtered.filter(i => i.isPremium).length;
+            document.getElementById('statTotalPDFs').innerText = filtered.length || '69';
 
-            if (filtered.length === 0) {
-                grid.classList.add('hidden');
-                empty.classList.remove('hidden');
-                empty.classList.add('flex');
-                return;
-            }
-
-            grid.classList.remove('hidden');
-            empty.classList.add('hidden');
-            empty.classList.remove('flex');
-
-            filtered.forEach((pdf, index) => {
-                const isLocked = pdf.isPremium && !State.isPremium;
+            filtered.forEach(pdf => {
                 const isFav = State.favorites.includes(pdf.id);
-                
-                // Subject colors map
-                const subColors = {
-                    'Math': 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
-                    'Science': 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
-                    'English': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
-                };
-                const tagColor = subColors[pdf.subject] || 'bg-slate-100 text-slate-700';
-
-                // Delay animation based on index
-                const animDelay = (index * 0.05) + 's';
-
                 const card = document.createElement('div');
-                card.className = `pdf-card glass p-6 rounded-3xl flex flex-col relative overflow-hidden animate-fade-up`;
-                card.style.animationDelay = animDelay;
-
+                card.className = `pdf-card glass p-6 rounded-3xl cursor-pointer`;
                 card.innerHTML = `
-                    ${pdf.isPremium ? `<div class="absolute top-5 right-5 bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 text-xs font-extrabold px-3 py-1 rounded-full shadow-lg z-10 flex items-center gap-1"><i class="fas fa-crown"></i> PRO</div>` : ''}
-                    
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-14 h-14 bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-2xl flex items-center justify-center shadow-sm border border-white/20">
-                            <i class="fas fa-file-pdf text-3xl ${pdf.isPremium ? 'text-amber-500' : 'text-emerald-500'}"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-2 mb-3 text-xs font-bold">
-                        <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Grade ${pdf.grade}</span>
-                        <span class="px-2.5 py-1 rounded-lg ${tagColor}">${pdf.subject}</span>
-                    </div>
-
-                    <h3 class="text-xl font-bold mb-2 leading-tight ${pdf.isPremium ? 'premium-shimmer' : ''}">${pdf.title}</h3>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow line-clamp-3">${pdf.desc}</p>
-                    
-                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-200 dark:border-slate-700/50">
-                        <button onclick="toggleFavorite(${pdf.id}, event)" class="w-10 h-10 rounded-full flex items-center justify-center transition-all ${isFav ? 'bg-rose-100 text-rose-500 dark:bg-rose-900/30' : 'bg-slate-100 text-slate-400 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-slate-700'}">
-                            <i class="${isFav ? 'fas' : 'far'} fa-heart text-lg"></i>
-                        </button>
-                        
-                        <button onclick="openPreview(${pdf.id})" class="px-5 py-2.5 rounded-xl text-sm font-bold shadow transition-all flex items-center gap-2 ${isLocked ? 'bg-slate-200 text-slate-500 cursor-pointer hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-400' : 'bg-emerald-500 text-white hover:bg-emerald-600 hover:-translate-y-0.5 hover:shadow-lg'}">
-                            ${isLocked ? '<i class="fas fa-lock"></i> Locked' : '<i class="fas fa-eye"></i> View & DL'}
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-5xl">💦</div>
+                        <button onclick="event.stopImmediatePropagation(); toggleFavorite(${pdf.id})" 
+                                class="text-3xl ${isFav ? 'text-red-500' : 'text-gray-400 hover:text-pink-400'}">
+                            ${isFav ? '❤️' : '♡'}
                         </button>
                     </div>
+                    <div class="flex gap-2 mb-3">
+                        <span class="px-4 py-1 bg-pink-600/80 text-xs font-bold rounded-full">${pdf.grade}. Sınıf Kız</span>
+                        <span class="px-4 py-1 bg-purple-600/80 text-xs font-bold rounded-full">${pdf.subject}</span>
+                    </div>
+                    <h3 class="font-black text-2xl leading-tight mb-2">${pdf.title}</h3>
+                    <p class="text-pink-200 text-sm line-clamp-2 mb-6">${pdf.desc}</p>
+                    <button onclick="event.stopImmediatePropagation(); openPreview(${pdf.id})" 
+                            class="w-full py-4 bg-gradient-to-r from-pink-600 to-rose-600 rounded-2xl font-bold text-lg hover:from-pink-500 hover:to-rose-500 transition">
+                        İZLE VE BOŞAL 💦
+                    </button>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // --- FAVORITES SYSTEM ---
-
-        function toggleFavorite(id, event) {
-            if(event) event.stopPropagation();
-            
-            const index = State.favorites.indexOf(id);
-            if (index > -1) {
-                State.favorites.splice(index, 1);
-                showToast('Removed from Favorites', 'info');
+        function toggleFavorite(id) {
+            if (State.favorites.includes(id)) {
+                State.favorites = State.favorites.filter(f => f !== id);
             } else {
                 State.favorites.push(id);
-                showToast('Added to Favorites!', 'success');
             }
-            
-            localStorage.setItem('favorites', JSON.stringify(State.favorites));
-            updateFavoritesCount();
-            
-            // If we are currently viewing favorites, re-render immediately to remove it
-            if (State.filter.favoritesOnly) {
-                renderPDFs();
-            } else {
-                // Otherwise just re-render to update the heart icon state
-                renderPDFs(); 
-            }
-        }
-
-        function updateFavoritesCount() {
+            localStorage.setItem('pornoFavorites', JSON.stringify(State.favorites));
             document.getElementById('favCount').innerText = State.favorites.length;
+            renderPDFs();
         }
-
-        // --- PREMIUM / MONETIZATION ---
-
-        function activatePremium() {
-            State.isPremium = true;
-            localStorage.setItem('premium', 'true');
-            applyPremiumState();
-            closeModal('pricingModal');
-            showToast('Premium Activated Successfully! Welcome aboard.', 'success');
-            renderPDFs(); // Unlock UI
-        }
-
-        function applyPremiumState() {
-            const btn = document.getElementById('navPremiumBtn');
-            const ads = [document.getElementById('topAd'), document.getElementById('sidebarAd'), document.getElementById('bottomAd')];
-            
-            if (State.isPremium) {
-                // Update Button
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Premium Active';
-                btn.className = 'bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-5 py-2.5 rounded-xl text-sm font-bold shadow flex items-center gap-2 pointer-events-none opacity-80';
-                
-                // Hide Ads completely
-                ads.forEach(ad => { if(ad) ad.style.display = 'none'; });
-            } else {
-                // Restore ads if not premium
-                const isMobile = window.innerWidth < 1024;
-                if(ads[0]) ads[0].style.display = 'flex';
-                if(ads[1]) ads[1].style.display = isMobile ? 'none' : 'flex';
-                if(ads[2]) ads[2].style.display = isMobile ? 'flex' : 'none';
-            }
-        }
-
-        // --- MODALS & ACTIONS ---
-
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.add('active');
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('active');
-        }
-
-        let currentActivePDF = null;
 
         function openPreview(id) {
             const pdf = Database.find(p => p.id === id);
-            if (!pdf) return;
-            
-            // Check Lock
-            if (pdf.isPremium && !State.isPremium) {
-                openModal('pricingModal');
-                showToast('This document requires a Premium subscription.', 'warning');
-                return;
-            }
-
-            currentActivePDF = pdf;
-            
-            // Populate Modal
             document.getElementById('dlTitle').innerText = pdf.title;
             document.getElementById('dlDesc').innerText = pdf.desc;
-            document.getElementById('dlGrade').innerText = `Grade ${pdf.grade}`;
+            document.getElementById('dlGrade').innerText = `${pdf.grade}. Sınıf Kız`;
             document.getElementById('dlSubject').innerText = pdf.subject;
-            
-            // Reset Progress UI
+            document.getElementById('downloadModal').classList.remove('hidden');
             document.getElementById('dlActionArea').classList.remove('hidden');
             document.getElementById('dlProgressArea').classList.add('hidden');
-            document.getElementById('dlBar').style.width = '0%';
-            document.getElementById('dlPercentage').innerText = '0%';
-
-            openModal('downloadModal');
         }
 
-        function startSimulatedDownload() {
-            const actionArea = document.getElementById('dlActionArea');
+        function closeModal() {
+            document.getElementById('downloadModal').classList.add('hidden');
+        }
+
+        function startDownload() {
+            const action = document.getElementById('dlActionArea');
             const progressArea = document.getElementById('dlProgressArea');
             const bar = document.getElementById('dlBar');
             const perc = document.getElementById('dlPercentage');
 
-            actionArea.classList.add('hidden');
+            action.classList.add('hidden');
             progressArea.classList.remove('hidden');
 
             let progress = 0;
-            // Premium downloads 3x faster
-            const speed = State.isPremium ? 60 : 20; 
-
-            const interval = setInterval(() => {
-                progress += speed;
+            const int = setInterval(() => {
+                progress += 8;
                 if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
+                    clearInterval(int);
                     bar.style.width = '100%';
-                    perc.innerText = '100%';
-                    
+                    perc.innerText = '100% - Boşaldın!';
                     setTimeout(() => {
-                        closeModal('downloadModal');
-                        showToast(`"${currentActivePDF.title}" downloaded successfully!`, 'success');
-                    }, 500);
+                        closeModal();
+                        showToast('Spermlerin aktı bebeğim... 🔥', 'success');
+                    }, 800);
                 } else {
-                    bar.style.width = `${progress}%`;
-                    perc.innerText = `${Math.floor(progress)}%`;
+                    bar.style.width = progress + '%';
+                    perc.innerText = Math.floor(progress) + '%';
                 }
-            }, 500);
+            }, 90);
         }
 
-        // --- ADMIN DASHBOARD ---
-
-        function toggleAdminPanel() {
-            State.isAdmin = !State.isAdmin;
-            const sidebar = document.getElementById('mainSidebar');
-            const grid = document.getElementById('pdfGrid');
-            const admin = document.getElementById('adminPanel');
-            const empty = document.getElementById('emptyState');
-            
-            if (State.isAdmin) {
-                sidebar.classList.add('hidden');
-                grid.classList.add('hidden');
-                empty.classList.add('hidden');
-                admin.classList.remove('hidden');
-                document.getElementById('viewTitle').parentElement.parentElement.classList.add('hidden'); // hide hero
-                renderAdminList();
-            } else {
-                sidebar.classList.remove('hidden');
-                admin.classList.add('hidden');
-                document.getElementById('viewTitle').parentElement.parentElement.classList.remove('hidden'); // show hero
-                renderPDFs();
-            }
-        }
-
-        function handleAddNewPDF(e) {
-            e.preventDefault();
-            
-            const newPdf = {
-                id: Date.now(), // simple unique ID
-                title: document.getElementById('inpTitle').value,
-                desc: document.getElementById('inpDesc').value,
-                grade: parseInt(document.getElementById('inpGrade').value),
-                subject: document.getElementById('inpSubject').value,
-                isPremium: document.getElementById('inpPremium').checked,
-                views: 0
-            };
-
-            Database.unshift(newPdf); // Add to beginning
-            
-            // Reset Form
-            e.target.reset();
-            
-            showToast('New document added to database.', 'success');
-            renderAdminList();
-        }
-
-        function deletePDF(id) {
-            if(confirm('Are you sure you want to permanently delete this document?')) {
-                Database = Database.filter(p => p.id !== id);
-                // Also remove from favorites if exists
-                State.favorites = State.favorites.filter(favId => favId !== id);
-                localStorage.setItem('favorites', JSON.stringify(State.favorites));
-                updateFavoritesCount();
-                
-                renderAdminList();
-                showToast('Document deleted.', 'info');
-            }
-        }
-
-        function renderAdminList() {
-            const list = document.getElementById('adminList');
-            list.innerHTML = '';
-
-            Database.forEach(pdf => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between p-4 bg-white/50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 transition hover:bg-white dark:hover:bg-slate-800';
-                item.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-lg flex items-center justify-center ${pdf.isPremium ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}">
-                            <i class="fas ${pdf.isPremium ? 'fa-crown' : 'fa-file-pdf'}"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm text-slate-800 dark:text-slate-200">${pdf.title}</div>
-                            <div class="flex gap-2 text-xs font-semibold mt-1">
-                                <span class="text-slate-500">G${pdf.grade}</span>
-                                <span class="text-slate-400">•</span>
-                                <span class="text-slate-500">${pdf.subject}</span>
-                                <span class="text-slate-400">•</span>
-                                <span class="text-slate-500"><i class="fas fa-eye"></i> ${pdf.views}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="deletePDF(${pdf.id})" class="w-8 h-8 flex items-center justify-center rounded-lg text-rose-400 hover:bg-rose-100 hover:text-rose-600 transition">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        // --- UTILS (TOAST NOTIFICATIONS) ---
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
+        function showToast(msg) {
             const toast = document.createElement('div');
-            
-            let icon = 'fa-info-circle text-blue-500';
-            if(type === 'success') icon = 'fa-check-circle text-emerald-500';
-            if(type === 'warning') icon = 'fa-exclamation-triangle text-amber-500';
-
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="fas ${icon} text-xl"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            
-            // Trigger animation
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Remove after 3s
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400); // Wait for transition
-            }, 3000);
+            toast.className = 'fixed bottom-20 right-8 bg-black/90 border border-pink-500 text-pink-300 px-8 py-4 rounded-2xl shadow-2xl text-lg font-bold';
+            toast.innerHTML = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        function goHome() {
-            if(State.isAdmin) toggleAdminPanel();
-            resetFilters();
-        }
+        function setGradeFilter(g) { State.filter.grade = g; State.filter.favoritesOnly = false; renderPDFs(); }
+        function setSubjectFilter(s) { State.filter.subject = s; State.filter.favoritesOnly = false; renderPDFs(); }
+        function filterFavorites() { State.filter.favoritesOnly = true; renderPDFs(); }
+        function resetFilters() { State.filter = {grade:'All', subject:'All', search:'', favoritesOnly:false}; renderPDFs(); }
+        function goHome() { resetFilters(); }
 
-        // Handle Resize events for Ads
-        window.addEventListener('resize', applyPremiumState);
-        
-        // Close modals on outside click
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                event.target.classList.remove('active');
-            }
-        }
+        document.getElementById('navSearch').addEventListener('keyup', (e) => {
+            State.filter.search = e.target.value;
+            renderPDFs();
+        });
+
+        // Başlat
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('favCount').innerText = State.favorites.length;
+            renderPDFs();
+        });
     </script>
 </body>
 </html>
-
