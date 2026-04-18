@@ -1,589 +1,950 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENKLİ DEFTER | Tüm Dersler Eğitim Platformu</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Figtree:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-
+    <title>Ders Deposu | Premium PDF Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ══════════════════════════════════════════
-           CSS DEĞİŞKENLERİ (DARK MODE NEO-BRUTALISM)
-        ══════════════════════════════════════════ */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
         :root {
-            --bg-main: #0f0e17;
-            --bg-card: #1a1a2e;
-            --bg-nav: #07070a;
-            
-            --text-main: #fffffe;
-            --text-muted: #a7a9be;
-            --text-dark: #0f0e17;
-
-            --neon-yellow: #ffe94a;
-            --neon-green: #00f5a0;
-            --neon-pink: #ff006e;
-            --neon-blue: #00b4ff;
-            --neon-orange: #ff6b35;
-            --neon-purple: #c77dff;
-
-            --ders-mat: #00b4ff;
-            --ders-fen: #00f5a0;
-            --ders-tur: #ff006e;
-            --ders-sos: #ff6b35;
-            --ders-ing: #ffe94a;
-            --ders-din: #c77dff;
-
-            --border-width: 3px;
-            --border-color: #ffffff;
-            
-            --shadow-brutal: 6px 6px 0px var(--neon-yellow);
-            --shadow-brutal-hover: 10px 10px 0px var(--neon-yellow);
-            
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-
-            --font-display: 'Baloo 2', cursive;
-            --font-body: 'Figtree', sans-serif;
-
-            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --primary: #059669; /* Emerald 600 */
+            --secondary: #10b981; /* Emerald 500 */
+            --dark-bg: #0f172a; /* Slate 900 */
+            --dark-card: #1e293b; /* Slate 800 */
         }
 
-        /* ══════════════════════════════════════════
-           RESET & BASE
-        ══════════════════════════════════════════ */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         body {
-            background: var(--bg-main); color: var(--text-main);
-            font-family: var(--font-body); overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; line-height: 1.6;
-        }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-
-        ::-webkit-scrollbar { width: 14px; }
-        ::-webkit-scrollbar-track { background: var(--bg-main); border-left: 2px solid rgba(255,255,255,0.1); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-green); border-radius: 10px; border: 3px solid var(--bg-main); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-yellow); }
-
-        /* ══════════════════════════════════════════
-           SAYFA / ROUTER SİSTEMİ
-        ══════════════════════════════════════════ */
-        .page { display: none; min-height: 100vh; animation: pageIn 0.5s var(--ease-spring) forwards; }
-        .page.active { display: block; }
-        @keyframes pageIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #dcfce7 0%, #a7f3d0 100%);
+            min-height: 100vh;
+            transition: background 0.5s ease;
+            overflow-x: hidden;
         }
 
-        /* ══════════════════════════════════════════
-           NAVBAR
-        ══════════════════════════════════════════ */
-        .navbar {
-            position: sticky; top: 0; z-index: 999;
-            background: rgba(7, 7, 10, 0.95); backdrop-filter: blur(12px);
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 80px; gap: 16px;
-        }
-        .nav-logo {
-            font-family: var(--font-display); font-size: 1.8rem; font-weight: 900;
-            color: #fff; display: flex; align-items: center; gap: 12px; cursor: pointer;
-        }
-        .nav-logo .logo-badge {
-            background: var(--neon-green); color: var(--text-dark); padding: 4px 12px;
-            border-radius: var(--radius-sm); border: 2px solid var(--border-color);
-            box-shadow: 4px 4px 0px var(--border-color); font-size: 1rem; transform: rotate(-4deg);
-            transition: transform 0.2s;
-        }
-        .nav-logo:hover .logo-badge { transform: rotate(0deg) scale(1.1); }
-
-        .nav-links { display: flex; align-items: center; gap: 10px; }
-        .nav-btn {
-            display: flex; align-items: center; gap: 8px; padding: 10px 20px;
-            border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 1rem;
-            font-weight: 800; cursor: pointer; transition: all 0.2s;
-            border: 2px solid transparent; background: transparent; color: var(--text-muted);
-        }
-        .nav-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
-        .nav-btn.active { background: var(--neon-green); color: var(--text-dark); border-color: var(--border-color); box-shadow: 4px 4px 0px var(--border-color); }
-        .mobile-menu-btn {
-            display: none; background: transparent; border: 2px solid #fff; color: white;
-            border-radius: 8px; padding: 8px 12px; font-size: 1.4rem; cursor: pointer;
+        body.dark-mode {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #020617 100%);
+            color: #f8fafc;
         }
 
-        /* ══════════════════════════════════════════
-           GENEL BİLEŞENLER
-        ══════════════════════════════════════════ */
-        .section { padding: 100px 5%; position: relative; }
-        .section-center { text-align: center; }
-        .section-tag {
-            display: inline-flex; align-items: center; gap: 8px; background: var(--neon-yellow);
-            color: var(--text-dark); border: 2px solid #fff; box-shadow: 4px 4px 0px #fff;
-            border-radius: 50px; padding: 8px 18px; font-weight: 900; font-size: 0.9rem;
-            margin-bottom: 25px; letter-spacing: 1px; text-transform: uppercase;
+        /* Advanced Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
-        .section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 20px; line-height: 1.1; color: #fff; }
-        .section-sub { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto 50px; line-height: 1.6; font-weight: 500; }
-        
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 16px 32px; border-radius: var(--radius-sm); font-family: var(--font-display);
-            font-size: 1.2rem; font-weight: 900; cursor: pointer; transition: all 0.2s var(--ease-spring);
-            border: var(--border-width) solid var(--border-color); text-transform: uppercase; letter-spacing: 0.5px;
+
+        .dark-mode .glass {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            color: white;
         }
-        .btn-green { background: var(--neon-green); color: var(--text-dark); box-shadow: 6px 6px 0px var(--neon-yellow); }
-        .btn-green:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px var(--neon-yellow); }
-        .btn-green:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--neon-yellow); }
 
-        /* ══════════════════════════════════════════
-           HERO BÖLÜMÜ
-        ══════════════════════════════════════════ */
-        .hero-section {
-            position: relative; overflow: hidden; padding: 120px 5% 80px;
-            display: flex; align-items: center; gap: 60px; min-height: 80vh;
-            border-bottom: var(--border-width) solid var(--border-color);
-            background: radial-gradient(circle at 100% 0%, rgba(0, 245, 160, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 0% 100%, rgba(255, 233, 74, 0.1) 0%, transparent 50%);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark-mode ::-webkit-scrollbar-thumb { background: #475569; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .hero-content { flex: 1.2; position: relative; z-index: 2; }
-        .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px; background: var(--neon-pink);
-            border: 2px solid #fff; border-radius: 50px; padding: 8px 16px; color: #fff;
-            font-size: 0.95rem; font-weight: 900; margin-bottom: 25px; box-shadow: 4px 4px 0px #fff;
-            transform: rotate(-2deg); text-transform: uppercase;
+
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .hero-title {
-            font-family: var(--font-display); font-size: clamp(3.2rem, 6vw, 5.5rem); font-weight: 900;
-            color: #fff; line-height: 1.05; margin-bottom: 25px;
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
         }
-        .hero-title .highlight {
-            background: var(--neon-yellow); color: #000; display: inline-block; padding: 0 15px;
-            border-radius: 12px; transform: rotate(1.5deg); border: 3px solid #fff;
-            box-shadow: 6px 6px 0px #fff;
+
+        .premium-shimmer {
+            background: linear-gradient(90deg, #fbbf24 0%, #fef3c7 50%, #fbbf24 100%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite linear;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .hero-subtitle { color: var(--text-muted); font-size: 1.35rem; max-width: 650px; line-height: 1.7; margin-bottom: 40px; font-weight: 500; }
-        .hero-cta-group { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
 
-        .hero-visual { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; height: 500px; }
-        .hero-cards-cluster { position: relative; width: 100%; height: 100%; }
-        
-        .floating-card {
-            position: absolute; background: var(--bg-card); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-md); padding: 25px; box-shadow: 10px 10px 0px #000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-family: var(--font-display); font-weight: 800; text-align: center;
-            animation: float-random 6s ease-in-out infinite alternate;
+        /* Hover Effects */
+        .pdf-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .fc-1 { width: 200px; height: 240px; top: 5%; left: 5%; transform: rotate(-8deg); background: var(--ders-mat); color: #000; box-shadow: 8px 8px 0px #fff; animation-delay: 0s; border-color: #000; }
-        .fc-2 { width: 240px; height: 300px; top: 25%; right: 0; transform: rotate(6deg); background: var(--neon-yellow); color: #000; font-size: 2rem; z-index: 3; animation-delay: -2s; border-color:#000; box-shadow: 12px 12px 0px #fff; }
-        .fc-3 { width: 180px; height: 180px; bottom: 5%; left: 25%; transform: rotate(-5deg); background: var(--ders-fen); color: #000; font-size: 1.2rem; animation-delay: -4s; border-radius: 50%; border-color:#000; box-shadow: 8px 8px 0px #fff; }
-        
-        @keyframes float-random {
-            0% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-            100% { transform: translateY(-30px) rotate(calc(var(--rot, 0deg) + 6deg)); }
+
+        .pdf-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -5px rgba(5, 150, 105, 0.2);
         }
-        .fc-1 { --rot: -8deg; } .fc-2 { --rot: 6deg; } .fc-3 { --rot: -5deg; }
-        .fc-icon { font-size: 4rem; margin-bottom: 15px; }
-        .fc-text { line-height: 1.2; font-size: 1.4rem; }
 
-        /* ══════════════════════════════════════════
-           SINIF KARTLARI (TÜM DERSLER)
-        ══════════════════════════════════════════ */
-        .cards-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;
-            max-width: 1200px; margin: 0 auto;
+        .dark-mode .pdf-card:hover {
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
         }
-        .class-card {
-            background: var(--bg-card); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s var(--ease-spring);
-            box-shadow: 8px 8px 0px rgba(255,255,255,0.1); position: relative; display: flex; flex-direction: column;
+
+        /* Modals */
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
-        .class-card:hover { transform: translateY(-10px); box-shadow: 15px 15px 0px var(--neon-green); border-color: var(--neon-green); }
-        
-        .card-header { padding: 40px 30px 30px; position: relative; overflow: hidden; text-align: center; border-bottom: var(--border-width) solid var(--border-color); }
-        .card-56 { background: var(--neon-blue); color: #000; }
-        .card-7 { background: var(--neon-purple); color: #fff; }
-        .card-8 { background: var(--neon-pink); color: #fff; }
-
-        .card-emoji { font-size: 4rem; margin-bottom: 15px; display: inline-block; position: relative; z-index: 1; filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.4)); }
-        .card-grade { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; text-shadow: 2px 2px 0px rgba(0,0,0,0.2); position: relative; z-index: 1; line-height: 1.1; }
-        .card-grade-sub { background: #000; color: #fff; font-size: 0.85rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; display: inline-block; margin-top: 15px; border: 2px solid #fff; position: relative; z-index: 1; letter-spacing: 1px; text-transform: uppercase; }
-
-        .card-body { padding: 30px; flex: 1; display: flex; flex-direction: column; }
-        .card-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px; font-weight: 500; }
-        .card-features { margin-bottom: auto; display: flex; flex-wrap: wrap; gap: 8px; }
-        .card-features span { background: rgba(255,255,255,0.1); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); }
-
-        .card-cta { display: flex; align-items: center; justify-content: space-between; padding-top: 25px; margin-top: 25px; border-top: 2px dashed rgba(255,255,255,0.1); }
-        .card-pdf-count { font-weight: 900; font-size: 1.2rem; color: #fff; font-family: var(--font-display); display: flex; align-items: center; gap: 8px; }
-        .card-arrow { width: 50px; height: 50px; border-radius: 12px; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s var(--ease-spring); }
-        .class-card:hover .card-arrow { transform: translateX(8px) rotate(10deg); background: var(--neon-green); box-shadow: 4px 4px 0px #000; border: 2px solid #000; }
-
-        /* ══════════════════════════════════════════
-           İÇ SAYFA / DERS FİLTRELEME
-        ══════════════════════════════════════════ */
-        .page-header { background: var(--bg-nav); padding: 60px 5% 50px; border-bottom: var(--border-width) solid var(--border-color); }
-        .page-header-content { max-width: 1200px; margin: 0 auto; }
-        
-        .sinif-page-wrap { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
-        
-        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; background: var(--bg-card); padding: 20px; border-radius: var(--radius-lg); border: 2px solid rgba(255,255,255,0.2); }
-        
-        .topic-tab { padding: 10px 20px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); background: transparent; font-family: var(--font-body); font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
-        .topic-tab:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
-        .topic-tab.active-tab { background: var(--neon-green); border-color: var(--border-color); color: #000; box-shadow: 3px 3px 0px #fff; }
-
-        .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .pdf-card { background: var(--bg-card); border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); overflow: hidden; transition: all 0.3s var(--ease-spring); display: flex; flex-direction: column; }
-        .pdf-card:hover { transform: translateY(-6px); border-color: var(--neon-green); box-shadow: 8px 8px 0px rgba(0, 245, 160, 0.3); }
-
-        .pdf-card-color { height: 130px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-bottom: 2px solid rgba(255,255,255,0.1); }
-        .pdf-icon { width: 70px; height: 85px; background: var(--bg-main); border-radius: 8px 8px 20px 8px; border: 3px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 4px 4px 0px #000; position: relative; z-index: 1; }
-
-        .pdf-card-info { padding: 25px; flex: 1; display: flex; flex-direction: column; }
-        .pdf-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
-        .pdf-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 900; border: 1.5px solid transparent; text-transform: uppercase; color: #000; }
-        
-        .badge-mat { background: var(--ders-mat); }
-        .badge-fen { background: var(--ders-fen); }
-        .badge-tur { background: var(--ders-tur); color: #fff;}
-        .badge-sos { background: var(--ders-sos); }
-        .badge-ing { background: var(--ders-ing); }
-        .badge-din { background: var(--ders-din); color: #fff;}
-        
-        .pdf-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; margin-bottom: 10px; line-height: 1.3; color: #fff; flex: 1; }
-        .pdf-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed rgba(255,255,255,0.1); }
-        
-        .pdf-download-btn { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #fff; background: transparent; color: #fff; font-family: var(--font-display); font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; }
-        .pdf-download-btn:hover { background: var(--neon-green); color: #000; border-color: #000; box-shadow: 4px 4px 0px #fff; }
-
-        /* ══════════════════════════════════════════
-           TOAST
-        ══════════════════════════════════════════ */
-        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
-        .toast { background: var(--neon-green); color: #000; border: 3px solid #000; border-radius: 12px; padding: 16px 24px; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; box-shadow: 6px 6px 0px #fff; display: flex; align-items: center; gap: 12px; transform: translateX(120%) rotate(5deg); opacity: 0; transition: all 0.4s var(--ease-spring); max-width: 350px; pointer-events: auto; }
-        .toast.show { transform: translateX(0) rotate(0deg); opacity: 1; }
-        
-        /* MOBİL */
-        @media (max-width: 768px) {
-            .navbar { padding: 0 20px; height: 70px; }
-            .nav-links { position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-nav); flex-direction: column; padding: 20px; gap: 10px; border-bottom: var(--border-width) solid #fff; display: none; }
-            .nav-links.open { display: flex; }
-            .mobile-menu-btn { display: block; }
-            .hero-section { flex-direction: column; text-align: center; padding-top: 100px; }
-            .hero-visual { display: none; }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
+        .modal-content {
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Ads Placeholder */
+        .ad-space {
+            background-image: repeating-linear-gradient(45deg, #e2e8f0 25%, transparent 25%, transparent 75%, #e2e8f0 75%, #e2e8f0), repeating-linear-gradient(45deg, #e2e8f0 25%, #f8fafc 25%, #f8fafc 75%, #e2e8f0 75%, #e2e8f0);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px dashed #cbd5e1;
+        }
+        .dark-mode .ad-space {
+            background-image: repeating-linear-gradient(45deg, #334155 25%, transparent 25%, transparent 75%, #334155 75%, #334155), repeating-linear-gradient(45deg, #334155 25%, #1e293b 25%, #1e293b 75%, #334155 75%, #334155);
+            color: #94a3b8;
+            border-color: #475569;
+        }
+
+        /* Toast */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            min-width: 250px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .toast.show { transform: translateX(0); }
+        .dark-mode .toast { background: var(--dark-card); color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     </style>
 </head>
-<body>
+<body class="text-slate-800 flex flex-col">
 
-    <div class="toast-container" id="toastContainer"></div>
+    <div id="topAd" class="w-full h-16 ad-space text-xs sm:text-sm transition-all duration-500">
+        [ AdSense Leaderboard 728x90 ]
+    </div>
 
-    <header class="navbar">
-        <div class="nav-logo" onclick="navigate('home')">
-            <span class="logo-badge">📓 R-D</span>
-            <span style="display:none; sm:display:inline;">RENKLİ DEFTER</span>
-        </div>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        <nav class="nav-links" id="navLinks">
-            <button class="nav-btn active" id="nav-home" onclick="navigate('home')">🏠 Ana Sayfa</button>
-            <button class="nav-btn" onclick="navigate('sinif56')">5-6. Sınıf</button>
-            <button class="nav-btn" onclick="navigate('sinif7')">7. Sınıf</button>
-            <button class="nav-btn" onclick="navigate('sinif8')">8. Sınıf [LGS]</button>
-        </nav>
-    </header>
+    <nav class="glass sticky top-0 z-40 transition-all duration-300 border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                    <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg text-white">
+                        <i class="fas fa-layer-group text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-2xl tracking-tight text-emerald-700 dark:text-emerald-400">Ders Deposu</h1>
+                        <p class="text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">PDF PLATFORM</p>
+                    </div>
+                </div>
 
-    <div class="page active" id="page-home">
-        
-        <div class="hero-section">
-            <div class="hero-content">
-                <div class="hero-eyebrow">🇹🇷 TÜM DERSLER • MEB MÜFREDATI</div>
-                <h1 class="hero-title">
-                    Sınavdan <span class="highlight">100 Almaya</span><br>Hazır Mısın?
-                </h1>
-                <p class="hero-subtitle">
-                    Matematik, Türkçe, Fen, Sosyal ve İngilizce. Ortaokulun tüm derslerine ait sınav özetleri, çalışma kağıtları ve LGS denemeleri tek bir yerde.
-                </p>
-                <div class="hero-cta-group">
-                    <button class="btn btn-green" onclick="document.getElementById('siniflar').scrollIntoView({behavior:'smooth'})">
-                        🚀 SINIFINI SEÇ & BAŞLA
+                <div class="hidden md:flex items-center space-x-2 lg:space-x-4">
+                    <div class="relative mr-4 group">
+                        <input type="text" id="navSearch" onkeyup="handleSearch()" placeholder="Search library..." 
+                               class="w-64 glass rounded-full py-2 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all group-hover:w-72">
+                        <i class="fas fa-search absolute left-4 top-2.5 text-slate-400"></i>
+                    </div>
+
+                    <button onclick="filterFavorites()" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-50 dark:hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fas fa-heart text-rose-500"></i> Favorites (<span id="favCount">0</span>)
+                    </button>
+                    
+                    <button onclick="openModal('pricingModal')" id="navPremiumBtn" class="bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        <i class="fas fa-crown"></i> Get Premium
+                    </button>
+
+                    <button onclick="toggleAdminPanel()" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2 border border-slate-200 dark:border-slate-700">
+                        <i class="fas fa-shield-halved"></i> Admin
+                    </button>
+
+                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition text-lg border border-slate-200 dark:border-slate-700">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center md:hidden gap-3">
+                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition text-lg">
+                        <i class="fas fa-moon" id="mobileThemeIcon"></i>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-2xl text-slate-600 dark:text-slate-300 focus:outline-none">
+                        <i class="fas fa-bars" id="mobileMenuIcon"></i>
                     </button>
                 </div>
             </div>
-
-            <div class="hero-visual">
-                <div class="hero-cards-cluster">
-                    <div class="floating-card fc-1">
-                        <div class="fc-icon">📐</div>
-                        <div class="fc-text">Matematik</div>
-                    </div>
-                    <div class="floating-card fc-2">
-                        <div class="fc-icon">💯</div>
-                        <div class="fc-text">Tüm<br>Dersler</div>
-                    </div>
-                    <div class="floating-card fc-3">
-                        <div class="fc-icon">🧬</div>
-                        <div class="fc-text">Fen Bil.</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <section class="section" id="siniflar">
-            <div class="section-center">
-                <div class="section-tag">📚 DERS MATERYALLERİ</div>
-                <h2 class="section-title">Hangi Sınıftasın?</h2>
-                <p class="section-sub">Okuldaki tüm derslerine (Türkçe, Matematik, Fen, İnkılap vb.) ait çalışma notlarına ücretsiz ulaş.</p>
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-slate-200 dark:border-slate-700 absolute w-full left-0 top-20 shadow-2xl z-50">
+            <div class="px-4 pt-4 pb-6 space-y-3">
+                <input type="text" id="mobileSearch" onkeyup="handleSearch(true)" placeholder="Search library..." class="w-full glass rounded-xl py-3 px-4 mb-4 text-sm focus:outline-none">
+                <button onclick="filterFavorites(); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                    <i class="fas fa-heart text-rose-500"></i> My Favorites
+                </button>
+                <button onclick="openModal('pricingModal'); toggleMobileMenu()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 px-4 py-3 rounded-xl font-bold shadow flex items-center justify-center gap-2">
+                    <i class="fas fa-crown"></i> Get Premium Access
+                </button>
+                <button onclick="toggleAdminPanel(); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                    <i class="fas fa-shield-halved"></i> Admin Dashboard
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8 w-full flex-grow">
+        
+        <aside class="w-full lg:w-64 flex-shrink-0 flex flex-col gap-6" id="mainSidebar">
+            
+            <div class="glass p-5 rounded-2xl animate-fade-up" style="animation-delay: 0.1s;">
+                <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-filter text-emerald-500"></i> Grade Level</h3>
+                <div class="space-y-2">
+                    <button onclick="setGradeFilter('All')" id="btn-grade-all" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-emerald-500 text-white shadow-md">All Grades</button>
+                    <button onclick="setGradeFilter(6)" id="btn-grade-6" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 6</button>
+                    <button onclick="setGradeFilter(7)" id="btn-grade-7" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 7</button>
+                    <button onclick="setGradeFilter(8)" id="btn-grade-8" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Grade 8</button>
+                </div>
+
+                <h3 class="font-bold text-lg mt-6 mb-4 flex items-center gap-2"><i class="fas fa-book text-indigo-500"></i> Subjects</h3>
+                <div class="space-y-2">
+                    <button onclick="setSubjectFilter('All')" id="btn-sub-all" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-indigo-500 text-white shadow-md">All Subjects</button>
+                    <button onclick="setSubjectFilter('Math')" id="btn-sub-Math" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Mathematics</button>
+                    <button onclick="setSubjectFilter('Science')" id="btn-sub-Science" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">Science</button>
+                    <button onclick="setSubjectFilter('English')" id="btn-sub-English" class="sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700">English</button>
+                </div>
             </div>
 
-            <div class="cards-grid">
-                <div class="class-card card-56" onclick="navigate('sinif56')">
-                    <div class="card-header">
-                        <span class="card-emoji">🎒</span>
-                        <div class="card-grade">5 & 6. Sınıf</div>
-                        <div class="card-grade-sub">Ortaokula Giriş</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Matematik işlemleri, Fen deneyleri ve Türkçe dilbilgisi kurallarının en temel ve eğlenceli halleri.</p>
-                        <div class="card-features">
-                            <span>📐 Matematik</span> <span>📖 Türkçe</span> <span>🧬 Fen</span> <span>💬 İngilizce</span>
-                        </div>
-                        <div class="card-cta">
-                            <div class="card-pdf-count">Tüm Dersler Notları</div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
+            <div id="sidebarAd" class="w-full h-[600px] ad-space rounded-2xl hidden lg:flex flex-col text-center px-4 animate-fade-up" style="animation-delay: 0.2s;">
+                <i class="fas fa-bullhorn text-3xl mb-2"></i>
+                <span class="text-sm">[ AdSense Skyscraper 300x600 ]</span>
+            </div>
+        </aside>
 
-                <div class="class-card card-7" onclick="navigate('sinif7')">
-                    <div class="card-header">
-                        <span class="card-emoji">📘</span>
-                        <div class="card-grade">7. Sınıf</div>
-                        <div class="card-grade-sub">Zorlu Konular</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">Cebirsel ifadeler, hücre bölünmesi, fiilde yapı ve daha fazlası. 7. sınıfın zor konuları artık çok kolay.</p>
-                        <div class="card-features">
-                            <span>📐 Mat</span> <span>📖 Tür</span> <span>🧬 Fen</span> <span>🌍 Sosyal</span> <span>💬 İng</span>
+        <main class="flex-grow w-full">
+            
+            <div class="glass p-8 rounded-3xl mb-8 relative overflow-hidden animate-fade-up">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+                <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4" id="viewTitle">Library Overview</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mb-6" id="viewDesc">Browse our carefully curated collection of study materials, worksheets, and exam preparations specifically tailored for middle school success.</p>
+                    <div class="flex gap-4">
+                        <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-xl p-3 px-6 shadow-sm border border-white/20">
+                            <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400" id="statTotalPDFs">0</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total PDFs</div>
                         </div>
-                        <div class="card-cta">
-                            <div class="card-pdf-count">Yazılı Hazırlık Setleri</div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="class-card card-8" onclick="navigate('sinif8')">
-                    <div class="card-header">
-                        <span class="card-emoji">🏆</span>
-                        <div class="card-grade">8. Sınıf [LGS]</div>
-                        <div class="card-grade-sub">Sınav Yılı</div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-desc">LGS Matematik yeni nesil sorular, Fen LGS özetleri, İnkılap Tarihi kavram haritaları ve LGS Türkçe taktikleri.</p>
-                        <div class="card-features">
-                            <span>📐 Yeni Nesil Mat</span> <span>🧬 LGS Fen</span> <span>🌍 İnkılap</span>
-                        </div>
-                        <div class="card-cta">
-                            <div class="card-pdf-count">LGS Denemeleri</div>
-                            <div class="card-arrow">→</div>
+                        <div class="bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-xl p-3 px-6 shadow-sm border border-white/20">
+                            <div class="text-2xl font-bold text-amber-500" id="statPremiumPDFs">0</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Premium</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <div id="pdfGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                </div>
+            
+            <div id="emptyState" class="hidden glass py-20 rounded-3xl text-center flex-col items-center justify-center">
+                <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-folder-open text-4xl text-slate-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">No documents found</h3>
+                <p class="text-slate-500 max-w-md mx-auto">We couldn't find any PDFs matching your current filters. Try adjusting your search criteria or grade level.</p>
+                <button onclick="resetFilters()" class="mt-6 px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-semibold transition shadow-lg">Reset All Filters</button>
+            </div>
+
+            <div id="adminPanel" class="hidden animate-fade-up">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold"><i class="fas fa-cogs text-slate-400 mr-2"></i> Administration</h2>
+                    <button onclick="toggleAdminPanel()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 rounded-xl font-semibold hover:bg-rose-100 hover:text-rose-600 transition">Exit Admin</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 glass p-6 rounded-2xl">
+                        <h3 class="text-xl font-bold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Upload New PDF</h3>
+                        <form id="addPdfForm" class="space-y-4" onsubmit="handleAddNewPDF(event)">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Title</label>
+                                <input type="text" id="inpTitle" required class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Description</label>
+                                <textarea id="inpDesc" rows="3" required class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-1">Grade</label>
+                                    <select id="inpGrade" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 outline-none">
+                                        <option value="6">Grade 6</option>
+                                        <option value="7">Grade 7</option>
+                                        <option value="8">Grade 8</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-1">Subject</label>
+                                    <select id="inpSubject" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl p-2.5 outline-none">
+                                        <option value="Math">Math</option>
+                                        <option value="Science">Science</option>
+                                        <option value="English">English</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/30 rounded-xl">
+                                <input type="checkbox" id="inpPremium" class="w-5 h-5 text-amber-500 rounded focus:ring-amber-500 accent-amber-500">
+                                <label for="inpPremium" class="font-semibold text-amber-700 dark:text-amber-400 cursor-pointer">Mark as Premium Content</label>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                                <i class="fas fa-cloud-upload-alt mr-2"></i> Publish Document
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-2 glass p-6 rounded-2xl flex flex-col h-[600px]">
+                        <h3 class="text-xl font-bold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Content Library Manager</h3>
+                        <div class="flex-grow overflow-y-auto pr-2 space-y-3" id="adminList">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
-    <div class="page" id="page-sinif56">
-        <div class="page-header">
-            <div class="page-header-content">
-                <h1 class="section-title">🎒 5 & 6. Sınıf Dökümanları</h1>
-                <p class="section-sub">Okul sınavlarından 100 almak için ihtiyacın olan tüm çalışma kağıtları burada.</p>
+    <div id="pricingModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+        <div class="modal-content glass w-full max-w-4xl mx-4 rounded-3xl overflow-hidden shadow-2xl relative flex flex-col md:flex-row bg-white dark:bg-slate-900">
+            <button onclick="closeModal('pricingModal')" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 hover:bg-rose-500 hover:text-white transition z-20">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <div class="text-slate-500 font-bold tracking-wider text-sm mb-2 uppercase">Basic Access</div>
+                <h3 class="text-4xl font-extrabold mb-4">Free Plan</h3>
+                <p class="text-slate-600 dark:text-slate-400 mb-8">Start exploring basic study materials with advertisement support.</p>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center gap-3"><i class="fas fa-check text-emerald-500"></i> Access to all Basic PDFs</li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check text-emerald-500"></i> Search and Filtering</li>
+                    <li class="flex items-center gap-3 text-slate-400"><i class="fas fa-times text-rose-400"></i> Ad-free experience</li>
+                    <li class="flex items-center gap-3 text-slate-400"><i class="fas fa-times text-rose-400"></i> Premium Worksheets</li>
+                </ul>
+                <div class="mt-auto">
+                    <button onclick="closeModal('pricingModal')" class="w-full py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition">Current Plan</button>
+                </div>
             </div>
-        </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar" id="tabs56">
-                <button class="topic-tab active-tab" onclick="filterTabs('56','Tümü',this)">📚 Tümü</button>
-                <button class="topic-tab" onclick="filterTabs('56','Matematik',this)">📐 Matematik</button>
-                <button class="topic-tab" onclick="filterTabs('56','Türkçe',this)">📖 Türkçe</button>
-                <button class="topic-tab" onclick="filterTabs('56','Fen Bilimleri',this)">🧬 Fen Bilimleri</button>
-                <button class="topic-tab" onclick="filterTabs('56','Sosyal Bilgiler',this)">🌍 Sosyal Bilgiler</button>
-                <button class="topic-tab" onclick="filterTabs('56','İngilizce',this)">💬 İngilizce</button>
+
+            <div class="w-full md:w-1/2 bg-gradient-to-br from-amber-400 to-orange-500 p-8 md:p-12 text-white flex flex-col justify-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+                
+                <div class="font-bold tracking-wider text-sm mb-2 text-amber-900 uppercase">Pro Access</div>
+                <h3 class="text-4xl font-extrabold mb-2 text-white">Premium</h3>
+                <div class="text-5xl font-black mb-6">$4.99<span class="text-lg font-normal opacity-80">/mo</span></div>
+                
+                <ul class="space-y-4 mb-8 text-white/90 font-medium">
+                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> <strong>Zero Advertisements</strong></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> <strong>Unlock All Premium PDFs</strong></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> High-Speed Downloads</li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-white"></i> Priority Email Support</li>
+                </ul>
+                <div class="mt-auto relative z-10">
+                    <button onclick="activatePremium()" class="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                        Upgrade Now
+                    </button>
+                </div>
             </div>
-            <div class="pdf-grid" id="pdfGrid56"></div>
         </div>
     </div>
 
-    <div class="page" id="page-sinif7">
-        <div class="page-header">
-            <div class="page-header-content">
-                <h1 class="section-title">📘 7. Sınıf Dökümanları</h1>
-                <p class="section-sub">7. Sınıf yazılı öncesi hap bilgiler ve testler.</p>
+    <div id="downloadModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+        <div class="modal-content glass w-full max-w-md mx-4 p-8 rounded-3xl relative bg-white dark:bg-slate-900 text-center">
+            <button onclick="closeModal('downloadModal')" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition"><i class="fas fa-times text-xl"></i></button>
+            
+            <div class="w-20 h-20 mx-auto bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-file-pdf text-4xl text-emerald-500"></i>
             </div>
-        </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar" id="tabs7">
-                <button class="topic-tab active-tab" onclick="filterTabs('7','Tümü',this)">📚 Tümü</button>
-                <button class="topic-tab" onclick="filterTabs('7','Matematik',this)">📐 Matematik</button>
-                <button class="topic-tab" onclick="filterTabs('7','Türkçe',this)">📖 Türkçe</button>
-                <button class="topic-tab" onclick="filterTabs('7','Fen Bilimleri',this)">🧬 Fen Bilimleri</button>
-                <button class="topic-tab" onclick="filterTabs('7','Sosyal Bilgiler',this)">🌍 Sosyal Bilgiler</button>
-                <button class="topic-tab" onclick="filterTabs('7','İngilizce',this)">💬 İngilizce</button>
+            
+            <h3 class="text-2xl font-bold mb-2" id="dlTitle">Document Title</h3>
+            <div class="flex justify-center gap-2 mb-6 text-xs font-semibold">
+                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-slate-600 dark:text-slate-300" id="dlGrade">Grade X</span>
+                <span class="bg-indigo-100 dark:bg-indigo-900/30 px-3 py-1 rounded-full text-indigo-600 dark:text-indigo-400" id="dlSubject">Subject</span>
+                <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-slate-600 dark:text-slate-300">2.4 MB</span>
             </div>
-            <div class="pdf-grid" id="pdfGrid7"></div>
+            
+            <p class="text-slate-600 dark:text-slate-400 text-sm mb-8 line-clamp-3" id="dlDesc">Description goes here.</p>
+
+            <div id="dlActionArea">
+                <button onclick="startSimulatedDownload()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-lg">
+                    <i class="fas fa-cloud-download-alt"></i> Download PDF
+                </button>
+            </div>
+
+            <div id="dlProgressArea" class="hidden w-full mt-4">
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                    <span class="text-emerald-600 dark:text-emerald-400">Downloading...</span>
+                    <span id="dlPercentage">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
+                    <div id="dlBar" class="bg-emerald-500 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="page" id="page-sinif8">
-        <div class="page-header">
-            <div class="page-header-content">
-                <h1 class="section-title">🏆 8. Sınıf LGS Havuzu</h1>
-                <p class="section-sub">Tüm derslerde LGS'ye yönelik yeni nesil soru bankaları, özetler ve deneme sınavları.</p>
+    <div id="toast-container"></div>
+
+    <footer class="glass mt-auto border-t border-slate-200 dark:border-slate-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-layer-group text-emerald-500 text-xl"></i>
+                <span class="font-bold text-lg">Ders Deposu</span>
+            </div>
+            <p class="text-sm text-slate-500 font-medium">© 2026 Developed for Middle School Students. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-emerald-500 transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-emerald-500 transition"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
-        <div class="sinif-page-wrap">
-            <div class="filter-bar" id="tabs8">
-                <button class="topic-tab active-tab" onclick="filterTabs('8','Tümü',this)">📚 Tümü</button>
-                <button class="topic-tab" onclick="filterTabs('8','Matematik',this)">📐 LGS Matematik</button>
-                <button class="topic-tab" onclick="filterTabs('8','Türkçe',this)">📖 LGS Türkçe</button>
-                <button class="topic-tab" onclick="filterTabs('8','Fen Bilimleri',this)">🧬 LGS Fen</button>
-                <button class="topic-tab" onclick="filterTabs('8','İnkılap Tarihi',this)">🌍 İnkılap Tarihi</button>
-                <button class="topic-tab" onclick="filterTabs('8','İngilizce',this)">💬 LGS İngilizce</button>
-                <button class="topic-tab" onclick="filterTabs('8','Din Kültürü',this)">🕌 Din Kültürü</button>
-            </div>
-            <div class="pdf-grid" id="pdfGrid8"></div>
-        </div>
+    </footer>
+
+    <div id="bottomAd" class="block lg:hidden w-full h-16 ad-space sticky bottom-0 z-40 border-t-2">
+        [ AdSense Mobile Banner ]
     </div>
 
     <script>
-    // ── TÜM DERSLER VERİ TABANI ──────────────────────────────────────
-    const PDF_DATA = {
-        '56': [
-            { id:1, ders:'Matematik', title:'Doğal Sayılar ve İşlemler Özeti', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:4 },
-            { id:2, ders:'Matematik', title:'Kesirler - Boyamalı Çalışma Kağıdı', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:2 },
-            { id:3, ders:'Türkçe', title:'Kök ve Ekler - Tablolu Anlatım', color:'var(--ders-tur)', badge:'badge-tur', icon:'📖', pages:3 },
-            { id:4, ders:'Türkçe', title:'Sözcükte Anlam Testi (Cevaplı)', color:'var(--ders-tur)', badge:'badge-tur', icon:'📖', pages:4 },
-            { id:5, ders:'Fen Bilimleri', title:'Güneş, Dünya ve Ay Özeti', color:'var(--ders-fen)', badge:'badge-fen', icon:'🧬', pages:3 },
-            { id:6, ders:'Sosyal Bilgiler', title:'Kültür ve Miras Kavram Haritası', color:'var(--ders-sos)', badge:'badge-sos', icon:'🌍', pages:2 },
-            { id:7, ders:'İngilizce', title:'Unit 1 - Life: Çevirili Kelime Listesi', color:'var(--ders-ing)', badge:'badge-ing', icon:'💬', pages:2 }
-        ],
-        '7': [
-            { id:10, ders:'Matematik', title:'Tam Sayılarla İşlemler Kuralları', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:3 },
-            { id:11, ders:'Matematik', title:'Cebirsel İfadeler Konu Testi', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:4 },
-            { id:12, ders:'Türkçe', title:'Fiilde Yapı ve Kip Ekleri', color:'var(--ders-tur)', badge:'badge-tur', icon:'📖', pages:5 },
-            { id:13, ders:'Fen Bilimleri', title:'Hücre ve Bölünmeler Akıl Notları', color:'var(--ders-fen)', badge:'badge-fen', icon:'🧬', pages:4 },
-            { id:14, ders:'Sosyal Bilgiler', title:'Osmanlı Devleti Kuruluş Dönemi', color:'var(--ders-sos)', badge:'badge-sos', icon:'🌍', pages:4 },
-            { id:15, ders:'İngilizce', title:'Past Simple (Geçmiş Zaman) Taktikleri', color:'var(--ders-ing)', badge:'badge-ing', icon:'💬', pages:3 }
-        ],
-        '8': [
-            { id:20, ders:'Matematik', title:'Çarpanlar ve Katlar (EBOB-EKOK) Taktikleri', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:5 },
-            { id:21, ders:'Matematik', title:'Üslü İfadeler Yeni Nesil Soru Çözümleri', color:'var(--ders-mat)', badge:'badge-mat', icon:'📐', pages:8 },
-            { id:22, ders:'Türkçe', title:'Fiilimsiler (Eylemsiler) Eksiksiz Özet', color:'var(--ders-tur)', badge:'badge-tur', icon:'📖', pages:4 },
-            { id:23, ders:'Türkçe', title:'Cümlenin Öğeleri Bulma Taktikleri', color:'var(--ders-tur)', badge:'badge-tur', icon:'📖', pages:3 },
-            { id:24, ders:'Fen Bilimleri', title:'Mevsimler ve İklim LGS Denemesi', color:'var(--ders-fen)', badge:'badge-fen', icon:'🧬', pages:6 },
-            { id:25, ders:'Fen Bilimleri', title:'DNA ve Genetik Kod Çıkmış Sorular', color:'var(--ders-fen)', badge:'badge-fen', icon:'🧬', pages:5 },
-            { id:26, ders:'İnkılap Tarihi', title:'Bir Kahraman Doğuyor - Kavram Haritası', color:'var(--ders-sos)', badge:'badge-sos', icon:'🌍', pages:2 },
-            { id:27, ders:'İnkılap Tarihi', title:'Milli Uyanış Kongreler Dönemi Özeti', color:'var(--ders-sos)', badge:'badge-sos', icon:'🌍', pages:4 },
-            { id:28, ders:'İngilizce', title:'LGS Soru Kökleri ve Türkçe Karşılıkları', color:'var(--ders-ing)', badge:'badge-ing', icon:'💬', pages:4 },
-            { id:29, ders:'Din Kültürü', title:'Kader İnancı Hap Bilgiler', color:'var(--ders-din)', badge:'badge-din', icon:'🕌', pages:2 },
-            { id:30, ders:'Tümü', title:'Tüm Dersler LGS Mega Deneme Sınavı', color:'var(--neon-yellow)', badge:'badge-mat', icon:'🏆', pages:24 }
-        ]
-    };
+        // --- STATE MANAGEMENT ---
+        const State = {
+            isDarkMode: localStorage.getItem('theme') === 'dark',
+            isPremium: localStorage.getItem('premium') === 'true',
+            favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
+            filter: { grade: 'All', subject: 'All', search: '', favoritesOnly: false },
+            isAdmin: false
+        };
 
-    const ROUTES = { 'home': 'page-home', 'sinif56': 'page-sinif56', 'sinif7': 'page-sinif7', 'sinif8': 'page-sinif8' };
+        // --- MOCK DATABASE ---
+        let Database = [
+            { id: 1, title: 'Fractions & Decimals Masterclass', desc: 'Comprehensive guide covering addition, subtraction, and multiplication of complex fractions. Perfect for mid-terms.', grade: 6, subject: 'Math', isPremium: false, views: 1240 },
+            { id: 2, title: 'Algebraic Expressions Cheat Sheet', desc: 'Quick formulas and step-by-step solutions for unknown variables.', grade: 7, subject: 'Math', isPremium: true, views: 3420 },
+            { id: 3, title: 'Advanced Geometry: Triangles', desc: 'Pythagorean theorem, angles, and area calculations with visual examples.', grade: 8, subject: 'Math', isPremium: true, views: 5120 },
+            { id: 4, title: 'Cell Structure & Organelles', desc: 'Detailed diagrams and functions of plant and animal cells.', grade: 6, subject: 'Science', isPremium: false, views: 890 },
+            { id: 5, title: 'Forces and Motion Dynamics', desc: 'Newton\'s laws explained with real-world middle school level examples.', grade: 7, subject: 'Science', isPremium: false, views: 1100 },
+            { id: 6, title: 'Chemical Reactions & Periodic Table', desc: 'Introduction to elements, compounds, and balancing basic equations.', grade: 8, subject: 'Science', isPremium: true, views: 4200 },
+            { id: 7, title: 'Grammar: Tenses Overview', desc: 'Present, Past, and Future simple and continuous tenses worksheet.', grade: 6, subject: 'English', isPremium: false, views: 750 },
+            { id: 8, title: 'Reading Comprehension Strategies', desc: 'Techniques to find the main idea, inference, and context clues.', grade: 7, subject: 'English', isPremium: true, views: 2300 },
+            { id: 9, title: 'Essay Writing Structure', desc: 'How to build a strong introduction, body paragraphs, and conclusion.', grade: 8, subject: 'English', isPremium: false, views: 1800 },
+            { id: 10, title: 'Data Analysis & Probability', desc: 'Mean, median, mode and basic probability scenarios.', grade: 8, subject: 'Math', isPremium: false, views: 950 }
+        ];
 
-    function navigate(page) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const target = document.getElementById(ROUTES[page]);
-        if (target) {
-            target.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        if (page === 'home') document.getElementById('nav-home')?.classList.add('active');
-
-        document.getElementById('navLinks').classList.remove('open');
-
-        if (page === 'sinif56' && !document.getElementById('pdfGrid56').hasChildNodes()) renderPDFGrid('56');
-        if (page === 'sinif7' && !document.getElementById('pdfGrid7').hasChildNodes()) renderPDFGrid('7');
-        if (page === 'sinif8' && !document.getElementById('pdfGrid8').hasChildNodes()) renderPDFGrid('8');
-    }
-
-    function renderPDFGrid(sinif, filter = 'Tümü') {
-        const grid = document.getElementById(`pdfGrid${sinif}`);
-        grid.innerHTML = '';
-        const items = PDF_DATA[sinif].filter(p => filter === 'Tümü' || p.ders === filter || p.title.includes(filter));
-
-        items.forEach(pdf => {
-            const card = document.createElement('div');
-            card.className = 'pdf-card';
-            card.innerHTML = `
-                <div class="pdf-card-color" style="background:${pdf.color}">
-                    <div class="pdf-icon" style="color:#000;">${pdf.icon}</div>
-                </div>
-                <div class="pdf-card-info">
-                    <div class="pdf-badges">
-                        <span class="pdf-badge ${pdf.badge}">${pdf.ders}</span>
-                    </div>
-                    <div class="pdf-title">${pdf.title}</div>
-                    <div class="pdf-meta">
-                        <span>${pdf.pages} Sayfa PDF</span>
-                        <span>Ücretsiz</span>
-                    </div>
-                    <button class="pdf-download-btn" onclick="handleDownload('${pdf.title}')">
-                        📥 İNDİR & ÇALIŞ
-                    </button>
-                </div>
-            `;
-            grid.appendChild(card);
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            applyPremiumState();
+            updateFavoritesCount();
+            renderPDFs();
+            renderAdminList();
         });
 
-        if (items.length === 0) {
-            grid.innerHTML = `
-                <div style="grid-column:1/-1;text-align:center;padding:80px 20px;background:var(--bg-card);border-radius:20px;border:2px dashed rgba(255,255,255,0.2);">
-                    <div style="font-size:4rem;margin-bottom:15px;opacity:0.5;">📭</div>
-                    <h3 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:10px;">Döküman Hazırlanıyor</h3>
-                    <p style="color:var(--text-muted);">Bu derse ait çalışma kağıtları sisteme yükleniyor.</p>
-                </div>`;
+        // --- CORE FUNCTIONS ---
+        
+        function toggleTheme() {
+            State.isDarkMode = !State.isDarkMode;
+            localStorage.setItem('theme', State.isDarkMode ? 'dark' : 'light');
+            applyTheme();
         }
-    }
 
-    function filterTabs(sinif, filter, btn) {
-        const container = document.getElementById(`tabs${sinif}`);
-        container.querySelectorAll('.topic-tab').forEach(t => t.className = 'topic-tab');
-        btn.classList.add('active-tab');
-        renderPDFGrid(sinif, filter);
-    }
+        function applyTheme() {
+            if (State.isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').className = 'fas fa-sun text-amber-400';
+                document.getElementById('mobileThemeIcon').className = 'fas fa-sun text-amber-400';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('themeIcon').className = 'fas fa-moon text-slate-600';
+                document.getElementById('mobileThemeIcon').className = 'fas fa-moon text-slate-600';
+            }
+        }
 
-    function handleDownload(title) {
-        showToast(`💯 "${title}" indiriliyor... Sınavda başarılar!`);
-    }
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('mobileMenuIcon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.className = 'fas fa-times';
+            } else {
+                menu.classList.add('hidden');
+                icon.className = 'fas fa-bars';
+            }
+        }
 
-    function showToast(message) {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast`;
-        toast.innerHTML = `<span>${message}</span>`;
-        container.appendChild(toast);
+        // --- FILTERING & SEARCH ---
+
+        function setGradeFilter(grade) {
+            State.filter.grade = grade;
+            State.filter.favoritesOnly = false; // reset fav view
+            
+            // UI Update
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = 'filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700';
+            });
+            const activeBtn = document.getElementById(`btn-grade-${grade}`);
+            if(activeBtn) {
+                activeBtn.className = 'filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-emerald-500 text-white shadow-md';
+            }
+            updateViewHeader();
+            renderPDFs();
+        }
+
+        function setSubjectFilter(subject) {
+            State.filter.subject = subject;
+            State.filter.favoritesOnly = false;
+            
+            // UI Update
+            document.querySelectorAll('.sub-filter-btn').forEach(btn => {
+                btn.className = 'sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all hover:bg-slate-100 dark:hover:bg-slate-700';
+            });
+            const activeBtn = document.getElementById(`btn-sub-${subject}`);
+            if(activeBtn) {
+                activeBtn.className = 'sub-filter-btn w-full text-left px-4 py-2.5 rounded-xl font-medium transition-all bg-indigo-500 text-white shadow-md';
+            }
+            updateViewHeader();
+            renderPDFs();
+        }
+
+        function handleSearch(isMobile = false) {
+            const val = document.getElementById(isMobile ? 'mobileSearch' : 'navSearch').value.toLowerCase();
+            State.filter.search = val;
+            
+            // Sync both inputs
+            if(isMobile) document.getElementById('navSearch').value = val;
+            else document.getElementById('mobileSearch').value = val;
+
+            State.filter.favoritesOnly = false;
+            updateViewHeader();
+            renderPDFs();
+        }
+
+        function filterFavorites() {
+            State.filter.favoritesOnly = true;
+            State.filter.grade = 'All';
+            State.filter.subject = 'All';
+            State.filter.search = '';
+            
+            // Reset other UI filters
+            document.querySelectorAll('.filter-btn, .sub-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-500', 'bg-indigo-500', 'text-white', 'shadow-md');
+                btn.classList.add('hover:bg-slate-100', 'dark:hover:bg-slate-700');
+            });
+            
+            updateViewHeader();
+            renderPDFs();
+        }
+
+        function resetFilters() {
+            document.getElementById('navSearch').value = '';
+            document.getElementById('mobileSearch').value = '';
+            setGradeFilter('All');
+            setSubjectFilter('All');
+        }
+
+        function updateViewHeader() {
+            const title = document.getElementById('viewTitle');
+            const desc = document.getElementById('viewDesc');
+            
+            if (State.filter.favoritesOnly) {
+                title.innerHTML = '<i class="fas fa-heart text-rose-500 mr-3"></i>My Favorites';
+                desc.innerText = 'Your personally curated collection of saved documents.';
+            } else if (State.filter.search !== '') {
+                title.innerText = `Search: "${State.filter.search}"`;
+                desc.innerText = 'Showing results matching your query.';
+            } else {
+                let text = 'Library Overview';
+                if(State.filter.grade !== 'All') text = `Grade ${State.filter.grade} Content`;
+                if(State.filter.subject !== 'All') text = `${State.filter.subject} ` + (State.filter.grade !== 'All' ? `(Grade ${State.filter.grade})` : 'Library');
+                title.innerText = text;
+                desc.innerText = 'Browse our carefully curated collection of study materials and exam preparations.';
+            }
+        }
+
+        // --- RENDER ENGINE ---
+
+        function renderPDFs() {
+            const grid = document.getElementById('pdfGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '';
+            
+            let filtered = Database.filter(item => {
+                if (State.filter.favoritesOnly && !State.favorites.includes(item.id)) return false;
+                if (!State.filter.favoritesOnly) {
+                    if (State.filter.grade !== 'All' && item.grade != State.filter.grade) return false;
+                    if (State.filter.subject !== 'All' && item.subject !== State.filter.subject) return false;
+                    if (State.filter.search !== '') {
+                        const s = State.filter.search;
+                        if (!item.title.toLowerCase().includes(s) && !item.desc.toLowerCase().includes(s)) return false;
+                    }
+                }
+                return true;
+            });
+
+            // Update Stats
+            document.getElementById('statTotalPDFs').innerText = filtered.length;
+            document.getElementById('statPremiumPDFs').innerText = filtered.filter(i => i.isPremium).length;
+
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+                empty.classList.add('flex');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            empty.classList.add('hidden');
+            empty.classList.remove('flex');
+
+            filtered.forEach((pdf, index) => {
+                const isLocked = pdf.isPremium && !State.isPremium;
+                const isFav = State.favorites.includes(pdf.id);
+                
+                // Subject colors map
+                const subColors = {
+                    'Math': 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+                    'Science': 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300',
+                    'English': 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
+                };
+                const tagColor = subColors[pdf.subject] || 'bg-slate-100 text-slate-700';
+
+                // Delay animation based on index
+                const animDelay = (index * 0.05) + 's';
+
+                const card = document.createElement('div');
+                card.className = `pdf-card glass p-6 rounded-3xl flex flex-col relative overflow-hidden animate-fade-up`;
+                card.style.animationDelay = animDelay;
+
+                card.innerHTML = `
+                    ${pdf.isPremium ? `<div class="absolute top-5 right-5 bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-900 text-xs font-extrabold px-3 py-1 rounded-full shadow-lg z-10 flex items-center gap-1"><i class="fas fa-crown"></i> PRO</div>` : ''}
+                    
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-white/50 dark:bg-slate-800/50 backdrop-blur rounded-2xl flex items-center justify-center shadow-sm border border-white/20">
+                            <i class="fas fa-file-pdf text-3xl ${pdf.isPremium ? 'text-amber-500' : 'text-emerald-500'}"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 mb-3 text-xs font-bold">
+                        <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Grade ${pdf.grade}</span>
+                        <span class="px-2.5 py-1 rounded-lg ${tagColor}">${pdf.subject}</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-2 leading-tight ${pdf.isPremium ? 'premium-shimmer' : ''}">${pdf.title}</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6 flex-grow line-clamp-3">${pdf.desc}</p>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-200 dark:border-slate-700/50">
+                        <button onclick="toggleFavorite(${pdf.id}, event)" class="w-10 h-10 rounded-full flex items-center justify-center transition-all ${isFav ? 'bg-rose-100 text-rose-500 dark:bg-rose-900/30' : 'bg-slate-100 text-slate-400 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-slate-700'}">
+                            <i class="${isFav ? 'fas' : 'far'} fa-heart text-lg"></i>
+                        </button>
+                        
+                        <button onclick="openPreview(${pdf.id})" class="px-5 py-2.5 rounded-xl text-sm font-bold shadow transition-all flex items-center gap-2 ${isLocked ? 'bg-slate-200 text-slate-500 cursor-pointer hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-400' : 'bg-emerald-500 text-white hover:bg-emerald-600 hover:-translate-y-0.5 hover:shadow-lg'}">
+                            ${isLocked ? '<i class="fas fa-lock"></i> Locked' : '<i class="fas fa-eye"></i> View & DL'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- FAVORITES SYSTEM ---
+
+        function toggleFavorite(id, event) {
+            if(event) event.stopPropagation();
+            
+            const index = State.favorites.indexOf(id);
+            if (index > -1) {
+                State.favorites.splice(index, 1);
+                showToast('Removed from Favorites', 'info');
+            } else {
+                State.favorites.push(id);
+                showToast('Added to Favorites!', 'success');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(State.favorites));
+            updateFavoritesCount();
+            
+            // If we are currently viewing favorites, re-render immediately to remove it
+            if (State.filter.favoritesOnly) {
+                renderPDFs();
+            } else {
+                // Otherwise just re-render to update the heart icon state
+                renderPDFs(); 
+            }
+        }
+
+        function updateFavoritesCount() {
+            document.getElementById('favCount').innerText = State.favorites.length;
+        }
+
+        // --- PREMIUM / MONETIZATION ---
+
+        function activatePremium() {
+            State.isPremium = true;
+            localStorage.setItem('premium', 'true');
+            applyPremiumState();
+            closeModal('pricingModal');
+            showToast('Premium Activated Successfully! Welcome aboard.', 'success');
+            renderPDFs(); // Unlock UI
+        }
+
+        function applyPremiumState() {
+            const btn = document.getElementById('navPremiumBtn');
+            const ads = [document.getElementById('topAd'), document.getElementById('sidebarAd'), document.getElementById('bottomAd')];
+            
+            if (State.isPremium) {
+                // Update Button
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Premium Active';
+                btn.className = 'bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-900 px-5 py-2.5 rounded-xl text-sm font-bold shadow flex items-center gap-2 pointer-events-none opacity-80';
+                
+                // Hide Ads completely
+                ads.forEach(ad => { if(ad) ad.style.display = 'none'; });
+            } else {
+                // Restore ads if not premium
+                const isMobile = window.innerWidth < 1024;
+                if(ads[0]) ads[0].style.display = 'flex';
+                if(ads[1]) ads[1].style.display = isMobile ? 'none' : 'flex';
+                if(ads[2]) ads[2].style.display = isMobile ? 'flex' : 'none';
+            }
+        }
+
+        // --- MODALS & ACTIONS ---
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('active');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+        }
+
+        let currentActivePDF = null;
+
+        function openPreview(id) {
+            const pdf = Database.find(p => p.id === id);
+            if (!pdf) return;
+            
+            // Check Lock
+            if (pdf.isPremium && !State.isPremium) {
+                openModal('pricingModal');
+                showToast('This document requires a Premium subscription.', 'warning');
+                return;
+            }
+
+            currentActivePDF = pdf;
+            
+            // Populate Modal
+            document.getElementById('dlTitle').innerText = pdf.title;
+            document.getElementById('dlDesc').innerText = pdf.desc;
+            document.getElementById('dlGrade').innerText = `Grade ${pdf.grade}`;
+            document.getElementById('dlSubject').innerText = pdf.subject;
+            
+            // Reset Progress UI
+            document.getElementById('dlActionArea').classList.remove('hidden');
+            document.getElementById('dlProgressArea').classList.add('hidden');
+            document.getElementById('dlBar').style.width = '0%';
+            document.getElementById('dlPercentage').innerText = '0%';
+
+            openModal('downloadModal');
+        }
+
+        function startSimulatedDownload() {
+            const actionArea = document.getElementById('dlActionArea');
+            const progressArea = document.getElementById('dlProgressArea');
+            const bar = document.getElementById('dlBar');
+            const perc = document.getElementById('dlPercentage');
+
+            actionArea.classList.add('hidden');
+            progressArea.classList.remove('hidden');
+
+            let progress = 0;
+            // Premium downloads 3x faster
+            const speed = State.isPremium ? 60 : 20; 
+
+            const interval = setInterval(() => {
+                progress += speed;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    bar.style.width = '100%';
+                    perc.innerText = '100%';
+                    
+                    setTimeout(() => {
+                        closeModal('downloadModal');
+                        showToast(`"${currentActivePDF.title}" downloaded successfully!`, 'success');
+                    }, 500);
+                } else {
+                    bar.style.width = `${progress}%`;
+                    perc.innerText = `${Math.floor(progress)}%`;
+                }
+            }, 500);
+        }
+
+        // --- ADMIN DASHBOARD ---
+
+        function toggleAdminPanel() {
+            State.isAdmin = !State.isAdmin;
+            const sidebar = document.getElementById('mainSidebar');
+            const grid = document.getElementById('pdfGrid');
+            const admin = document.getElementById('adminPanel');
+            const empty = document.getElementById('emptyState');
+            
+            if (State.isAdmin) {
+                sidebar.classList.add('hidden');
+                grid.classList.add('hidden');
+                empty.classList.add('hidden');
+                admin.classList.remove('hidden');
+                document.getElementById('viewTitle').parentElement.parentElement.classList.add('hidden'); // hide hero
+                renderAdminList();
+            } else {
+                sidebar.classList.remove('hidden');
+                admin.classList.add('hidden');
+                document.getElementById('viewTitle').parentElement.parentElement.classList.remove('hidden'); // show hero
+                renderPDFs();
+            }
+        }
+
+        function handleAddNewPDF(e) {
+            e.preventDefault();
+            
+            const newPdf = {
+                id: Date.now(), // simple unique ID
+                title: document.getElementById('inpTitle').value,
+                desc: document.getElementById('inpDesc').value,
+                grade: parseInt(document.getElementById('inpGrade').value),
+                subject: document.getElementById('inpSubject').value,
+                isPremium: document.getElementById('inpPremium').checked,
+                views: 0
+            };
+
+            Database.unshift(newPdf); // Add to beginning
+            
+            // Reset Form
+            e.target.reset();
+            
+            showToast('New document added to database.', 'success');
+            renderAdminList();
+        }
+
+        function deletePDF(id) {
+            if(confirm('Are you sure you want to permanently delete this document?')) {
+                Database = Database.filter(p => p.id !== id);
+                // Also remove from favorites if exists
+                State.favorites = State.favorites.filter(favId => favId !== id);
+                localStorage.setItem('favorites', JSON.stringify(State.favorites));
+                updateFavoritesCount();
+                
+                renderAdminList();
+                showToast('Document deleted.', 'info');
+            }
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('adminList');
+            list.innerHTML = '';
+
+            Database.forEach(pdf => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-4 bg-white/50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 transition hover:bg-white dark:hover:bg-slate-800';
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center ${pdf.isPremium ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}">
+                            <i class="fas ${pdf.isPremium ? 'fa-crown' : 'fa-file-pdf'}"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-sm text-slate-800 dark:text-slate-200">${pdf.title}</div>
+                            <div class="flex gap-2 text-xs font-semibold mt-1">
+                                <span class="text-slate-500">G${pdf.grade}</span>
+                                <span class="text-slate-400">•</span>
+                                <span class="text-slate-500">${pdf.subject}</span>
+                                <span class="text-slate-400">•</span>
+                                <span class="text-slate-500"><i class="fas fa-eye"></i> ${pdf.views}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="deletePDF(${pdf.id})" class="w-8 h-8 flex items-center justify-center rounded-lg text-rose-400 hover:bg-rose-100 hover:text-rose-600 transition">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // --- UTILS (TOAST NOTIFICATIONS) ---
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let icon = 'fa-info-circle text-blue-500';
+            if(type === 'success') icon = 'fa-check-circle text-emerald-500';
+            if(type === 'warning') icon = 'fa-exclamation-triangle text-amber-500';
+
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas ${icon} text-xl"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400); // Wait for transition
+            }, 3000);
+        }
+
+        function goHome() {
+            if(State.isAdmin) toggleAdminPanel();
+            resetFilters();
+        }
+
+        // Handle Resize events for Ads
+        window.addEventListener('resize', applyPremiumState);
         
-        requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => container.removeChild(toast), 400);
-        }, 3000);
-    }
-
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        document.getElementById('navLinks').classList.toggle('open');
-    });
-
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
