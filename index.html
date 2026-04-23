@@ -3,358 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ders Deposu</title>
+    <title>Ders Deposu - Yeni Nesil Eğitim Platformu</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           CSS DEĞİŞKENLERİ & TEMALAR
-           ━━━━━━━━━━━━━━━━━━━━━━ */
         :root {
-            --primary: #6c5ce7;
-            --primary-hover: #a29bfe;
-            --secondary: #00cec9;
-            --accent: #fd79a8;
-            --dark-bg: #0f172a;
-            --dark-surface: #1e293b;
-            --dark-surface-2: rgba(30, 41, 59, 0.7);
-            --light-bg: #f8fafc;
-            --light-surface: #ffffff;
-            --light-surface-2: rgba(255, 255, 255, 0.7);
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --danger: #ff7675;
-            --success: #00b894;
-            --warning: #fdcb6e;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            --glow: 0 0 20px rgba(108, 92, 231, 0.4);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary: #4f46e5;
+            --primary-hover: #6366f1;
+            --secondary: #06b6d4;
+            --secondary-hover: #0891b2;
+            --accent: #f43f5e;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glow-primary: 0 0 20px rgba(79, 70, 229, 0.4);
+            --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.4);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="light"] {
-            --dark-bg: var(--light-bg);
-            --dark-surface: var(--light-surface);
-            --dark-surface-2: var(--light-surface-2);
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --glow: 0 0 20px rgba(108, 92, 231, 0.15);
+            --primary: #4338ca;
+            --primary-hover: #4f46e5;
+            --background: #f1f5f9;
+            --surface: #ffffff;
+            --surface-hover: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --glow-primary: 0 4px 14px rgba(67, 56, 202, 0.2);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           TEMEL AYARLAR
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: var(--transition);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 206, 201, 0.08), transparent 25%);
+            background-color: var(--background); color: var(--text-primary);
+            min-height: 100vh; overflow-x: hidden; transition: background-color var(--transition-normal);
+            position: relative;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--dark-bg); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        body::before {
+            content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 30%);
+            z-index: -1; pointer-events: none;
+        }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           TİPOGRAFİ & UTILITIES
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        h1, h2, h3 { font-weight: 800; letter-spacing: -0.5px; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--background); }
+        ::-webkit-scrollbar-thumb { background: var(--surface-hover); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        h1, h2, h3, h4 { letter-spacing: -0.02em; font-weight: 800; }
         .text-gradient {
             background: linear-gradient(135deg, var(--secondary), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .justify-center { justify-content: center; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; }
-        .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
+        
+        .btn {
+            padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600;
+            cursor: pointer; transition: var(--transition-normal); display: inline-flex;
+            align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;
+        }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--glow-primary); }
+        .btn-secondary { background: var(--surface-hover); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { border-color: var(--primary); }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .btn-danger:hover { background: var(--danger); color: white; }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           NAVBAR (GLASSMORPHISM)
-           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .input-group { position: relative; width: 100%; }
+        .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .form-control {
+            width: 100%; padding: 14px 16px 14px 45px; border-radius: 12px;
+            background: var(--surface); border: 1px solid var(--border-color);
+            color: var(--text-primary); font-size: 1rem; transition: var(--transition-fast);
+        }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: var(--dark-surface-2);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border); padding: 15px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: var(--transition-normal);
+        }
+        nav.scrolled { padding: 10px 40px; box-shadow: var(--shadow-lg); }
+
+        .brand { font-size: 1.5rem; font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--text-primary); }
+        .brand i { color: var(--primary); font-size: 1.8rem; filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.5)); }
+
+        .nav-menu { display: flex; gap: 8px; list-style: none; }
+        .nav-menu li a {
+            padding: 10px 18px; border-radius: 10px; color: var(--text-secondary);
+            text-decoration: none; font-weight: 600; font-size: 0.95rem;
+            transition: var(--transition-normal); display: flex; align-items: center; gap: 8px; cursor: pointer;
+        }
+        .nav-menu li a:hover, .nav-menu li a.active {
+            background: rgba(79, 70, 229, 0.1); color: var(--primary);
         }
 
-        .brand {
-            font-size: 1.8rem; font-weight: 900; cursor: pointer;
-            display: flex; align-items: center; gap: 10px;
-        }
-
-        .brand i { color: var(--primary); font-size: 2rem; filter: drop-shadow(0 0 10px var(--primary)); }
-
-        .nav-links { display: flex; gap: 5px; list-style: none; }
-        .nav-links li a {
-            color: var(--text-main); text-decoration: none; padding: 8px 16px;
-            border-radius: 12px; font-weight: 600; font-size: 0.95rem;
-            transition: var(--transition); cursor: pointer; display: flex; align-items: center; gap: 8px;
-        }
-        
-        .nav-links li a:hover, .nav-links li a.active {
-            background: rgba(108, 92, 231, 0.15); color: var(--primary);
-        }
-
-        .actions { display: flex; gap: 15px; align-items: center; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
         .icon-btn {
-            background: transparent; border: 1px solid var(--glass-border);
-            color: var(--text-main); width: 40px; height: 40px; border-radius: 50%;
-            cursor: pointer; transition: var(--transition); font-size: 1.1rem;
-            display: flex; justify-content: center; align-items: center;
+            width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border-color);
+            background: var(--surface); color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+            transition: var(--transition-fast); position: relative;
         }
-        .icon-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--glow); }
-        .hamburger { display: none; }
+        .icon-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); }
+        .badge-counter {
+            position: absolute; top: -5px; right: -5px; background: var(--accent); color: white;
+            font-size: 0.7rem; font-weight: bold; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 2px solid var(--background);
+        }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           ANA YAPI & SECTIONLAR
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        main { padding: 100px 5% 50px; max-width: 1400px; margin: 0 auto; min-height: 80vh; }
-        section { display: none; animation: fadeIn 0.4s ease-out forwards; }
+        .hamburger { display: none; font-size: 1.5rem; color: var(--text-primary); cursor: pointer; background: none; border: none; }
+
+        main { padding: 120px 40px 60px; max-width: 1600px; margin: 0 auto; min-height: calc(100vh - 80px); }
+        section { display: none; animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
         section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           HERO & ARAMA
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        .hero { text-align: center; padding: 3rem 0 4rem; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
-        
-        .search-wrapper {
-            position: relative; max-width: 700px; margin: 0 auto;
-            background: var(--dark-surface); border-radius: 50px;
-            padding: 5px; border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow); display: flex; align-items: center;
-            transition: var(--transition);
-        }
-        .search-wrapper:focus-within { border-color: var(--primary); box-shadow: var(--glow); }
-        .search-wrapper i { font-size: 1.2rem; color: var(--text-muted); padding: 0 15px; }
-        .search-wrapper input {
-            flex: 1; background: transparent; border: none; padding: 15px 10px;
-            color: var(--text-main); font-size: 1.1rem; outline: none;
-        }
-        .search-wrapper button {
-            background: var(--primary); color: white; border: none; padding: 12px 30px;
-            border-radius: 40px; font-weight: bold; cursor: pointer; transition: var(--transition);
-        }
-        .search-wrapper button:hover { background: var(--primary-hover); }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           KARTLAR & GRID
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
+        .hero { text-align: center; padding: 60px 0; position: relative; }
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 40px; line-height: 1.6; }
         
+        .search-hero {
+            max-width: 800px; margin: 0 auto; display: flex; gap: 10px;
+            background: var(--surface); padding: 10px; border-radius: 20px;
+            border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);
+            position: relative; z-index: 10;
+        }
+        .search-hero input {
+            flex: 1; background: transparent; border: none; padding: 15px 25px;
+            color: var(--text-primary); font-size: 1.1rem; outline: none;
+        }
+        .search-hero button { border-radius: 14px; padding: 0 40px; font-size: 1.1rem; }
+
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .section-header h2 { font-size: 2rem; display: flex; align-items: center; gap: 12px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+
         .card {
-            background: var(--dark-surface); border-radius: 20px; padding: 25px;
-            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            position: relative; overflow: hidden; transition: var(--transition);
-            display: flex; flex-direction: column;
+            background: var(--surface); border-radius: 20px; padding: 25px;
+            border: 1px solid var(--border-color); position: relative;
+            transition: var(--transition-normal); display: flex; flex-direction: column;
+            overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+            opacity: 0; transition: var(--transition-normal);
         }
-        .card:hover { transform: translateY(-10px); box-shadow: var(--glow); border-color: rgba(108, 92, 231, 0.3); }
-        .card:hover::before { transform: scaleX(1); }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: rgba(79, 70, 229, 0.3); }
+        .card:hover::before { opacity: 1; }
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .badges { display: flex; gap: 8px; flex-wrap: wrap; }
-        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge.ders { background: rgba(0, 206, 201, 0.1); color: var(--secondary); border: 1px solid rgba(0, 206, 201, 0.2); }
-        .badge.sinif { background: rgba(108, 92, 231, 0.1); color: var(--primary-hover); border: 1px solid rgba(108, 92, 231, 0.2); }
-        .badge.trend { background: rgba(253, 203, 110, 0.1); color: var(--warning); border: 1px solid rgba(253, 203, 110, 0.2); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .badges-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+        .badge { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-subject { background: rgba(6, 182, 212, 0.1); color: var(--secondary); border: 1px solid rgba(6, 182, 212, 0.2); }
+        .badge-grade { background: rgba(79, 70, 229, 0.1); color: var(--primary); border: 1px solid rgba(79, 70, 229, 0.2); }
+        .badge-trend { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge-new { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
 
-        .fav-btn {
-            background: rgba(255,255,255,0.05); border: none; width: 35px; height: 35px; border-radius: 50%;
-            cursor: pointer; color: var(--text-muted); font-size: 1.2rem; transition: var(--transition);
-            display: flex; align-items: center; justify-content: center;
+        .btn-fav {
+            background: rgba(255, 255, 255, 0.05); border: none; width: 36px; height: 36px;
+            border-radius: 50%; color: var(--text-secondary); cursor: pointer;
+            transition: var(--transition-fast); display: flex; justify-content: center; align-items: center;
         }
-        .fav-btn.active { color: var(--danger); background: rgba(255, 118, 117, 0.1); animation: heartBurst 0.3s; }
-        @keyframes heartBurst { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
-
-        .card h3 { font-size: 1.3rem; margin-bottom: 10px; line-height: 1.4; flex-grow: 1; }
+        .btn-fav.active { color: var(--accent); background: rgba(244, 63, 94, 0.1); animation: heartPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .btn-fav:hover:not(.active) { color: var(--accent); transform: scale(1.1); }
         
-        .card-stats { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-        .card-stats span { display: flex; align-items: center; gap: 5px; }
-        .card-stats i.fa-star { color: var(--warning); }
-        
-        .btn-primary {
-            background: var(--primary); color: white; border: none; padding: 12px 20px;
-            border-radius: 12px; font-weight: 600; cursor: pointer; transition: var(--transition);
-            width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;
-        }
-        .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3); }
+        @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           FİLTRELER
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; background: var(--dark-surface); padding: 10px; border-radius: 15px; border: 1px solid var(--glass-border); }
+        .card h3 { font-size: 1.25rem; line-height: 1.5; margin-bottom: 15px; flex-grow: 1; color: var(--text-primary); }
+        
+        .card-stats {
+            display: flex; justify-content: space-between; padding: 15px 0;
+            border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;
+        }
+        .card-stats div { display: flex; align-items: center; gap: 6px; }
+        .stat-star { color: var(--warning); }
+        
+        .filters { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; background: var(--surface); padding: 15px; border-radius: 16px; border: 1px solid var(--border-color); }
         .filter-btn {
-            background: transparent; border: none; padding: 10px 20px; border-radius: 10px;
-            color: var(--text-main); font-weight: 600; cursor: pointer; transition: var(--transition);
+            background: transparent; border: 1px solid transparent; padding: 10px 20px;
+            border-radius: 10px; color: var(--text-secondary); font-weight: 600; cursor: pointer; transition: var(--transition-fast);
         }
-        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; }
+        .filter-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .filter-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           PROFİL SAYFASI
-           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .profile-container { max-width: 1000px; margin: 0 auto; }
         .profile-header {
-            background: var(--dark-surface); border-radius: 20px; padding: 40px; text-align: center;
-            border: 1px solid var(--glass-border); position: relative; overflow: hidden; margin-bottom: 40px;
+            background: var(--surface); border-radius: 24px; padding: 50px; text-align: center;
+            border: 1px solid var(--border-color); position: relative; overflow: hidden; margin-bottom: 40px;
+            box-shadow: var(--shadow-lg);
         }
-        .profile-avatar {
-            width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary));
-            margin: 0 auto 20px; display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; color: white; border: 4px solid var(--dark-bg); box-shadow: var(--glow);
+        .profile-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 150px;
+            background: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(6,182,212,0.2));
         }
-        .user-badges { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
-        .user-badge {
-            background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 30px;
-            display: flex; align-items: center; gap: 10px; border: 1px solid var(--glass-border);
-            font-weight: 600; color: var(--warning);
+        .avatar {
+            width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 20px;
+            background: var(--surface); border: 4px solid var(--background);
+            position: relative; z-index: 2; display: flex; justify-content: center; align-items: center;
+            font-size: 4rem; color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
+        .level-badge {
+            position: absolute; bottom: 5px; right: 5px; background: var(--warning); color: #000;
+            width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: 900; font-size: 1rem; border: 3px solid var(--surface);
+        }
+        
+        .achievement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .achievement {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);
+            padding: 20px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+            transition: var(--transition-fast); opacity: 0.5; filter: grayscale(1);
+        }
+        .achievement.unlocked { opacity: 1; filter: grayscale(0); border-color: var(--primary); background: rgba(79,70,229,0.05); }
+        .achievement i { font-size: 2.5rem; color: var(--warning); }
+        .achievement h4 { font-size: 1rem; margin: 0; }
+        
+        .activity-feed { background: var(--surface); border-radius: 20px; padding: 30px; border: 1px solid var(--border-color); }
+        .activity-item {
+            display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border-color);
+        }
+        .activity-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .activity-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: rgba(79,70,229,0.1);
+            color: var(--primary); display: flex; justify-content: center; align-items: center; font-size: 1.2rem; flex-shrink: 0;
+        }
+        .activity-content h4 { margin-bottom: 5px; }
+        .activity-content p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+        .activity-time { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; display: block; }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           PDF DETAY MODALI
-           ━━━━━━━━━━━━━━━━━━━━━━ */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-            z-index: 2000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity var(--transition-fast); padding: 20px;
         }
-        .modal-overlay.show { display: flex; opacity: 1; }
+        .modal-overlay.active { display: flex; opacity: 1; }
         
         .modal-content {
-            background: var(--dark-surface); width: 90%; max-width: 800px; max-height: 90vh;
-            border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            overflow-y: auto; position: relative; transform: translateY(50px); transition: transform 0.3s;
+            background: var(--surface); width: 100%; max-width: 900px; max-height: 90vh;
+            border-radius: 24px; border: 1px solid var(--border-color); display: flex; flex-direction: column;
+            transform: scale(0.95) translateY(20px); transition: var(--transition-normal); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
-        .modal-overlay.show .modal-content { transform: translateY(0); }
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
         
-        .modal-close {
-            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none;
-            width: 40px; height: 40px; border-radius: 50%; color: var(--text-main); font-size: 1.2rem;
-            cursor: pointer; z-index: 10; transition: var(--transition);
+        .modal-header {
+            padding: 30px 40px; border-bottom: 1px solid var(--border-color); position: relative;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent);
         }
-        .modal-close:hover { background: var(--danger); color: white; transform: rotate(90deg); }
-
-        .modal-header { padding: 40px 40px 20px; border-bottom: 1px solid var(--glass-border); }
-        .modal-title { font-size: 2rem; margin-bottom: 15px; }
-        .modal-meta { display: flex; gap: 20px; color: var(--text-muted); font-size: 1.1rem; }
-        
-        .modal-body { padding: 30px 40px; }
-        
-        .rating-section { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
-        .stars-interactive i { font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-        .stars-interactive i:hover, .stars-interactive i.active { color: var(--warning); transform: scale(1.1); }
-
-        .comments-section h3 { margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
-        .comment-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
-        .comment-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
-        .comment-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
-        .comment-header strong { color: var(--text-main); }
-        
-        .comment-form { display: flex; flex-direction: column; gap: 10px; }
-        .comment-form textarea {
-            background: var(--dark-bg); border: 1px solid var(--glass-border); color: var(--text-main);
-            padding: 15px; border-radius: 12px; resize: vertical; min-height: 100px; outline: none;
+        .btn-close {
+            position: absolute; top: 25px; right: 25px; width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: none; color: var(--text-primary); font-size: 1.2rem;
+            cursor: pointer; transition: var(--transition-fast); display: flex; justify-content: center; align-items: center;
         }
-        .comment-form textarea:focus { border-color: var(--primary); }
-
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           ADMIN PANEL
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        .admin-login { max-width: 400px; margin: 100px auto; background: var(--dark-surface); padding: 40px; border-radius: 20px; text-align: center; }
-        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; background: var(--dark-bg); border: 1px solid var(--glass-border); color: white; border-radius: 10px; outline:none; }
+        .btn-close:hover { background: var(--danger); color: white; transform: rotate(90deg); }
         
-        .admin-dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
-        .admin-sidebar { background: var(--dark-surface); padding: 25px; border-radius: 20px; height: fit-content; }
-        .stat-box { background: rgba(108, 92, 231, 0.1); border: 1px solid var(--primary); padding: 20px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
-        .stat-box h4 { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
-        .stat-box span { font-size: 2rem; font-weight: bold; color: var(--primary); }
-
-        .admin-content { background: var(--dark-surface); padding: 30px; border-radius: 20px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 12px 15px; background: var(--dark-bg); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 10px; outline: none; }
-        .form-control:focus { border-color: var(--primary); }
+        .modal-body { padding: 0; overflow-y: auto; flex: 1; }
         
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--glass-border); }
-        .admin-table th { color: var(--text-muted); font-weight: 600; }
-        .admin-table tr:hover { background: rgba(255,255,255,0.02); }
-        .action-btns { display: flex; gap: 10px; }
-        .action-btns button { padding: 8px; border: none; border-radius: 8px; cursor: pointer; color: white; }
-        .btn-edit { background: var(--warning); } .btn-delete { background: var(--danger); }
+        .pdf-preview-banner {
+            padding: 40px; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .pdf-meta { display: flex; gap: 30px; }
+        .meta-item { display: flex; flex-direction: column; gap: 5px; }
+        .meta-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .meta-value { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        
+        .interactive-section { padding: 40px; display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+        
+        .rate-box {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 30px;
+            border-radius: 16px; text-align: center; height: fit-content;
+        }
+        .stars-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-direction: row-reverse; }
+        .stars-container i { font-size: 2rem; color: var(--surface-hover); cursor: pointer; transition: 0.2s; }
+        .stars-container i:hover, .stars-container i:hover ~ i, .stars-container i.active, .stars-container i.active ~ i { color: var(--warning); transform: scale(1.1); }
+        
+        .comments-section h3 { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .comment-input-area { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 16px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .comment-input-area textarea {
+            width: 100%; background: transparent; border: none; color: var(--text-primary);
+            resize: vertical; min-height: 80px; outline: none; font-size: 1rem; margin-bottom: 15px;
+        }
+        
+        .comment-thread { display: flex; flex-direction: column; gap: 20px; }
+        .comment { display: flex; gap: 15px; }
+        .comment-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); display: flex; justify-content: center; align-items: center; font-weight: bold; flex-shrink: 0; }
+        .comment-content { background: rgba(255,255,255,0.03); padding: 15px 20px; border-radius: 0 16px 16px 16px; flex: 1; border: 1px solid var(--border-color); }
+        .comment-head { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .comment-author { font-weight: 700; color: var(--primary-hover); }
+        .comment-date { font-size: 0.8rem; color: var(--text-secondary); }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           TOAST BİLDİRİMLER
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; }
+        .admin-layout { display: grid; grid-template-columns: 280px 1fr; gap: 30px; min-height: 70vh; }
+        .admin-sidebar { background: var(--surface); border-radius: 20px; border: 1px solid var(--border-color); padding: 30px; height: fit-content; }
+        .admin-menu { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+        .admin-menu li a {
+            display: flex; align-items: center; gap: 15px; padding: 15px; border-radius: 12px;
+            color: var(--text-secondary); text-decoration: none; font-weight: 600; transition: var(--transition-fast); cursor: pointer;
+        }
+        .admin-menu li a.active, .admin-menu li a:hover { background: rgba(79,70,229,0.1); color: var(--primary); }
+        
+        .admin-main { background: var(--surface); border-radius: 20px; border: 1px solid var(--border-color); padding: 40px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; }
+        .stat-title { color: var(--text-secondary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+        .stat-value { font-size: 2.5rem; font-weight: 900; color: var(--primary); }
+
+        .data-table-wrap { overflow-x: auto; margin-top: 30px; }
+        .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .data-table th { text-align: left; padding: 20px 15px; border-bottom: 2px solid var(--border-color); color: var(--text-secondary); font-weight: 600; }
+        .data-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+        .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+        
+        .action-group { display: flex; gap: 10px; }
+        .btn-icon { width: 35px; height: 35px; border-radius: 8px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; color: white; transition: 0.2s; }
+        .btn-edit { background: var(--warning); } .btn-edit:hover { background: #d97706; }
+        .btn-del { background: var(--danger); } .btn-del:hover { background: #b91c1c; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-weight: 600; color: var(--text-secondary); font-size: 0.9rem; }
+        select.form-control { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto; }
+
+        .login-box { max-width: 450px; margin: 100px auto; background: var(--surface); padding: 50px; border-radius: 24px; border: 1px solid var(--border-color); text-align: center; box-shadow: var(--shadow-lg); }
+        .login-box i { font-size: 4rem; color: var(--primary); margin-bottom: 20px; }
+
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
         .toast {
-            background: var(--dark-surface); border-left: 4px solid var(--primary); color: var(--text-main);
-            padding: 16px 24px; border-radius: 12px; box-shadow: var(--glass-shadow);
-            display: flex; align-items: center; gap: 15px; font-weight: 500;
-            animation: slideIn 0.3s ease-out forwards, fadeOut 0.4s ease-in 3s forwards;
+            background: var(--surface); border: 1px solid var(--border-color); padding: 16px 24px;
+            border-radius: 12px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 15px;
+            color: var(--text-primary); font-weight: 600; pointer-events: auto;
+            animation: toastEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toastLeave 0.4s ease forwards 3.5s;
+            position: relative; overflow: hidden;
         }
-        .toast i { font-size: 1.2rem; color: var(--primary); }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { to { transform: translateY(-20px); opacity: 0; } }
+        .toast::before { content: ''; position: absolute; bottom: 0; left: 0; height: 4px; background: var(--primary); width: 100%; animation: toastProgress 3.5s linear forwards; }
+        .toast.success::before { background: var(--success); } .toast.success i { color: var(--success); }
+        .toast.error::before { background: var(--danger); } .toast.error i { color: var(--danger); }
+        
+        @keyframes toastEnter { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toastLeave { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
-        /* ━━━━━━━━━━━━━━━━━━━━━━
-           MOBİL UYUM
-           ━━━━━━━━━━━━━━━━━━━━━━ */
-        @media (max-width: 992px) {
-            .admin-dashboard { grid-template-columns: 1fr; }
+        @media (max-width: 1024px) {
+            .interactive-section { grid-template-columns: 1fr; }
+            .admin-layout { grid-template-columns: 1fr; }
+            .admin-sidebar { display: flex; align-items: center; justify-content: space-between; padding: 20px; }
+            .admin-menu { flex-direction: row; margin-top: 0; overflow-x: auto; }
         }
         @media (max-width: 768px) {
-            nav { padding: 1rem 5%; }
-            .nav-links {
-                position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px);
-                background: var(--dark-bg); flex-direction: column; align-items: center; padding-top: 2rem;
-                transition: 0.4s; gap: 20px;
+            nav { padding: 15px 20px; }
+            .hamburger { display: block; z-index: 1001; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background: var(--surface); flex-direction: column; padding: 100px 30px;
+                border-left: 1px solid var(--border-color); box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                transition: var(--transition-normal); z-index: 999;
             }
-            .nav-links.active { left: 0; }
-            .nav-links li a { font-size: 1.2rem; padding: 15px 30px; }
-            .hamburger { display: block; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
+            .nav-menu.show { right: 0; }
+            main { padding: 100px 20px 40px; }
             .hero h1 { font-size: 2.5rem; }
-            .modal-content { width: 95%; padding: 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .pdf-meta { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="brand" onclick="switchView('home')">
+    <nav id="navbar">
+        <div class="brand" onclick="app.navigate('home')">
             <i class="fa-solid fa-layer-group"></i> Ders Deposu
         </div>
-        <ul class="nav-links" id="navLinks">
-            <li><a onclick="switchView('home')" data-target="home" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
-            <li><a onclick="switchView('explore')" data-target="explore"><i class="fa-solid fa-compass"></i> Keşfet</a></li>
-            <li><a onclick="switchView('grade6')" data-target="grade6"><i class="fa-solid fa-6"></i> 6. Sınıf</a></li>
-            <li><a onclick="switchView('grade7')" data-target="grade7"><i class="fa-solid fa-7"></i> 7. Sınıf</a></li>
-            <li><a onclick="switchView('grade8')" data-target="grade8"><i class="fa-solid fa-8"></i> 8. Sınıf</a></li>
+        <ul class="nav-menu" id="navMenu">
+            <li><a onclick="app.navigate('home')" data-view="home"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
+            <li><a onclick="app.navigate('explore')" data-view="explore"><i class="fa-solid fa-compass"></i> Keşfet</a></li>
+            <li><a onclick="app.navigate('grade6')" data-view="grade6"><i class="fa-solid fa-6"></i> 6. Sınıf</a></li>
+            <li><a onclick="app.navigate('grade7')" data-view="grade7"><i class="fa-solid fa-7"></i> 7. Sınıf</a></li>
+            <li><a onclick="app.navigate('grade8')" data-view="grade8"><i class="fa-solid fa-8"></i> 8. Sınıf</a></li>
         </ul>
-        <div class="actions">
-            <button class="icon-btn" onclick="switchView('favorites')" title="Favoriler"><i class="fa-regular fa-heart"></i></button>
-            <button class="icon-btn" onclick="switchView('profile')" title="Profil"><i class="fa-regular fa-user"></i></button>
-            <button class="icon-btn" onclick="switchView('admin')" title="Yönetim"><i class="fa-solid fa-shield-halved"></i></button>
-            <button class="icon-btn" onclick="toggleTheme()" title="Tema"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
-            <div class="hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+        <div class="nav-actions">
+            <button class="icon-btn" onclick="app.navigate('favorites')" title="Favoriler">
+                <i class="fa-solid fa-heart"></i>
+                <span class="badge-counter" id="navFavCount">0</span>
+            </button>
+            <button class="icon-btn" onclick="app.navigate('profile')" title="Profil">
+                <i class="fa-solid fa-user-graduate"></i>
+            </button>
+            <button class="icon-btn" onclick="app.navigate('admin')" title="Yönetim">
+                <i class="fa-solid fa-shield-halved"></i>
+            </button>
+            <button class="icon-btn" onclick="app.toggleTheme()" title="Tema">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+            <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('show')">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </nav>
 
@@ -362,185 +427,285 @@
         <section id="home" class="active">
             <div class="hero">
                 <h1 class="text-gradient">Eğitimde Sınırları Kaldırın</h1>
-                <p>Ortaokul müfredatına uygun binlerce PDF, deneme sınavı ve çalışma kağıdı. Öğren, paylaş, puanla ve başarıya ulaş.</p>
-                <div class="search-wrapper">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="globalSearchInput" placeholder="PDF Adı, Ders veya Konu arayın..." onkeyup="handleGlobalSearch(event)">
-                    <button onclick="executeGlobalSearch()">Ara</button>
+                <p>Ortaokul (6, 7, 8. Sınıf) müfredatına tam uyumlu binlerce PDF doküman. Çalışma kağıtları, testler, denemeler ve özetler seni bekliyor.</p>
+                <div class="search-hero">
+                    <div class="input-group">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="globalSearchInput" placeholder="Doküman adı, konu veya ders ara..." onkeyup="if(event.key==='Enter') app.searchGlobal()">
+                    </div>
+                    <button class="btn btn-primary" onclick="app.searchGlobal()">Ara</button>
                 </div>
             </div>
-            
-            <div id="homeSearchResults" style="display:none;">
-                <h2 class="mb-4">Arama Sonuçları</h2>
+
+            <div id="homeSearchResults" style="display:none; margin-top: 40px;">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-magnifying-glass"></i> Arama Sonuçları</h2>
+                    <button class="btn btn-secondary" onclick="app.clearSearch()"><i class="fa-solid fa-xmark"></i> Temizle</button>
+                </div>
                 <div class="grid" id="searchGrid"></div>
             </div>
 
             <div id="homeDefaultContent">
-                <div class="flex justify-between items-center mb-4 mt-4">
-                    <h2>🔥 En Popüler Dokümanlar</h2>
-                    <a href="#" onclick="switchView('explore')" style="color: var(--primary);">Hepsini Gör</a>
+                <div class="section-header mt-5">
+                    <h2><i class="fa-solid fa-fire text-gradient"></i> En Popüler Dokümanlar</h2>
+                    <button class="btn btn-secondary" onclick="app.navigate('explore')">Tümünü Gör <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
                 <div class="grid" id="homePopularGrid"></div>
+
+                <div class="section-header" style="margin-top: 60px;">
+                    <h2><i class="fa-solid fa-bolt text-gradient"></i> Yeni Eklenenler</h2>
+                </div>
+                <div class="grid" id="homeNewGrid"></div>
             </div>
         </section>
 
         <section id="explore">
-            <h1 class="mb-4 text-gradient"><i class="fa-solid fa-compass"></i> Keşfet</h1>
+            <div class="hero" style="padding: 20px 0 40px;">
+                <h1 class="text-gradient">Keşfet</h1>
+                <p>Platformdaki en trend, en yüksek puanlı ve en çok indirilen içerikleri incele.</p>
+            </div>
             
-            <h2 class="mt-4 mb-4">📈 Trendler (En Çok Görüntülenenler)</h2>
-            <div class="grid" id="exploreTrendingGrid"></div>
+            <div class="section-header"><h2><i class="fa-solid fa-arrow-trend-up text-gradient"></i> Trendlerde Bugün</h2></div>
+            <div class="grid" id="exploreTrendingGrid" style="margin-bottom: 60px;"></div>
 
-            <h2 class="mt-4 mb-4" style="margin-top: 50px;">🌟 En Yüksek Puanlılar</h2>
+            <div class="section-header"><h2><i class="fa-solid fa-star text-gradient"></i> En Yüksek Puanlılar</h2></div>
             <div class="grid" id="exploreTopRatedGrid"></div>
         </section>
 
         <section id="grade6">
-            <h1 class="mb-4 text-gradient">6. Sınıf Materyalleri</h1>
+            <div class="section-header"><h2><i class="fa-solid fa-6 text-gradient"></i>. Sınıf Materyalleri</h2></div>
             <div class="filters" id="filters-grade6"></div>
             <div class="grid" id="grid-grade6"></div>
         </section>
 
         <section id="grade7">
-            <h1 class="mb-4 text-gradient">7. Sınıf Materyalleri</h1>
+            <div class="section-header"><h2><i class="fa-solid fa-7 text-gradient"></i>. Sınıf Materyalleri</h2></div>
             <div class="filters" id="filters-grade7"></div>
             <div class="grid" id="grid-grade7"></div>
         </section>
 
         <section id="grade8">
-            <h1 class="mb-4 text-gradient">8. Sınıf Materyalleri</h1>
+            <div class="section-header"><h2><i class="fa-solid fa-8 text-gradient"></i>. Sınıf Materyalleri</h2></div>
             <div class="filters" id="filters-grade8"></div>
             <div class="grid" id="grid-grade8"></div>
         </section>
 
         <section id="favorites">
-            <h1 class="mb-4 text-gradient"><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Favorilerim</h1>
-            <p class="mb-4 text-muted">Kaydettiğin tüm PDF'ler burada. Çevrimdışı çalışmak için indirebilirsin.</p>
+            <div class="section-header">
+                <h2><i class="fa-solid fa-heart" style="color:var(--accent)"></i> Favori Dokümanlarım</h2>
+            </div>
             <div class="grid" id="favoritesGrid"></div>
         </section>
 
         <section id="profile">
-            <div class="profile-header">
-                <div class="profile-avatar"><i class="fa-solid fa-user-graduate"></i></div>
-                <h2>Öğrenci Profili</h2>
-                <p class="text-muted mt-4">Platformdaki Etkileşimlerin ve Başarıların</p>
-                <div class="user-badges" id="profileBadges"></div>
-            </div>
-
-            <div class="grid" style="grid-template-columns: 1fr 1fr;">
-                <div class="card">
-                    <h3><i class="fa-solid fa-chart-pie"></i> İstatistiklerim</h3>
-                    <ul style="list-style: none; margin-top: 20px; line-height: 2.5; color: var(--text-muted);">
-                        <li>Favoriye Eklenenler: <strong style="color:var(--text-main)" id="statFavs">0</strong></li>
-                        <li>Yapılan Yorumlar: <strong style="color:var(--text-main)" id="statComments">0</strong></li>
-                        <li>Verilen Puanlar: <strong style="color:var(--text-main)" id="statRatings">0</strong></li>
-                    </ul>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="avatar">
+                        <i class="fa-solid fa-user-ninja"></i>
+                        <div class="level-badge" id="profLevel">1</div>
+                    </div>
+                    <h1 id="profName">Çalışkan Öğrenci</h1>
+                    <p style="color:var(--text-secondary); margin-top:10px;">Ders Deposu Topluluk Üyesi</p>
+                    
+                    <div class="achievement-grid">
+                        <div class="achievement" id="badge-new">
+                            <i class="fa-solid fa-egg"></i>
+                            <h4>Çaylak</h4>
+                            <span style="font-size:0.8rem;color:var(--text-secondary)">Kayıt olundu</span>
+                        </div>
+                        <div class="achievement" id="badge-active">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                            <h4>Aktif Öğrenci</h4>
+                            <span style="font-size:0.8rem;color:var(--text-secondary)">5+ Yorum</span>
+                        </div>
+                        <div class="achievement" id="badge-master">
+                            <i class="fa-solid fa-crown"></i>
+                            <h4>PDF Ustası</h4>
+                            <span style="font-size:0.8rem;color:var(--text-secondary)">10+ Favori</span>
+                        </div>
+                        <div class="achievement" id="badge-critic">
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <h4>Eleştirmen</h4>
+                            <span style="font-size:0.8rem;color:var(--text-secondary)">5+ Puanlama</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3><i class="fa-solid fa-comments"></i> Son Yorumlarım</h3>
-                    <div id="profileCommentsList" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;"></div>
+
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+                    <div class="activity-feed" style="height: fit-content;">
+                        <h3 style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">İstatistikler</h3>
+                        <ul style="list-style:none; display:flex; flex-direction:column; gap:15px;">
+                            <li style="display:flex; justify-content:space-between;"><span>Favoriler:</span> <strong id="statFav">0</strong></li>
+                            <li style="display:flex; justify-content:space-between;"><span>Yorumlar:</span> <strong id="statCom">0</strong></li>
+                            <li style="display:flex; justify-content:space-between;"><span>Puanlamalar:</span> <strong id="statRate">0</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-feed">
+                        <h3 style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">Son Aktivitelerim (Yorumlar)</h3>
+                        <div id="profileActivities"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="admin">
-            <div id="adminLoginArea" class="admin-login">
-                <h2><i class="fa-solid fa-lock"></i> Yönetici Girişi</h2>
-                <input type="password" id="adminPass" placeholder="Şifre giriniz...">
-                <button class="btn-primary" onclick="adminLogin()">Giriş Yap</button>
-                <p id="adminError" style="color:var(--danger); display:none; margin-top:15px;">Hatalı şifre!</p>
+            <div id="adminLogin" class="login-box">
+                <i class="fa-solid fa-user-shield"></i>
+                <h2 style="margin-bottom: 30px;">Yönetici Girişi</h2>
+                <div class="input-group mb-4" style="margin-bottom:20px;">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" id="adminPass" class="form-control" placeholder="Güvenlik Anahtarı" onkeyup="if(event.key==='Enter') app.loginAdmin()">
+                </div>
+                <button class="btn btn-primary" style="width:100%; padding:15px; font-size:1.1rem;" onclick="app.loginAdmin()">Sisteme Gir</button>
             </div>
 
-            <div id="adminPanelArea" class="admin-dashboard" style="display:none;">
+            <div id="adminDashboard" class="admin-layout" style="display:none;">
                 <div class="admin-sidebar">
-                    <h3 class="mb-4">Sistem Özeti</h3>
-                    <div class="stat-box"><h4>Toplam PDF</h4><span id="adTotPdf">0</span></div>
-                    <div class="stat-box"><h4>Toplam Görüntülenme</h4><span id="adTotView">0</span></div>
-                    <div class="stat-box"><h4>Toplam Yorum</h4><span id="adTotCom">0</span></div>
+                    <div class="brand"><i class="fa-solid fa-shield-halved"></i> Panel</div>
+                    <ul class="admin-menu">
+                        <li><a class="active" onclick="app.switchAdminTab('overview')" id="tab-overview"><i class="fa-solid fa-chart-line"></i> Genel Bakış</a></li>
+                        <li><a onclick="app.switchAdminTab('add')" id="tab-add"><i class="fa-solid fa-plus-circle"></i> PDF Ekle/Düzenle</a></li>
+                        <li><a onclick="app.switchAdminTab('list')" id="tab-list"><i class="fa-solid fa-list"></i> Tüm Dokümanlar</a></li>
+                        <li><a onclick="app.logoutAdmin()" style="color:var(--danger); margin-top:20px;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a></li>
+                    </ul>
                 </div>
-                <div class="admin-content">
-                    <h2 class="mb-4" id="adminFormTitle">Yeni PDF Ekle</h2>
-                    <form id="adminForm" onsubmit="handleAdminSubmit(event)">
-                        <input type="hidden" id="editId">
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                            <div class="form-group">
-                                <label>PDF Adı</label>
-                                <input type="text" id="fmName" class="form-control" required>
+                
+                <div class="admin-main">
+                    <div id="admin-view-overview">
+                        <h2>Sistem Özeti</h2>
+                        <div class="stats-grid" style="margin-top: 30px;">
+                            <div class="stat-card">
+                                <div class="stat-title">Toplam PDF</div>
+                                <div class="stat-value" id="adTotPdf">0</div>
                             </div>
-                            <div class="form-group">
-                                <label>Sınıf</label>
-                                <select id="fmGrade" class="form-control" required>
-                                    <option value="grade6">6. Sınıf</option>
-                                    <option value="grade7">7. Sınıf</option>
-                                    <option value="grade8">8. Sınıf</option>
-                                </select>
+                            <div class="stat-card">
+                                <div class="stat-title">Toplam Görüntülenme</div>
+                                <div class="stat-value" style="color:var(--secondary)" id="adTotViews">0</div>
                             </div>
-                            <div class="form-group">
-                                <label>Ders</label>
-                                <select id="fmSubject" class="form-control" required>
-                                    <option value="Matematik">Matematik</option>
-                                    <option value="Türkçe">Türkçe</option>
-                                    <option value="Fen Bilimleri">Fen Bilimleri</option>
-                                    <option value="Sosyal Bilgiler">Sosyal Bilgiler</option>
-                                    <option value="İngilizce">İngilizce</option>
-                                </select>
+                            <div class="stat-card">
+                                <div class="stat-title">Toplam Yorum</div>
+                                <div class="stat-value" style="color:var(--success)" id="adTotComms">0</div>
                             </div>
-                            <div class="form-group">
-                                <label>Boyut</label>
-                                <input type="text" id="fmSize" class="form-control" placeholder="Örn: 2.5 MB" required>
+                            <div class="stat-card">
+                                <div class="stat-title">Toplam Favori</div>
+                                <div class="stat-value" style="color:var(--accent)" id="adTotFavs">0</div>
                             </div>
                         </div>
-                        <div class="flex gap-4 mt-4">
-                            <button type="submit" class="btn-primary" id="fmSubmitBtn">Kaydet</button>
-                            <button type="button" class="btn-primary" style="background:var(--text-muted); display:none;" id="fmCancelBtn" onclick="resetAdminForm()">İptal</button>
-                        </div>
-                    </form>
+                    </div>
 
-                    <h3 class="mt-4" style="margin-top: 50px;">Mevcut Dokümanlar</h3>
-                    <input type="text" id="adminTableSearch" class="form-control mb-4" placeholder="Tabloda ara..." oninput="renderAdminTable()">
-                    <div style="overflow-x:auto;">
-                        <table class="admin-table">
-                            <thead><tr><th>ID</th><th>Adı</th><th>Sınıf / Ders</th><th>İstatistikler</th><th>İşlem</th></tr></thead>
-                            <tbody id="adminTbody"></tbody>
-                        </table>
+                    <div id="admin-view-add" style="display:none;">
+                        <h2 id="adminFormTitle">Yeni PDF Dokümanı Ekle</h2>
+                        <form id="pdfForm" onsubmit="app.handlePdfSubmit(event)" style="margin-top:30px;">
+                            <input type="hidden" id="pdfId">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Doküman Adı</label>
+                                    <input type="text" id="pdfAd" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sınıf Seviyesi</label>
+                                    <select id="pdfSinif" class="form-control" required>
+                                        <option value="grade6">6. Sınıf</option>
+                                        <option value="grade7">7. Sınıf</option>
+                                        <option value="grade8">8. Sınıf</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ders</label>
+                                    <select id="pdfDers" class="form-control" required>
+                                        <option value="Matematik">Matematik</option>
+                                        <option value="Türkçe">Türkçe</option>
+                                        <option value="Fen Bilimleri">Fen Bilimleri</option>
+                                        <option value="Sosyal Bilgiler">Sosyal Bilgiler</option>
+                                        <option value="İngilizce">İngilizce</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Dosya Boyutu</label>
+                                    <input type="text" id="pdfBoyut" class="form-control" placeholder="Örn: 2.5 MB" required>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:15px; margin-top:20px;">
+                                <button type="submit" class="btn btn-primary" id="pdfSubmitBtn">Sisteme Kaydet</button>
+                                <button type="button" class="btn btn-secondary" id="pdfCancelBtn" style="display:none;" onclick="app.resetForm()">İptal Et</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="admin-view-list" style="display:none;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                            <h2>Doküman Yönetimi</h2>
+                            <div class="input-group" style="width:300px;">
+                                <i class="fa-solid fa-search"></i>
+                                <input type="text" class="form-control" id="adminTableSearch" placeholder="Tabloda ara..." oninput="app.renderAdminTable()">
+                            </div>
+                        </div>
+                        <div class="data-table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Doküman Adı</th>
+                                        <th>Kategori</th>
+                                        <th>İstatistik</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminTbody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <div class="modal-overlay" id="pdfModal" onclick="closeModal(event)">
+    <div class="modal-overlay" id="pdfModal" onclick="app.closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <button class="btn-close" onclick="app.closeModal()"><i class="fa-solid fa-xmark"></i></button>
             <div class="modal-header">
-                <div class="badges mb-4" id="modalBadges"></div>
-                <h2 class="modal-title" id="modalTitle">PDF Başlığı</h2>
-                <div class="modal-meta">
-                    <span id="modalSize"><i class="fa-solid fa-file-pdf"></i> Boyut</span>
-                    <span id="modalViews"><i class="fa-solid fa-eye"></i> 0 Görüntülenme</span>
-                    <span id="modalRating"><i class="fa-solid fa-star" style="color:var(--warning)"></i> 0.0</span>
-                </div>
-                <button class="btn-primary mt-4" onclick="downloadCurrentPDF()"><i class="fa-solid fa-download"></i> Hemen İndir</button>
+                <div class="badges-wrap" id="modalBadges" style="margin-bottom:15px;"></div>
+                <h2 id="modalTitle" style="font-size:2rem; margin-bottom:15px;">PDF Başlığı</h2>
+                <button class="btn btn-primary" style="padding:15px 30px; font-size:1.1rem; border-radius:15px;" onclick="app.downloadPdf()">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Dokümanı İndir
+                </button>
             </div>
-            
             <div class="modal-body">
-                <div class="rating-section">
-                    <h3>Bu dokümanı nasıl buldun?</h3>
-                    <div class="stars-interactive mt-4" id="modalStarInteraction">
-                        <i class="fa-solid fa-star" onclick="ratePDF(1)"></i>
-                        <i class="fa-solid fa-star" onclick="ratePDF(2)"></i>
-                        <i class="fa-solid fa-star" onclick="ratePDF(3)"></i>
-                        <i class="fa-solid fa-star" onclick="ratePDF(4)"></i>
-                        <i class="fa-solid fa-star" onclick="ratePDF(5)"></i>
+                <div class="pdf-preview-banner">
+                    <div class="pdf-meta">
+                        <div class="meta-item"><span class="meta-label">Boyut</span><span class="meta-value" id="modalSize"><i class="fa-solid fa-file-pdf"></i> 0 MB</span></div>
+                        <div class="meta-item"><span class="meta-label">Görüntülenme</span><span class="meta-value" id="modalViews"><i class="fa-solid fa-eye text-primary"></i> 0</span></div>
+                        <div class="meta-item"><span class="meta-label">Puan</span><span class="meta-value" id="modalRating"><i class="fa-solid fa-star text-warning"></i> 0.0</span></div>
+                        <div class="meta-item"><span class="meta-label">Favori</span><span class="meta-value" id="modalFavs"><i class="fa-solid fa-heart text-accent"></i> 0</span></div>
                     </div>
                 </div>
-
-                <div class="comments-section">
-                    <h3>Yorumlar (<span id="modalCommentCount">0</span>)</h3>
-                    <div class="comment-form mb-4">
-                        <textarea id="commentInput" placeholder="Doküman hakkında ne düşünüyorsun? Diğer öğrencilere yardımcı ol..."></textarea>
-                        <button class="btn-primary" onclick="addComment()">Yorum Gönder</button>
+                
+                <div class="interactive-section">
+                    <div>
+                        <div class="rate-box">
+                            <h3 style="margin-bottom:10px;">Dokümanı Değerlendir</h3>
+                            <p style="color:var(--text-secondary); font-size:0.9rem;">Diğer öğrencilere rehberlik et.</p>
+                            <div class="stars-container" id="modalStars">
+                                <i class="fa-solid fa-star" onclick="app.ratePdf(5)"></i>
+                                <i class="fa-solid fa-star" onclick="app.ratePdf(4)"></i>
+                                <i class="fa-solid fa-star" onclick="app.ratePdf(3)"></i>
+                                <i class="fa-solid fa-star" onclick="app.ratePdf(2)"></i>
+                                <i class="fa-solid fa-star" onclick="app.ratePdf(1)"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div class="comment-list" id="modalComments"></div>
+                    
+                    <div class="comments-section">
+                        <h3>Öğrenci Yorumları <span class="badge badge-trend" id="modalCommentCount">0</span></h3>
+                        <div class="comment-input-area">
+                            <textarea id="commentText" placeholder="Bu doküman sence nasıldı? Fikrini paylaş..."></textarea>
+                            <div style="text-align:right;">
+                                <button class="btn btn-primary" onclick="app.addComment()"><i class="fa-solid fa-paper-plane"></i> Gönder</button>
+                            </div>
+                        </div>
+                        <div class="comment-thread" id="modalCommentsList"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -549,483 +714,395 @@
     <div id="toast-container"></div>
 
     <script>
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // VERİ TABANI & BAŞLANGIÇ VERİLERİ
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        const initialPDFs = [
-            // 6. SINIF
-            { id: 101, ad: "Kümeler Yeni Nesil Soru Bankası", sinif: "grade6", ders: "Matematik", boyut: "3.2 MB", views: 1450, rating: 4.8, ratingCount: 45, comments: [{user: "Öğrenci", text: "Çok zor ama öğretici.", date: "2026-04-10"}], favCount: 120, dateAdded: 1670000000000 },
-            { id: 102, ad: "Güneş Sistemi Çalışma Kağıdı", sinif: "grade6", ders: "Fen Bilimleri", boyut: "1.5 MB", views: 980, rating: 4.5, ratingCount: 30, comments: [], favCount: 85, dateAdded: 1670100000000 },
-            { id: 103, ad: "Sözcükte Anlam Konu Anlatımı", sinif: "grade6", ders: "Türkçe", boyut: "2.1 MB", views: 2100, rating: 4.9, ratingCount: 110, comments: [{user: "Ayşe", text: "Özetler harika.", date: "2026-04-12"}], favCount: 300, dateAdded: 1670200000000 },
-            { id: 104, ad: "İpek Yolu Testi", sinif: "grade6", ders: "Sosyal Bilgiler", boyut: "1.8 MB", views: 500, rating: 4.0, ratingCount: 12, comments: [], favCount: 40, dateAdded: 1670300000000 },
-            { id: 105, ad: "Yummy Breakfast Vocabulary", sinif: "grade6", ders: "İngilizce", boyut: "1.1 MB", views: 1200, rating: 4.7, ratingCount: 65, comments: [], favCount: 95, dateAdded: 1670400000000 },
-            { id: 106, ad: "Çarpanlar ve Katlar LGS Hazırlık", sinif: "grade6", ders: "Matematik", boyut: "4.5 MB", views: 3200, rating: 4.9, ratingCount: 210, comments: [], favCount: 450, dateAdded: 1670500000000 },
-            
-            // 7. SINIF
-            { id: 201, ad: "Tam Sayılar İşlemler Föyü", sinif: "grade7", ders: "Matematik", boyut: "2.8 MB", views: 1800, rating: 4.6, ratingCount: 88, comments: [], favCount: 150, dateAdded: 1670600000000 },
-            { id: 202, ad: "Hücre ve Bölünmeler Denemesi", sinif: "grade7", ders: "Fen Bilimleri", boyut: "5.1 MB", views: 2500, rating: 4.8, ratingCount: 150, comments: [{user: "Ali", text: "Şekiller çok net.", date: "2026-04-20"}], favCount: 220, dateAdded: 1670700000000 },
-            { id: 203, ad: "Zarflar Etkinlik Sayfası", sinif: "grade7", ders: "Türkçe", boyut: "1.4 MB", views: 850, rating: 4.2, ratingCount: 25, comments: [], favCount: 60, dateAdded: 1670800000000 },
-            { id: 204, ad: "Osmanlı Devleti Kuruluş Özeti", sinif: "grade7", ders: "Sosyal Bilgiler", boyut: "3.5 MB", views: 3100, rating: 4.9, ratingCount: 180, comments: [], favCount: 400, dateAdded: 1670900000000 },
-            { id: 205, ad: "Sports Unit Reading Comprehension", sinif: "grade7", ders: "İngilizce", boyut: "1.9 MB", views: 1100, rating: 4.5, ratingCount: 45, comments: [], favCount: 110, dateAdded: 1671000000000 },
-            
-            // 8. SINIF
-            { id: 301, ad: "Mevsimlerin Oluşumu Çıkmış Sorular", sinif: "grade8", ders: "Fen Bilimleri", boyut: "6.2 MB", views: 8500, rating: 5.0, ratingCount: 500, comments: [{user: "LGS_Yolcusu", text: "Kesin çözün!", date: "2026-04-21"}], favCount: 1200, dateAdded: 1671100000000 },
-            { id: 302, ad: "Fiilimsiler Taktiklerle Konu Anlatımı", sinif: "grade8", ders: "Türkçe", boyut: "2.5 MB", views: 4200, rating: 4.7, ratingCount: 220, comments: [], favCount: 550, dateAdded: 1671200000000 },
-            { id: 303, ad: "Bir Kahraman Doğuyor Test", sinif: "grade8", ders: "Sosyal Bilgiler", boyut: "1.8 MB", views: 3600, rating: 4.6, ratingCount: 140, comments: [], favCount: 380, dateAdded: 1671300000000 },
-            { id: 304, ad: "Friendship LGS Vocabulary", sinif: "grade8", ders: "İngilizce", boyut: "1.3 MB", views: 5100, rating: 4.8, ratingCount: 310, comments: [], favCount: 600, dateAdded: 1671400000000 },
-            { id: 305, ad: "Kareköklü İfadeler Deneme", sinif: "grade8", ders: "Matematik", boyut: "4.0 MB", views: 7200, rating: 4.9, ratingCount: 420, comments: [{user: "Matematikçi", text: "Güzel sorular.", date: "2026-04-22"}], favCount: 850, dateAdded: 1671500000000 },
-            { id: 306, ad: "Basınç Yeni Nesil Soru Fası", sinif: "grade8", ders: "Fen Bilimleri", boyut: "5.5 MB", views: 6100, rating: 4.8, ratingCount: 290, comments: [], favCount: 720, dateAdded: 1671600000000 }
+        const initialDB = [
+            { id: 1601, ad: "Çarpanlar ve Katlar Yeni Nesil Soru Bankası", sinif: "grade8", ders: "Matematik", boyut: "4.2 MB", views: 15420, rating: 4.8, ratingCount: 320, favCount: 1450, addedAt: Date.now() - 864000000, comments: [{user: "LGS_Canavarı", text: "Sorular gerçekten çok kaliteli, tam sınav ayarında.", date: "2026-04-15"}] },
+            { id: 1602, ad: "Mevsimlerin Oluşumu Konu Özeti", sinif: "grade8", ders: "Fen Bilimleri", boyut: "2.1 MB", views: 9850, rating: 4.6, ratingCount: 180, favCount: 890, addedAt: Date.now() - 1500000000, comments: [] },
+            { id: 1603, ad: "Fiilimsiler Taktikli Çalışma Kağıdı", sinif: "grade8", ders: "Türkçe", boyut: "1.5 MB", views: 12300, rating: 4.9, ratingCount: 410, favCount: 1100, addedAt: Date.now() - 200000000, comments: [{user: "AyşeY", text: "Zarf fiilleri nihayet anladım teşekkürler.", date: "2026-04-20"}] },
+            { id: 1604, ad: "Bir Kahraman Doğuyor Test", sinif: "grade8", ders: "Sosyal Bilgiler", boyut: "3.5 MB", views: 7600, rating: 4.5, ratingCount: 120, favCount: 560, addedAt: Date.now() - 3000000000, comments: [] },
+            { id: 1605, ad: "Friendship Vocabulary Quiz", sinif: "grade8", ders: "İngilizce", boyut: "1.1 MB", views: 5400, rating: 4.7, ratingCount: 95, favCount: 420, addedAt: Date.now() - 500000000, comments: [] },
+            { id: 1701, ad: "Tam Sayılarla İşlemler Föyü", sinif: "grade7", ders: "Matematik", boyut: "2.8 MB", views: 8200, rating: 4.4, ratingCount: 150, favCount: 670, addedAt: Date.now() - 4000000000, comments: [] },
+            { id: 1702, ad: "Hücre ve Bölünmeler Deneme", sinif: "grade7", ders: "Fen Bilimleri", boyut: "5.5 MB", views: 11000, rating: 4.8, ratingCount: 260, favCount: 980, addedAt: Date.now() - 100000000, comments: [{user: "BilimKurdu", text: "Mitoz mayoz farkı çok iyi anlatılmış.", date: "2026-04-22"}] },
+            { id: 1703, ad: "Zarflar Etkinlik Sayfası", sinif: "grade7", ders: "Türkçe", boyut: "1.8 MB", views: 4300, rating: 4.2, ratingCount: 65, favCount: 310, addedAt: Date.now() - 6000000000, comments: [] },
+            { id: 1801, ad: "Kümeler Konu Anlatımı", sinif: "grade6", ders: "Matematik", boyut: "3.1 MB", views: 6500, rating: 4.5, ratingCount: 110, favCount: 450, addedAt: Date.now() - 2500000000, comments: [] },
+            { id: 1802, ad: "Güneş Sistemi Bilgi Kartları", sinif: "grade6", ders: "Fen Bilimleri", boyut: "6.2 MB", views: 9200, rating: 4.9, ratingCount: 380, favCount: 820, addedAt: Date.now() - 50000000, comments: [{user: "Uzaylı", text: "Görseller mükemmel.", date: "2026-04-23"}] }
         ];
 
-        let pdfData = JSON.parse(localStorage.getItem('dersDeposu_pdfs')) || initialPDFs;
-        let userData = JSON.parse(localStorage.getItem('dersDeposu_user')) || {
-            favs: [], rated: {}, comments: []
-        };
-        let currentActivePDF = null;
+        const app = {
+            db: JSON.parse(localStorage.getItem('dersDeposu_db')) || initialDB,
+            user: JSON.parse(localStorage.getItem('dersDeposu_user')) || { favs: [], rated: {}, comments: [], joinedAt: Date.now() },
+            activeView: 'home',
+            activeFilters: { grade6: 'Tümü', grade7: 'Tümü', grade8: 'Tümü' },
+            subjects: ['Tümü', 'Matematik', 'Türkçe', 'Fen Bilimleri', 'Sosyal Bilgiler', 'İngilizce'],
+            currentPdf: null,
 
-        const subjects = ['Tümü', 'Matematik', 'Türkçe', 'Fen Bilimleri', 'Sosyal Bilgiler', 'İngilizce'];
-        let filters = { grade6: 'Tümü', grade7: 'Tümü', grade8: 'Tümü' };
+            init() {
+                const theme = localStorage.getItem('dersDeposu_theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.getElementById('themeIcon').className = theme === 'dark' ? "fa-solid fa-moon" : "fa-solid fa-sun";
+                
+                this.updateNavCounters();
+                this.navigate('home');
+                
+                window.addEventListener('scroll', () => {
+                    const nav = document.getElementById('navbar');
+                    if (window.scrollY > 20) nav.classList.add('scrolled');
+                    else nav.classList.remove('scrolled');
+                });
+            },
 
-        function saveData() {
-            localStorage.setItem('dersDeposu_pdfs', JSON.stringify(pdfData));
-            localStorage.setItem('dersDeposu_user', JSON.stringify(userData));
-        }
+            save() {
+                localStorage.setItem('dersDeposu_db', JSON.stringify(this.db));
+                localStorage.setItem('dersDeposu_user', JSON.stringify(this.user));
+                this.updateNavCounters();
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // YARDIMCI FONKSİYONLAR
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function getGradeText(grade) { return grade.replace('grade', '') + '. Sınıf'; }
-        
-        function showToast(message, type="success") {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="fa-solid fa-${type==='success'?'check-circle':'circle-exclamation'}"></i> ${message}`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.remove(); }, 3500);
-        }
+            toast(msg, type = 'success') {
+                const c = document.getElementById('toast-container');
+                const t = document.createElement('div');
+                t.className = `toast ${type}`;
+                t.innerHTML = `<i class="fa-solid fa-${type==='success'?'check-circle':'triangle-exclamation'}"></i> <span>${msg}</span>`;
+                c.appendChild(t);
+                setTimeout(() => t.remove(), 4000);
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // KART VE GRID RENDER
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function generateCardHTML(pdf) {
-            const isFav = userData.favs.includes(pdf.id);
-            const isTrend = pdf.views > 3000;
-            const isNew = (Date.now() - pdf.dateAdded) < 2592000000; // 30 gün
+            getGradeTxt(g) { return g.replace('grade', '') + '. Sınıf'; },
             
-            let badges = `<span class="badge ders">${pdf.ders}</span><span class="badge sinif">${getGradeText(pdf.sinif)}</span>`;
-            if(isTrend) badges += `<span class="badge trend"><i class="fa-solid fa-fire"></i> Trend</span>`;
-            
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="badges">${badges}</div>
-                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${pdf.id}, event)">
-                            <i class="fa-solid fa-heart"></i>
-                        </button>
+            updateNavCounters() {
+                document.getElementById('navFavCount').innerText = this.user.favs.length;
+            },
+
+            navigate(view) {
+                document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+                document.getElementById(view).classList.add('active');
+                
+                document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
+                const link = document.querySelector(`.nav-menu a[data-view="${view}"]`);
+                if(link) link.classList.add('active');
+                
+                document.getElementById('navMenu').classList.remove('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                this.activeView = view;
+
+                if(view === 'home') this.renderHome();
+                else if(view === 'explore') this.renderExplore();
+                else if(view.startsWith('grade')) this.renderGrade(view);
+                else if(view === 'favorites') this.renderFavorites();
+                else if(view === 'profile') this.renderProfile();
+                else if(view === 'admin') this.renderAdmin();
+            },
+
+            toggleTheme() {
+                const cur = document.documentElement.getAttribute('data-theme');
+                const nxt = cur === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', nxt);
+                localStorage.setItem('dersDeposu_theme', nxt);
+                document.getElementById('themeIcon').className = nxt === 'dark' ? "fa-solid fa-moon" : "fa-solid fa-sun";
+            },
+
+            genCard(pdf) {
+                const isFav = this.user.favs.includes(pdf.id);
+                const isTrend = pdf.views > 10000;
+                const isNew = (Date.now() - pdf.addedAt) < 604800000; // 7 days
+                
+                let b = `<span class="badge badge-grade">${this.getGradeTxt(pdf.sinif)}</span><span class="badge badge-subject">${pdf.ders}</span>`;
+                if(isTrend) b += `<span class="badge badge-trend"><i class="fa-solid fa-fire"></i> Trend</span>`;
+                if(isNew) b += `<span class="badge badge-new"><i class="fa-solid fa-sparkles"></i> Yeni</span>`;
+                
+                return `
+                    <div class="card">
+                        <div class="card-top">
+                            <div class="badges-wrap">${b}</div>
+                            <button class="btn-fav ${isFav?'active':''}" onclick="app.toggleFav(${pdf.id}, event)"><i class="fa-solid fa-heart"></i></button>
+                        </div>
+                        <h3>${pdf.ad}</h3>
+                        <div class="card-stats">
+                            <div><i class="fa-solid fa-star stat-star"></i> ${pdf.rating.toFixed(1)}</div>
+                            <div><i class="fa-solid fa-eye"></i> ${(pdf.views/1000).toFixed(1)}k</div>
+                            <div><i class="fa-solid fa-comment"></i> ${pdf.comments.length}</div>
+                        </div>
+                        <button class="btn btn-primary" style="width:100%" onclick="app.openModal(${pdf.id})">İncele</button>
                     </div>
-                    <h3>${pdf.ad}</h3>
-                    <div class="card-stats">
-                        <span><i class="fa-solid fa-star"></i> ${pdf.rating.toFixed(1)} (${pdf.ratingCount})</span>
-                        <span><i class="fa-solid fa-eye"></i> ${pdf.views}</span>
-                        <span><i class="fa-solid fa-comment"></i> ${pdf.comments.length}</span>
-                    </div>
-                    <button class="btn-primary" onclick="openPDFModal(${pdf.id})">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> İncele & İndir
-                    </button>
-                </div>
-            `;
-        }
+                `;
+            },
 
-        function renderGrid(containerId, dataArray) {
-            const container = document.getElementById(containerId);
-            if(dataArray.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:50px; color:var(--text-muted);"><i class="fa-solid fa-folder-open" style="font-size:3rem; margin-bottom:15px;"></i><br>İçerik bulunamadı.</div>`;
-                return;
-            }
-            container.innerHTML = dataArray.map(p => generateCardHTML(p)).join('');
-        }
+            renderGridData(cid, data) {
+                const c = document.getElementById(cid);
+                if(!data.length) c.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--text-secondary);"><i class="fa-solid fa-box-open" style="font-size:3rem;margin-bottom:15px;"></i><br>Buralar şimdilik boş.</div>`;
+                else c.innerHTML = data.map(p => this.genCard(p)).join('');
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // ROUTING & NAVIGATION
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function switchView(viewId) {
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            const activeLink = document.querySelector(`.nav-links a[data-target="${viewId}"]`);
-            if(activeLink) activeLink.classList.add('active');
-            
-            document.getElementById('navLinks').classList.remove('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderHome() {
+                const pop = [...this.db].sort((a,b)=>b.views-a.views).slice(0,6);
+                const newp = [...this.db].sort((a,b)=>b.addedAt-a.addedAt).slice(0,3);
+                this.renderGridData('homePopularGrid', pop);
+                this.renderGridData('homeNewGrid', newp);
+            },
 
-            // Initialize views
-            if(viewId === 'home') initHome();
-            else if(viewId === 'explore') initExplore();
-            else if(viewId.startsWith('grade')) initGrade(viewId);
-            else if(viewId === 'favorites') initFavorites();
-            else if(viewId === 'profile') initProfile();
-            else if(viewId === 'admin') initAdmin();
-        }
+            searchGlobal() {
+                const v = document.getElementById('globalSearchInput').value.toLowerCase().trim();
+                if(!v) return this.clearSearch();
+                document.getElementById('homeDefaultContent').style.display = 'none';
+                document.getElementById('homeSearchResults').style.display = 'block';
+                const r = this.db.filter(p => p.ad.toLowerCase().includes(v) || p.ders.toLowerCase().includes(v));
+                this.renderGridData('searchGrid', r);
+            },
 
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+            clearSearch() {
+                document.getElementById('globalSearchInput').value = '';
+                document.getElementById('homeSearchResults').style.display = 'none';
+                document.getElementById('homeDefaultContent').style.display = 'block';
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // HOME & EXPLORE
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function initHome() {
-            document.getElementById('homeSearchResults').style.display = 'none';
-            document.getElementById('homeDefaultContent').style.display = 'block';
-            document.getElementById('globalSearchInput').value = '';
-            
-            const popular = [...pdfData].sort((a,b) => b.views - a.views).slice(0, 6);
-            renderGrid('homePopularGrid', popular);
-        }
+            renderExplore() {
+                this.renderGridData('exploreTrendingGrid', [...this.db].sort((a,b)=>b.views-a.views).slice(0,8));
+                this.renderGridData('exploreTopRatedGrid', [...this.db].sort((a,b)=>b.rating-a.rating).slice(0,8));
+            },
 
-        function handleGlobalSearch(e) { if(e.key === 'Enter') executeGlobalSearch(); }
-        
-        function executeGlobalSearch() {
-            const term = document.getElementById('globalSearchInput').value.toLowerCase().trim();
-            if(!term) { initHome(); return; }
-            
-            document.getElementById('homeDefaultContent').style.display = 'none';
-            document.getElementById('homeSearchResults').style.display = 'block';
-            
-            const results = pdfData.filter(p => p.ad.toLowerCase().includes(term) || p.ders.toLowerCase().includes(term));
-            renderGrid('searchGrid', results);
-        }
+            renderGrade(g) {
+                const c = document.getElementById(`filters-${g}`);
+                c.innerHTML = this.subjects.map(s => `<button class="filter-btn ${this.activeFilters[g]===s?'active':''}" onclick="app.filterGrade('${g}','${s}')">${s}</button>`).join('');
+                let d = this.db.filter(p => p.sinif === g);
+                if(this.activeFilters[g] !== 'Tümü') d = d.filter(p => p.ders === this.activeFilters[g]);
+                this.renderGridData(`grid-${g}`, d);
+            },
 
-        function initExplore() {
-            const trending = [...pdfData].sort((a,b) => b.views - a.views).slice(0, 8);
-            const topRated = [...pdfData].sort((a,b) => b.rating - a.rating).slice(0, 8);
-            renderGrid('exploreTrendingGrid', trending);
-            renderGrid('exploreTopRatedGrid', topRated);
-        }
+            filterGrade(g, s) {
+                this.activeFilters[g] = s;
+                this.renderGrade(g);
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // SINIF SAYFALARI
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function initGrade(gradeId) {
-            renderFilters(gradeId);
-            applyFilter(gradeId, filters[gradeId]);
-        }
+            renderFavorites() {
+                this.renderGridData('favoritesGrid', this.db.filter(p => this.user.favs.includes(p.id)));
+            },
 
-        function renderFilters(gradeId) {
-            const container = document.getElementById(`filters-${gradeId}`);
-            container.innerHTML = subjects.map(sub => `
-                <button class="filter-btn ${filters[gradeId] === sub ? 'active' : ''}" 
-                        onclick="applyFilter('${gradeId}', '${sub}')">${sub}</button>
-            `).join('');
-        }
+            toggleFav(id, e) {
+                if(e) e.stopPropagation();
+                const i = this.user.favs.indexOf(id);
+                const p = this.db.find(x=>x.id===id);
+                if(i>-1) { this.user.favs.splice(i,1); p.favCount--; this.toast("Favorilerden çıkarıldı.","error"); }
+                else { this.user.favs.push(id); p.favCount++; this.toast("Favorilere eklendi! ❤️"); }
+                this.save();
+                this.navigate(this.activeView);
+                if(this.currentPdf && this.currentPdf.id === id) this.openModal(id, true);
+            },
 
-        function applyFilter(gradeId, subject) {
-            filters[gradeId] = subject;
-            renderFilters(gradeId);
-            
-            let filtered = pdfData.filter(p => p.sinif === gradeId);
-            if(subject !== 'Tümü') filtered = filtered.filter(p => p.ders === subject);
-            
-            renderGrid(`grid-${gradeId}`, filtered);
-        }
+            openModal(id, noViewCount = false) {
+                const p = this.db.find(x=>x.id===id);
+                this.currentPdf = p;
+                if(!noViewCount) { p.views++; this.save(); }
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // SOSYAL İŞLEMLER (FAV, YORUM, PUAN)
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function toggleFavorite(id, event) {
-            event.stopPropagation();
-            const index = userData.favs.indexOf(id);
-            const pdfIndex = pdfData.findIndex(p => p.id === id);
-            
-            if(index > -1) {
-                userData.favs.splice(index, 1);
-                pdfData[pdfIndex].favCount--;
-                showToast("Favorilerden çıkarıldı.");
-            } else {
-                userData.favs.push(id);
-                pdfData[pdfIndex].favCount++;
-                showToast("Favorilere eklendi! ❤️");
-            }
-            saveData();
-            
-            // Re-render active view
-            const activeSec = document.querySelector('section.active').id;
-            switchView(activeSec);
-            if(currentActivePDF && currentActivePDF.id === id) openPDFModal(id);
-        }
+                document.getElementById('modalTitle').innerText = p.ad;
+                document.getElementById('modalBadges').innerHTML = `<span class="badge badge-grade">${this.getGradeTxt(p.sinif)}</span><span class="badge badge-subject">${p.ders}</span>`;
+                document.getElementById('modalSize').innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${p.boyut}`;
+                document.getElementById('modalViews').innerHTML = `<i class="fa-solid fa-eye text-primary"></i> ${p.views}`;
+                document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star text-warning"></i> ${p.rating.toFixed(1)} (${p.ratingCount})`;
+                document.getElementById('modalFavs').innerHTML = `<i class="fa-solid fa-heart text-accent"></i> ${p.favCount}`;
+                
+                const ur = this.user.rated[id] || 0;
+                document.querySelectorAll('#modalStars i').forEach((s,i) => {
+                    const val = 5-i;
+                    s.className = `fa-solid fa-star ${val<=ur?'active':''}`;
+                    s.style.color = val<=ur ? 'var(--warning)' : 'var(--surface-hover)';
+                });
 
-        function initFavorites() {
-            const favPDFs = pdfData.filter(p => userData.favs.includes(p.id));
-            renderGrid('favoritesGrid', favPDFs);
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // MODAL (PDF DETAY) İŞLEMLERİ
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function openPDFModal(id) {
-            const pdfIndex = pdfData.findIndex(p => p.id === id);
-            const pdf = pdfData[pdfIndex];
-            currentActivePDF = pdf;
-            
-            // View Increment
-            pdfData[pdfIndex].views++;
-            saveData();
-
-            document.getElementById('modalTitle').innerText = pdf.ad;
-            document.getElementById('modalSize').innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${pdf.boyut}`;
-            document.getElementById('modalViews').innerHTML = `<i class="fa-solid fa-eye"></i> ${pdf.views}`;
-            document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star" style="color:var(--warning)"></i> ${pdf.rating.toFixed(1)} (${pdf.ratingCount})`;
-            
-            let badges = `<span class="badge ders">${pdf.ders}</span><span class="badge sinif">${getGradeText(pdf.sinif)}</span>`;
-            document.getElementById('modalBadges').innerHTML = badges;
-            
-            // Render Stars
-            const userRating = userData.rated[id] || 0;
-            const starsHTML = Array.from({length:5}, (_,i) => i+1).map(num => `
-                <i class="fa-solid fa-star ${num <= userRating ? 'active' : ''}" style="${num <= userRating ? 'color:var(--warning)' : ''}" onclick="ratePDF(${num})"></i>
-            `).join('');
-            document.getElementById('modalStarInteraction').innerHTML = starsHTML;
-
-            // Render Comments
-            document.getElementById('modalCommentCount').innerText = pdf.comments.length;
-            const commentsHtml = pdf.comments.length === 0 ? '<p style="color:var(--text-muted)">Henüz yorum yapılmamış. İlk yorumu sen yap!</p>' : 
-                pdf.comments.map(c => `
-                    <div class="comment-item">
-                        <div class="comment-header"><strong><i class="fa-solid fa-user-circle"></i> ${c.user}</strong> <span>${c.date}</span></div>
-                        <div class="comment-body">${c.text}</div>
+                document.getElementById('modalCommentCount').innerText = p.comments.length;
+                const cc = document.getElementById('modalCommentsList');
+                if(!p.comments.length) cc.innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px;">Henüz yorum yok. İlk yorumu sen yap!</div>';
+                else cc.innerHTML = [...p.comments].reverse().map(c => `
+                    <div class="comment">
+                        <div class="comment-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="comment-content">
+                            <div class="comment-head"><span class="comment-author">${c.user}</span><span class="comment-date">${c.date}</span></div>
+                            <p>${c.text}</p>
+                        </div>
                     </div>
                 `).join('');
-            document.getElementById('modalComments').innerHTML = commentsHtml;
-            document.getElementById('commentInput').value = '';
 
-            document.getElementById('pdfModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+                document.getElementById('commentText').value = '';
+                document.getElementById('pdfModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            },
 
-        function closeModal(e) {
-            if(e && e.target !== document.getElementById('pdfModal')) return;
-            document.getElementById('pdfModal').classList.remove('show');
-            document.body.style.overflow = 'auto';
-            currentActivePDF = null;
-            
-            const activeSec = document.querySelector('section.active').id;
-            if(!activeSec.includes('admin') && !activeSec.includes('profile')) switchView(activeSec);
-        }
+            closeModal(e) {
+                if(e && e.target !== document.getElementById('pdfModal')) return;
+                document.getElementById('pdfModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+                this.currentPdf = null;
+                this.navigate(this.activeView);
+            },
 
-        function downloadCurrentPDF() {
-            showToast(`"${currentActivePDF.ad}" indirme işlemi başlatıldı! 🚀`);
-        }
+            downloadPdf() {
+                this.toast(`${this.currentPdf.ad} indiriliyor... 🚀`);
+            },
 
-        function ratePDF(score) {
-            if(!currentActivePDF) return;
-            const id = currentActivePDF.id;
-            
-            if(userData.rated[id]) {
-                showToast("Bu dokümanı zaten puanladınız.", "warning");
-                return;
-            }
-            
-            const pdfIndex = pdfData.findIndex(p => p.id === id);
-            let currentTotal = pdfData[pdfIndex].rating * pdfData[pdfIndex].ratingCount;
-            pdfData[pdfIndex].ratingCount++;
-            pdfData[pdfIndex].rating = (currentTotal + score) / pdfData[pdfIndex].ratingCount;
-            
-            userData.rated[id] = score;
-            saveData();
-            showToast("Puanınız kaydedildi! ⭐");
-            openPDFModal(id);
-        }
+            ratePdf(r) {
+                if(!this.currentPdf) return;
+                const id = this.currentPdf.id;
+                if(this.user.rated[id]) return this.toast("Zaten puan verdiniz.","error");
+                
+                const p = this.currentPdf;
+                p.rating = ((p.rating*p.ratingCount)+r)/(p.ratingCount+1);
+                p.ratingCount++;
+                this.user.rated[id] = r;
+                this.save();
+                this.toast("Puanınız kaydedildi! ⭐");
+                this.openModal(id, true);
+            },
 
-        function addComment() {
-            const text = document.getElementById('commentInput').value.trim();
-            if(!text) return;
-            
-            const pdfIndex = pdfData.findIndex(p => p.id === currentActivePDF.id);
-            const newComment = {
-                user: "Öğrenci",
-                text: text,
-                date: new Date().toISOString().split('T')[0]
-            };
-            
-            pdfData[pdfIndex].comments.unshift(newComment);
-            userData.comments.push({ pdfId: currentActivePDF.id, text: text, date: newComment.date, pdfAd: currentActivePDF.ad });
-            
-            saveData();
-            showToast("Yorumunuz eklendi! 💬");
-            openPDFModal(currentActivePDF.id);
-        }
+            addComment() {
+                const t = document.getElementById('commentText').value.trim();
+                if(!t) return;
+                const d = new Date().toISOString().split('T')[0];
+                const c = { user:"Öğrenci", text:t, date:d };
+                this.currentPdf.comments.push(c);
+                this.user.comments.push({ pdfId:this.currentPdf.id, ad:this.currentPdf.ad, text:t, date:d });
+                this.save();
+                this.toast("Yorumunuz eklendi! 💬");
+                this.openModal(this.currentPdf.id, true);
+            },
 
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // PROFİL SİSTEMİ
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function initProfile() {
-            document.getElementById('statFavs').innerText = userData.favs.length;
-            document.getElementById('statComments').innerText = userData.comments.length;
-            document.getElementById('statRatings').innerText = Object.keys(userData.rated).length;
-            
-            // Badges System
-            let badgesHtml = `<span class="user-badge"><i class="fa-solid fa-seedling"></i> Yeni Kullanıcı</span>`;
-            if(userData.comments.length >= 3) badgesHtml += `<span class="user-badge" style="color:var(--secondary); border-color:var(--secondary)"><i class="fa-solid fa-fire"></i> Aktif Öğrenci</span>`;
-            if(userData.favs.length >= 5) badgesHtml += `<span class="user-badge" style="color:var(--primary); border-color:var(--primary)"><i class="fa-solid fa-crown"></i> PDF Ustası</span>`;
-            document.getElementById('profileBadges').innerHTML = badgesHtml;
+            renderProfile() {
+                document.getElementById('statFav').innerText = this.user.favs.length;
+                document.getElementById('statCom').innerText = this.user.comments.length;
+                document.getElementById('statRate').innerText = Object.keys(this.user.rated).length;
+                
+                let lvl = 1;
+                document.getElementById('badge-new').classList.add('unlocked');
+                if(this.user.comments.length >= 5) { document.getElementById('badge-active').classList.add('unlocked'); lvl++; }
+                if(this.user.favs.length >= 10) { document.getElementById('badge-master').classList.add('unlocked'); lvl++; }
+                if(Object.keys(this.user.rated).length >= 5) { document.getElementById('badge-critic').classList.add('unlocked'); lvl++; }
+                document.getElementById('profLevel').innerText = lvl;
 
-            // Comments List
-            const comContainer = document.getElementById('profileCommentsList');
-            if(userData.comments.length === 0) {
-                comContainer.innerHTML = '<p class="text-muted">Henüz hiç yorum yapmadın.</p>';
-            } else {
-                comContainer.innerHTML = userData.comments.slice().reverse().map(c => `
-                    <div style="background: rgba(255,255,255,0.05); padding:15px; border-radius:10px; border-left:3px solid var(--secondary);">
-                        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:5px;">${c.pdfAd} - ${c.date}</div>
-                        <div>${c.text}</div>
+                const c = document.getElementById('profileActivities');
+                if(!this.user.comments.length) c.innerHTML = '<div style="color:var(--text-secondary);padding:20px;">Henüz bir aktivite yok.</div>';
+                else c.innerHTML = [...this.user.comments].reverse().map(x => `
+                    <div class="activity-item">
+                        <div class="activity-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                        <div class="activity-content">
+                            <h4>${x.ad}</h4>
+                            <p>"${x.text}"</p>
+                            <span class="activity-time">${x.date}</span>
+                        </div>
                     </div>
                 `).join('');
+            },
+
+            renderAdmin() {
+                if(sessionStorage.getItem('dd_admin')==='true') {
+                    document.getElementById('adminLogin').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'grid';
+                    this.switchAdminTab('overview');
+                } else {
+                    document.getElementById('adminLogin').style.display = 'block';
+                    document.getElementById('adminDashboard').style.display = 'none';
+                }
+            },
+
+            loginAdmin() {
+                if(document.getElementById('adminPass').value === '1234') {
+                    sessionStorage.setItem('dd_admin','true');
+                    document.getElementById('adminPass').value = '';
+                    this.renderAdmin();
+                    this.toast("Yönetici girişi başarılı.");
+                } else this.toast("Hatalı şifre!","error");
+            },
+
+            logoutAdmin() {
+                sessionStorage.removeItem('dd_admin');
+                this.renderAdmin();
+            },
+
+            switchAdminTab(t) {
+                ['overview','add','list'].forEach(x => {
+                    document.getElementById(`admin-view-${x}`).style.display = 'none';
+                    document.getElementById(`tab-${x}`).classList.remove('active');
+                });
+                document.getElementById(`admin-view-${t}`).style.display = 'block';
+                document.getElementById(`tab-${t}`).classList.add('active');
+
+                if(t==='overview') {
+                    document.getElementById('adTotPdf').innerText = this.db.length;
+                    document.getElementById('adTotViews').innerText = this.db.reduce((a,b)=>a+b.views,0);
+                    document.getElementById('adTotComms').innerText = this.db.reduce((a,b)=>a+b.comments.length,0);
+                    document.getElementById('adTotFavs').innerText = this.db.reduce((a,b)=>a+b.favCount,0);
+                } else if(t==='list') this.renderAdminTable();
+            },
+
+            renderAdminTable() {
+                const v = document.getElementById('adminTableSearch').value.toLowerCase();
+                const d = this.db.filter(p => p.ad.toLowerCase().includes(v));
+                document.getElementById('adminTbody').innerHTML = [...d].reverse().map(p => `
+                    <tr>
+                        <td style="color:var(--text-secondary)">#${p.id}</td>
+                        <td><strong>${p.ad}</strong></td>
+                        <td><span class="badge badge-grade">${this.getGradeTxt(p.sinif)}</span> <span class="badge badge-subject">${p.ders}</span></td>
+                        <td><i class="fa-solid fa-eye text-primary"></i> ${p.views} | <i class="fa-solid fa-heart text-accent"></i> ${p.favCount}</td>
+                        <td>
+                            <div class="action-group">
+                                <button class="btn-icon btn-edit" onclick="app.editPdf(${p.id})"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-icon btn-del" onclick="app.delPdf(${p.id})"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            },
+
+            handlePdfSubmit(e) {
+                e.preventDefault();
+                const id = document.getElementById('pdfId').value;
+                const d = {
+                    ad: document.getElementById('pdfAd').value,
+                    sinif: document.getElementById('pdfSinif').value,
+                    ders: document.getElementById('pdfDers').value,
+                    boyut: document.getElementById('pdfBoyut').value
+                };
+
+                if(id) {
+                    const i = this.db.findIndex(x=>x.id==id);
+                    this.db[i] = {...this.db[i], ...d};
+                    this.toast("PDF başarıyla güncellendi.");
+                } else {
+                    d.id = Date.now(); d.views = 0; d.rating = 0; d.ratingCount = 0;
+                    d.favCount = 0; d.comments = []; d.addedAt = Date.now();
+                    this.db.push(d);
+                    this.toast("Yeni PDF eklendi.");
+                }
+                this.save(); this.resetForm(); this.switchAdminTab('list');
+            },
+
+            editPdf(id) {
+                const p = this.db.find(x=>x.id===id);
+                document.getElementById('pdfId').value = p.id;
+                document.getElementById('pdfAd').value = p.ad;
+                document.getElementById('pdfSinif').value = p.sinif;
+                document.getElementById('pdfDers').value = p.ders;
+                document.getElementById('pdfBoyut').value = p.boyut;
+                document.getElementById('adminFormTitle').innerText = "PDF Düzenle";
+                document.getElementById('pdfSubmitBtn').innerText = "Değişiklikleri Kaydet";
+                document.getElementById('pdfCancelBtn').style.display = "block";
+                this.switchAdminTab('add');
+            },
+
+            delPdf(id) {
+                if(!confirm("Kalıcı olarak silmek istediğine emin misin?")) return;
+                this.db = this.db.filter(x=>x.id!==id);
+                const fi = this.user.favs.indexOf(id);
+                if(fi>-1) this.user.favs.splice(fi,1);
+                this.save(); this.renderAdminTable();
+                this.toast("PDF silindi.","error");
+            },
+
+            resetForm() {
+                document.getElementById('pdfForm').reset();
+                document.getElementById('pdfId').value = '';
+                document.getElementById('adminFormTitle').innerText = "Yeni PDF Dokümanı Ekle";
+                document.getElementById('pdfSubmitBtn').innerText = "Sisteme Kaydet";
+                document.getElementById('pdfCancelBtn').style.display = "none";
             }
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // ADMİN PANELİ
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function initAdmin() {
-            document.getElementById('adminPass').value = '';
-            document.getElementById('adminError').style.display = 'none';
-            if(sessionStorage.getItem('adminAuth') === 'true') {
-                showAdminDashboard();
-            } else {
-                document.getElementById('adminLoginArea').style.display = 'block';
-                document.getElementById('adminPanelArea').style.display = 'none';
-            }
-        }
-
-        function adminLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === '1234') {
-                sessionStorage.setItem('adminAuth', 'true');
-                showAdminDashboard();
-            } else {
-                document.getElementById('adminError').style.display = 'block';
-            }
-        }
-
-        function showAdminDashboard() {
-            document.getElementById('adminLoginArea').style.display = 'none';
-            document.getElementById('adminPanelArea').style.display = 'grid';
-            updateAdminStats();
-            renderAdminTable();
-        }
-
-        function updateAdminStats() {
-            document.getElementById('adTotPdf').innerText = pdfData.length;
-            document.getElementById('adTotView').innerText = pdfData.reduce((acc, curr) => acc + curr.views, 0);
-            document.getElementById('adTotCom').innerText = pdfData.reduce((acc, curr) => acc + curr.comments.length, 0);
-        }
-
-        function renderAdminTable() {
-            const term = document.getElementById('adminTableSearch').value.toLowerCase();
-            const filtered = pdfData.filter(p => p.ad.toLowerCase().includes(term));
-            
-            const tbody = document.getElementById('adminTbody');
-            tbody.innerHTML = filtered.reverse().map(p => `
-                <tr>
-                    <td>#${p.id}</td>
-                    <td><strong>${p.ad}</strong></td>
-                    <td><span class="badge sinif">${getGradeText(p.sinif)}</span> <span class="badge ders">${p.ders}</span></td>
-                    <td><i class="fa-solid fa-eye"></i> ${p.views} | <i class="fa-solid fa-star"></i> ${p.rating.toFixed(1)}</td>
-                    <td class="action-btns">
-                        <button class="btn-edit" onclick="editPDF(${p.id})"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn-delete" onclick="deletePDF(${p.id})"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function handleAdminSubmit(e) {
-            e.preventDefault();
-            const editId = document.getElementById('editId').value;
-            const newData = {
-                ad: document.getElementById('fmName').value,
-                sinif: document.getElementById('fmGrade').value,
-                ders: document.getElementById('fmSubject').value,
-                boyut: document.getElementById('fmSize').value,
-            };
-
-            if(editId) {
-                const index = pdfData.findIndex(p => p.id == editId);
-                pdfData[index] = { ...pdfData[index], ...newData };
-                showToast("PDF Güncellendi!");
-            } else {
-                newData.id = Date.now();
-                newData.views = 0; newData.rating = 0; newData.ratingCount = 0;
-                newData.comments = []; newData.favCount = 0; newData.dateAdded = Date.now();
-                pdfData.push(newData);
-                showToast("Yeni PDF Eklendi!");
-            }
-            
-            saveData();
-            resetAdminForm();
-            updateAdminStats();
-            renderAdminTable();
-        }
-
-        function editPDF(id) {
-            const pdf = pdfData.find(p => p.id === id);
-            document.getElementById('editId').value = pdf.id;
-            document.getElementById('fmName').value = pdf.ad;
-            document.getElementById('fmGrade').value = pdf.sinif;
-            document.getElementById('fmSubject').value = pdf.ders;
-            document.getElementById('fmSize').value = pdf.boyut;
-            
-            document.getElementById('adminFormTitle').innerText = "PDF Düzenle";
-            document.getElementById('fmSubmitBtn').innerText = "Güncelle";
-            document.getElementById('fmCancelBtn').style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function deletePDF(id) {
-            if(confirm("Bu PDF'i kalıcı olarak silmek istediğinize emin misiniz?")) {
-                pdfData = pdfData.filter(p => p.id !== id);
-                saveData();
-                updateAdminStats();
-                renderAdminTable();
-                showToast("PDF başarıyla silindi.", "warning");
-            }
-        }
-
-        function resetAdminForm() {
-            document.getElementById('adminForm').reset();
-            document.getElementById('editId').value = '';
-            document.getElementById('adminFormTitle').innerText = "Yeni PDF Ekle";
-            document.getElementById('fmSubmitBtn').innerText = "Kaydet";
-            document.getElementById('fmCancelBtn').style.display = "none";
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // TEMA YÖNETİMİ
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('dersDeposu_theme', newTheme);
-            updateThemeIcon(newTheme);
-        }
-
-        function updateThemeIcon(theme) {
-            const icon = document.getElementById('themeIcon');
-            if(theme === 'dark') { icon.className = "fa-solid fa-moon"; } 
-            else { icon.className = "fa-solid fa-sun"; }
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        // BAŞLATMA (INIT)
-        // ━━━━━━━━━━━━━━━━━━━━━━
-        window.onload = () => {
-            const savedTheme = localStorage.getItem('dersDeposu_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
-            initHome();
         };
 
+        window.onload = () => app.init();
     </script>
 </body>
 </html>
+
