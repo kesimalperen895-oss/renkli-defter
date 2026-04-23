@@ -1,682 +1,482 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="light">
+<html lang="tr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ders Deposu</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           CSS DEĞİŞKENLERİ & TEMALAR
+           ━━━━━━━━━━━━━━━━━━━━━━ */
         :root {
-            --primary: #4F46E5;
-            --success: #22C55E;
-            --warning: #F97316;
-            --danger: #ef4444;
-            --bg-color: #f3f4f6;
-            --text-color: #1f2937;
-            --text-light: #6b7280;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --glow: 0 0 15px rgba(79, 70, 229, 0.4);
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #111827;
-            --text-color: #f9fafb;
-            --text-light: #9ca3af;
-            --glass-bg: rgba(17, 24, 39, 0.7);
+            --primary: #6c5ce7;
+            --primary-hover: #a29bfe;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark-bg: #0f172a;
+            --dark-surface: #1e293b;
+            --dark-surface-2: rgba(30, 41, 59, 0.7);
+            --light-bg: #f8fafc;
+            --light-surface: #ffffff;
+            --light-surface-2: rgba(255, 255, 255, 0.7);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --danger: #ff7675;
+            --success: #00b894;
+            --warning: #fdcb6e;
             --glass-border: rgba(255, 255, 255, 0.1);
-            --card-bg: rgba(31, 41, 55, 0.8);
-            --nav-bg: rgba(17, 24, 39, 0.85);
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            --glow: 0 0 15px rgba(79, 70, 229, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --glow: 0 0 20px rgba(108, 92, 231, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        [data-theme="light"] {
+            --dark-bg: var(--light-bg);
+            --dark-surface: var(--light-surface);
+            --dark-surface-2: var(--light-surface-2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --glow: 0 0 20px rgba(108, 92, 231, 0.15);
         }
 
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           TEMEL AYARLAR
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
         body {
-            background: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(34, 197, 94, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(249, 115, 22, 0.15) 0px, transparent 50%);
-            background-attachment: fixed;
-            color: var(--text-color);
+            background-color: var(--dark-bg);
+            color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            transition: var(--transition);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 206, 201, 0.08), transparent 25%);
         }
 
-        /* Utilities */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Loader */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-color);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--glass-border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Scroll Progress */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--success), var(--warning));
-            z-index: 1001;
-            width: 0%;
-            transition: width 0.1s;
-        }
-
-        /* Navbar */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 0;
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(79, 70, 229, 0.1);
-            color: var(--primary);
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .btn-icon {
-            background: transparent;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-            padding: 8px;
-            border-radius: 50%;
-        }
-
-        .btn-icon:hover {
-            transform: scale(1.1);
-            background: rgba(0,0,0,0.05);
-        }
-
-        [data-theme="dark"] .btn-icon:hover { background: rgba(255,255,255,0.1); }
-
-        .hamburger {
-            display: none;
-            font-size: 1.5rem;
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            padding-top: 100px;
-            padding-bottom: 50px;
-        }
-
-        .section {
-            display: none;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Hero / Search */
-        .hero {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, var(--primary), var(--success));
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           TİPOGRAFİ & UTILITIES
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.5px; }
+        .text-gradient {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; }
+        .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
 
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 15px 20px 15px 45px;
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            background: var(--card-bg);
-            color: var(--text-color);
-            font-size: 1rem;
-            outline: none;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            box-shadow: var(--glow);
-            border-color: var(--primary);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-
-        /* PDF Grid & Cards */
-        .pdf-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .pdf-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow: hidden;
-        }
-
-        .pdf-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: var(--shadow), var(--glow);
-            border-color: rgba(79, 70, 229, 0.3);
-        }
-
-        .pdf-badges {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .badge.new { background: var(--success); }
-        .badge.popular { background: var(--warning); }
-        .badge.grade { background: var(--primary); }
-
-        .pdf-icon {
-            font-size: 2.5rem;
-            color: var(--danger);
-            margin-bottom: 10px;
-        }
-
-        .pdf-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-color);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .pdf-meta {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .pdf-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: auto;
-            padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .btn {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover { background: #4338ca; }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover { background: rgba(79, 70, 229, 0.1); }
-
-        .btn-fav {
-            flex: none;
-            width: 40px;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-fav:hover, .btn-fav.active {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Admin Panel */
-        .admin-login {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .admin-login input {
-            width: 100%;
-            padding: 12px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        .admin-dashboard {
-            display: none;
-        }
-
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-        }
-
-        .admin-form, .admin-list {
-            padding: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        .checkbox-group {
-            display: flex;
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 12px;
-            text-align: left;
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           NAVBAR (GLASSMORPHISM)
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: var(--dark-surface-2);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
         }
 
-        .action-btns button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            color: white;
+        .brand {
+            font-size: 1.8rem; font-weight: 900; cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
         }
 
-        .btn-edit { background: var(--warning); }
-        .btn-delete { background: var(--danger); }
+        .brand i { color: var(--primary); font-size: 2rem; filter: drop-shadow(0 0 10px var(--primary)); }
 
-        /* Toasts */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 9999;
+        .nav-links { display: flex; gap: 5px; list-style: none; }
+        .nav-links li a {
+            color: var(--text-main); text-decoration: none; padding: 8px 16px;
+            border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+            transition: var(--transition); cursor: pointer; display: flex; align-items: center; gap: 8px;
+        }
+        
+        .nav-links li a:hover, .nav-links li a.active {
+            background: rgba(108, 92, 231, 0.15); color: var(--primary);
         }
 
+        .actions { display: flex; gap: 15px; align-items: center; }
+        .icon-btn {
+            background: transparent; border: 1px solid var(--glass-border);
+            color: var(--text-main); width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; transition: var(--transition); font-size: 1.1rem;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .icon-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--glow); }
+        .hamburger { display: none; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           ANA YAPI & SECTIONLAR
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        main { padding: 100px 5% 50px; max-width: 1400px; margin: 0 auto; min-height: 80vh; }
+        section { display: none; animation: fadeIn 0.4s ease-out forwards; }
+        section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           HERO & ARAMA
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .hero { text-align: center; padding: 3rem 0 4rem; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
+        
+        .search-wrapper {
+            position: relative; max-width: 700px; margin: 0 auto;
+            background: var(--dark-surface); border-radius: 50px;
+            padding: 5px; border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow); display: flex; align-items: center;
+            transition: var(--transition);
+        }
+        .search-wrapper:focus-within { border-color: var(--primary); box-shadow: var(--glow); }
+        .search-wrapper i { font-size: 1.2rem; color: var(--text-muted); padding: 0 15px; }
+        .search-wrapper input {
+            flex: 1; background: transparent; border: none; padding: 15px 10px;
+            color: var(--text-main); font-size: 1.1rem; outline: none;
+        }
+        .search-wrapper button {
+            background: var(--primary); color: white; border: none; padding: 12px 30px;
+            border-radius: 40px; font-weight: bold; cursor: pointer; transition: var(--transition);
+        }
+        .search-wrapper button:hover { background: var(--primary-hover); }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           KARTLAR & GRID
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
+        
+        .card {
+            background: var(--dark-surface); border-radius: 20px; padding: 25px;
+            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            position: relative; overflow: hidden; transition: var(--transition);
+            display: flex; flex-direction: column;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--glow); border-color: rgba(108, 92, 231, 0.3); }
+        .card:hover::before { transform: scaleX(1); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge.ders { background: rgba(0, 206, 201, 0.1); color: var(--secondary); border: 1px solid rgba(0, 206, 201, 0.2); }
+        .badge.sinif { background: rgba(108, 92, 231, 0.1); color: var(--primary-hover); border: 1px solid rgba(108, 92, 231, 0.2); }
+        .badge.trend { background: rgba(253, 203, 110, 0.1); color: var(--warning); border: 1px solid rgba(253, 203, 110, 0.2); }
+
+        .fav-btn {
+            background: rgba(255,255,255,0.05); border: none; width: 35px; height: 35px; border-radius: 50%;
+            cursor: pointer; color: var(--text-muted); font-size: 1.2rem; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .fav-btn.active { color: var(--danger); background: rgba(255, 118, 117, 0.1); animation: heartBurst 0.3s; }
+        @keyframes heartBurst { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+        .card h3 { font-size: 1.3rem; margin-bottom: 10px; line-height: 1.4; flex-grow: 1; }
+        
+        .card-stats { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .card-stats span { display: flex; align-items: center; gap: 5px; }
+        .card-stats i.fa-star { color: var(--warning); }
+        
+        .btn-primary {
+            background: var(--primary); color: white; border: none; padding: 12px 20px;
+            border-radius: 12px; font-weight: 600; cursor: pointer; transition: var(--transition);
+            width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3); }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           FİLTRELER
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; background: var(--dark-surface); padding: 10px; border-radius: 15px; border: 1px solid var(--glass-border); }
+        .filter-btn {
+            background: transparent; border: none; padding: 10px 20px; border-radius: 10px;
+            color: var(--text-main); font-weight: 600; cursor: pointer; transition: var(--transition);
+        }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           PROFİL SAYFASI
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .profile-header {
+            background: var(--dark-surface); border-radius: 20px; padding: 40px; text-align: center;
+            border: 1px solid var(--glass-border); position: relative; overflow: hidden; margin-bottom: 40px;
+        }
+        .profile-avatar {
+            width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px; display: flex; justify-content: center; align-items: center;
+            font-size: 3rem; color: white; border: 4px solid var(--dark-bg); box-shadow: var(--glow);
+        }
+        .user-badges { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .user-badge {
+            background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 30px;
+            display: flex; align-items: center; gap: 10px; border: 1px solid var(--glass-border);
+            font-weight: 600; color: var(--warning);
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           PDF DETAY MODALI
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        
+        .modal-content {
+            background: var(--dark-surface); width: 90%; max-width: 800px; max-height: 90vh;
+            border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            overflow-y: auto; position: relative; transform: translateY(50px); transition: transform 0.3s;
+        }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        
+        .modal-close {
+            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none;
+            width: 40px; height: 40px; border-radius: 50%; color: var(--text-main); font-size: 1.2rem;
+            cursor: pointer; z-index: 10; transition: var(--transition);
+        }
+        .modal-close:hover { background: var(--danger); color: white; transform: rotate(90deg); }
+
+        .modal-header { padding: 40px 40px 20px; border-bottom: 1px solid var(--glass-border); }
+        .modal-title { font-size: 2rem; margin-bottom: 15px; }
+        .modal-meta { display: flex; gap: 20px; color: var(--text-muted); font-size: 1.1rem; }
+        
+        .modal-body { padding: 30px 40px; }
+        
+        .rating-section { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
+        .stars-interactive i { font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .stars-interactive i:hover, .stars-interactive i.active { color: var(--warning); transform: scale(1.1); }
+
+        .comments-section h3 { margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+        .comment-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+        .comment-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
+        .comment-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        .comment-header strong { color: var(--text-main); }
+        
+        .comment-form { display: flex; flex-direction: column; gap: 10px; }
+        .comment-form textarea {
+            background: var(--dark-bg); border: 1px solid var(--glass-border); color: var(--text-main);
+            padding: 15px; border-radius: 12px; resize: vertical; min-height: 100px; outline: none;
+        }
+        .comment-form textarea:focus { border-color: var(--primary); }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           ADMIN PANEL
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        .admin-login { max-width: 400px; margin: 100px auto; background: var(--dark-surface); padding: 40px; border-radius: 20px; text-align: center; }
+        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; background: var(--dark-bg); border: 1px solid var(--glass-border); color: white; border-radius: 10px; outline:none; }
+        
+        .admin-dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
+        .admin-sidebar { background: var(--dark-surface); padding: 25px; border-radius: 20px; height: fit-content; }
+        .stat-box { background: rgba(108, 92, 231, 0.1); border: 1px solid var(--primary); padding: 20px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
+        .stat-box h4 { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
+        .stat-box span { font-size: 2rem; font-weight: bold; color: var(--primary); }
+
+        .admin-content { background: var(--dark-surface); padding: 30px; border-radius: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); }
+        .form-control { width: 100%; padding: 12px 15px; background: var(--dark-bg); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 10px; outline: none; }
+        .form-control:focus { border-color: var(--primary); }
+        
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--glass-border); }
+        .admin-table th { color: var(--text-muted); font-weight: 600; }
+        .admin-table tr:hover { background: rgba(255,255,255,0.02); }
+        .action-btns { display: flex; gap: 10px; }
+        .action-btns button { padding: 8px; border: none; border-radius: 8px; cursor: pointer; color: white; }
+        .btn-edit { background: var(--warning); } .btn-delete { background: var(--danger); }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           TOAST BİLDİRİMLER
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; }
         .toast {
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 15px 25px;
-            border-radius: 8px;
-            border-left: 5px solid var(--primary);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease-out forwards;
-            min-width: 250px;
+            background: var(--dark-surface); border-left: 4px solid var(--primary); color: var(--text-main);
+            padding: 16px 24px; border-radius: 12px; box-shadow: var(--glass-shadow);
+            display: flex; align-items: center; gap: 15px; font-weight: 500;
+            animation: slideIn 0.3s ease-out forwards, fadeOut 0.4s ease-in 3s forwards;
         }
+        .toast i { font-size: 1.2rem; color: var(--primary); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { transform: translateY(-20px); opacity: 0; } }
 
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        /* ━━━━━━━━━━━━━━━━━━━━━━
+           MOBİL UYUM
+           ━━━━━━━━━━━━━━━━━━━━━━ */
+        @media (max-width: 992px) {
+            .admin-dashboard { grid-template-columns: 1fr; }
         }
-        
-        @keyframes fadeOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-
-        /* Back to top */
-        #backToTop {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
-            z-index: 998;
-            transition: all 0.3s;
-        }
-
-        #backToTop:hover { transform: translateY(-5px); }
-
-        /* Ripple Effect */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            transform: scale(0);
-            animation: ripple-anim 0.6s linear;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        @keyframes ripple-anim {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        /* Footer */
-        footer {
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--glass-border);
-            padding: 30px 0;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-icons a {
-            color: var(--text-color);
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-
-        .social-icons a:hover { color: var(--primary); }
-
-        /* Responsive */
         @media (max-width: 768px) {
+            nav { padding: 1rem 5%; }
             .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                flex-direction: column;
-                background: var(--nav-bg);
-                backdrop-filter: blur(15px);
-                width: 100%;
-                text-align: center;
-                padding: 20px 0;
-                transition: 0.3s;
-                border-bottom: 1px solid var(--glass-border);
+                position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px);
+                background: var(--dark-bg); flex-direction: column; align-items: center; padding-top: 2rem;
+                transition: 0.4s; gap: 20px;
             }
-
             .nav-links.active { left: 0; }
-            .hamburger { display: block; }
-            .admin-grid { grid-template-columns: 1fr; }
+            .nav-links li a { font-size: 1.2rem; padding: 15px 30px; }
+            .hamburger { display: block; font-size: 1.5rem; color: var(--text-main); cursor: pointer; }
+            .hero h1 { font-size: 2.5rem; }
+            .modal-content { width: 95%; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div></div>
-    <div class="scroll-progress" id="scrollProgress"></div>
-
     <nav>
-        <div class="container nav-content">
-            <div class="brand" onclick="navigate('home')">
-                <i class="fa-solid fa-book-open-reader"></i> Ders Deposu
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a class="nav-link active" onclick="navigate('home')">Ana Sayfa</a>
-                <a class="nav-link" onclick="navigate('grade6')">6. Sınıf</a>
-                <a class="nav-link" onclick="navigate('grade7')">7. Sınıf</a>
-                <a class="nav-link" onclick="navigate('grade8')">8. Sınıf</a>
-                <a class="nav-link" onclick="navigate('favorites')"><i class="fa-solid fa-heart"></i> Favoriler</a>
-                <a class="nav-link" onclick="navigate('admin')"><i class="fa-solid fa-shield-halved"></i> Admin</a>
-            </div>
-            <div class="nav-actions">
-                <button id="darkModeToggle" class="btn-icon"><i class="fa-solid fa-moon"></i></button>
-                <button id="hamburger" class="btn-icon hamburger"><i class="fa-solid fa-bars"></i></button>
-            </div>
+        <div class="brand" onclick="switchView('home')">
+            <i class="fa-solid fa-layer-group"></i> Ders Deposu
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a onclick="switchView('home')" data-target="home" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
+            <li><a onclick="switchView('explore')" data-target="explore"><i class="fa-solid fa-compass"></i> Keşfet</a></li>
+            <li><a onclick="switchView('grade6')" data-target="grade6"><i class="fa-solid fa-6"></i> 6. Sınıf</a></li>
+            <li><a onclick="switchView('grade7')" data-target="grade7"><i class="fa-solid fa-7"></i> 7. Sınıf</a></li>
+            <li><a onclick="switchView('grade8')" data-target="grade8"><i class="fa-solid fa-8"></i> 8. Sınıf</a></li>
+        </ul>
+        <div class="actions">
+            <button class="icon-btn" onclick="switchView('favorites')" title="Favoriler"><i class="fa-regular fa-heart"></i></button>
+            <button class="icon-btn" onclick="switchView('profile')" title="Profil"><i class="fa-regular fa-user"></i></button>
+            <button class="icon-btn" onclick="switchView('admin')" title="Yönetim"><i class="fa-solid fa-shield-halved"></i></button>
+            <button class="icon-btn" onclick="toggleTheme()" title="Tema"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+            <div class="hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         </div>
     </nav>
 
-    <main class="container" id="mainContent">
-        
-        <section id="home" class="section active">
+    <main>
+        <section id="home" class="active">
             <div class="hero">
-                <h1>Ders Deposu'na Hoş Geldiniz</h1>
-                <p>6, 7 ve 8. sınıflar için en güncel PDF içerikleri ve testler.</p>
-                <div class="search-box" style="margin-top: 30px;">
+                <h1 class="text-gradient">Eğitimde Sınırları Kaldırın</h1>
+                <p>Ortaokul müfredatına uygun binlerce PDF, deneme sınavı ve çalışma kağıdı. Öğren, paylaş, puanla ve başarıya ulaş.</p>
+                <div class="search-wrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="PDF adı, ders veya konu ara...">
+                    <input type="text" id="globalSearchInput" placeholder="PDF Adı, Ders veya Konu arayın..." onkeyup="handleGlobalSearch(event)">
+                    <button onclick="executeGlobalSearch()">Ara</button>
                 </div>
             </div>
-            <h2 style="margin-top: 40px; margin-bottom: 20px;"><i class="fa-solid fa-fire text-warning"></i> Popüler İçerikler</h2>
-            <div class="pdf-grid" id="homeGrid"></div>
-        </section>
-
-        <section id="grade6" class="section">
-            <h2>6. Sınıf İçerikleri</h2>
-            <div class="pdf-grid" id="grid6"></div>
-        </section>
-
-        <section id="grade7" class="section">
-            <h2>7. Sınıf İçerikleri</h2>
-            <div class="pdf-grid" id="grid7"></div>
-        </section>
-
-        <section id="grade8" class="section">
-            <h2>8. Sınıf İçerikleri</h2>
-            <div class="pdf-grid" id="grid8"></div>
-        </section>
-
-        <section id="favorites" class="section">
-            <h2><i class="fa-solid fa-heart text-danger"></i> Favorilerim</h2>
-            <div class="pdf-grid" id="favGrid"></div>
-            <div id="noFavMsg" style="display:none; text-align:center; padding: 50px; color: var(--text-light);">
-                <i class="fa-regular fa-folder-open" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                <p>Henüz favorilere eklenmiş bir içerik yok.</p>
-            </div>
-        </section>
-
-        <section id="admin" class="section">
             
-            <div id="adminLogin" class="glass admin-login">
-                <h2>Admin Paneli</h2>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">Sisteme giriş yapınız</p>
-                <input type="password" id="adminPwd" placeholder="Şifre (1234)">
-                <button class="btn btn-primary ripple-btn" onclick="loginAdmin()" style="width: 100%;">Giriş Yap</button>
+            <div id="homeSearchResults" style="display:none;">
+                <h2 class="mb-4">Arama Sonuçları</h2>
+                <div class="grid" id="searchGrid"></div>
             </div>
 
-            <div id="adminDashboard" class="admin-dashboard">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h2>İçerik Yönetimi</h2>
-                    <button class="btn btn-outline" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+            <div id="homeDefaultContent">
+                <div class="flex justify-between items-center mb-4 mt-4">
+                    <h2>🔥 En Popüler Dokümanlar</h2>
+                    <a href="#" onclick="switchView('explore')" style="color: var(--primary);">Hepsini Gör</a>
                 </div>
+                <div class="grid" id="homePopularGrid"></div>
+            </div>
+        </section>
 
-                <div class="admin-grid">
-                    <div class="glass admin-form">
-                        <h3 id="formTitle">Yeni PDF Ekle</h3>
-                        <form id="pdfForm" onsubmit="handleFormSubmit(event)">
-                            <input type="hidden" id="pdfId">
+        <section id="explore">
+            <h1 class="mb-4 text-gradient"><i class="fa-solid fa-compass"></i> Keşfet</h1>
+            
+            <h2 class="mt-4 mb-4">📈 Trendler (En Çok Görüntülenenler)</h2>
+            <div class="grid" id="exploreTrendingGrid"></div>
+
+            <h2 class="mt-4 mb-4" style="margin-top: 50px;">🌟 En Yüksek Puanlılar</h2>
+            <div class="grid" id="exploreTopRatedGrid"></div>
+        </section>
+
+        <section id="grade6">
+            <h1 class="mb-4 text-gradient">6. Sınıf Materyalleri</h1>
+            <div class="filters" id="filters-grade6"></div>
+            <div class="grid" id="grid-grade6"></div>
+        </section>
+
+        <section id="grade7">
+            <h1 class="mb-4 text-gradient">7. Sınıf Materyalleri</h1>
+            <div class="filters" id="filters-grade7"></div>
+            <div class="grid" id="grid-grade7"></div>
+        </section>
+
+        <section id="grade8">
+            <h1 class="mb-4 text-gradient">8. Sınıf Materyalleri</h1>
+            <div class="filters" id="filters-grade8"></div>
+            <div class="grid" id="grid-grade8"></div>
+        </section>
+
+        <section id="favorites">
+            <h1 class="mb-4 text-gradient"><i class="fa-solid fa-heart" style="color:var(--danger)"></i> Favorilerim</h1>
+            <p class="mb-4 text-muted">Kaydettiğin tüm PDF'ler burada. Çevrimdışı çalışmak için indirebilirsin.</p>
+            <div class="grid" id="favoritesGrid"></div>
+        </section>
+
+        <section id="profile">
+            <div class="profile-header">
+                <div class="profile-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                <h2>Öğrenci Profili</h2>
+                <p class="text-muted mt-4">Platformdaki Etkileşimlerin ve Başarıların</p>
+                <div class="user-badges" id="profileBadges"></div>
+            </div>
+
+            <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="card">
+                    <h3><i class="fa-solid fa-chart-pie"></i> İstatistiklerim</h3>
+                    <ul style="list-style: none; margin-top: 20px; line-height: 2.5; color: var(--text-muted);">
+                        <li>Favoriye Eklenenler: <strong style="color:var(--text-main)" id="statFavs">0</strong></li>
+                        <li>Yapılan Yorumlar: <strong style="color:var(--text-main)" id="statComments">0</strong></li>
+                        <li>Verilen Puanlar: <strong style="color:var(--text-main)" id="statRatings">0</strong></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fa-solid fa-comments"></i> Son Yorumlarım</h3>
+                    <div id="profileCommentsList" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin">
+            <div id="adminLoginArea" class="admin-login">
+                <h2><i class="fa-solid fa-lock"></i> Yönetici Girişi</h2>
+                <input type="password" id="adminPass" placeholder="Şifre giriniz...">
+                <button class="btn-primary" onclick="adminLogin()">Giriş Yap</button>
+                <p id="adminError" style="color:var(--danger); display:none; margin-top:15px;">Hatalı şifre!</p>
+            </div>
+
+            <div id="adminPanelArea" class="admin-dashboard" style="display:none;">
+                <div class="admin-sidebar">
+                    <h3 class="mb-4">Sistem Özeti</h3>
+                    <div class="stat-box"><h4>Toplam PDF</h4><span id="adTotPdf">0</span></div>
+                    <div class="stat-box"><h4>Toplam Görüntülenme</h4><span id="adTotView">0</span></div>
+                    <div class="stat-box"><h4>Toplam Yorum</h4><span id="adTotCom">0</span></div>
+                </div>
+                <div class="admin-content">
+                    <h2 class="mb-4" id="adminFormTitle">Yeni PDF Ekle</h2>
+                    <form id="adminForm" onsubmit="handleAdminSubmit(event)">
+                        <input type="hidden" id="editId">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                             <div class="form-group">
-                                <label>Başlık</label>
-                                <input type="text" id="pdfTitle" class="form-control" required>
+                                <label>PDF Adı</label>
+                                <input type="text" id="fmName" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Sınıf</label>
-                                <select id="pdfGrade" class="form-control" required>
-                                    <option value="6">6. Sınıf</option>
-                                    <option value="7">7. Sınıf</option>
-                                    <option value="8">8. Sınıf</option>
+                                <select id="fmGrade" class="form-control" required>
+                                    <option value="grade6">6. Sınıf</option>
+                                    <option value="grade7">7. Sınıf</option>
+                                    <option value="grade8">8. Sınıf</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Ders</label>
-                                <select id="pdfSubject" class="form-control" required>
+                                <select id="fmSubject" class="form-control" required>
                                     <option value="Matematik">Matematik</option>
                                     <option value="Türkçe">Türkçe</option>
                                     <option value="Fen Bilimleri">Fen Bilimleri</option>
@@ -685,376 +485,547 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Boyut (MB)</label>
-                                <input type="number" step="0.1" id="pdfSize" class="form-control" required>
+                                <label>Boyut</label>
+                                <input type="text" id="fmSize" class="form-control" placeholder="Örn: 2.5 MB" required>
                             </div>
-                            <div class="checkbox-group">
-                                <label><input type="checkbox" id="pdfNew"> Yeni</label>
-                                <label><input type="checkbox" id="pdfPop"> Popüler</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary ripple-btn" style="width: 100%;">Kaydet</button>
-                            <button type="button" class="btn btn-outline ripple-btn" id="cancelEditBtn" style="width: 100%; margin-top: 10px; display: none;" onclick="resetForm()">İptal</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="flex gap-4 mt-4">
+                            <button type="submit" class="btn-primary" id="fmSubmitBtn">Kaydet</button>
+                            <button type="button" class="btn-primary" style="background:var(--text-muted); display:none;" id="fmCancelBtn" onclick="resetAdminForm()">İptal</button>
+                        </div>
+                    </form>
 
-                    <div class="glass admin-list" style="overflow-x: auto;">
-                        <h3>Sistemdeki PDF'ler</h3>
+                    <h3 class="mt-4" style="margin-top: 50px;">Mevcut Dokümanlar</h3>
+                    <input type="text" id="adminTableSearch" class="form-control mb-4" placeholder="Tabloda ara..." oninput="renderAdminTable()">
+                    <div style="overflow-x:auto;">
                         <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Başlık</th>
-                                    <th>Sınıf</th>
-                                    <th>Ders</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminTableBody"></tbody>
+                            <thead><tr><th>ID</th><th>Adı</th><th>Sınıf / Ders</th><th>İstatistikler</th><th>İşlem</th></tr></thead>
+                            <tbody id="adminTbody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <div class="toast-container" id="toastContainer"></div>
-    <button id="backToTop"><i class="fa-solid fa-arrow-up"></i></button>
+    <div class="modal-overlay" id="pdfModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <div class="badges mb-4" id="modalBadges"></div>
+                <h2 class="modal-title" id="modalTitle">PDF Başlığı</h2>
+                <div class="modal-meta">
+                    <span id="modalSize"><i class="fa-solid fa-file-pdf"></i> Boyut</span>
+                    <span id="modalViews"><i class="fa-solid fa-eye"></i> 0 Görüntülenme</span>
+                    <span id="modalRating"><i class="fa-solid fa-star" style="color:var(--warning)"></i> 0.0</span>
+                </div>
+                <button class="btn-primary mt-4" onclick="downloadCurrentPDF()"><i class="fa-solid fa-download"></i> Hemen İndir</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="rating-section">
+                    <h3>Bu dokümanı nasıl buldun?</h3>
+                    <div class="stars-interactive mt-4" id="modalStarInteraction">
+                        <i class="fa-solid fa-star" onclick="ratePDF(1)"></i>
+                        <i class="fa-solid fa-star" onclick="ratePDF(2)"></i>
+                        <i class="fa-solid fa-star" onclick="ratePDF(3)"></i>
+                        <i class="fa-solid fa-star" onclick="ratePDF(4)"></i>
+                        <i class="fa-solid fa-star" onclick="ratePDF(5)"></i>
+                    </div>
+                </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Ders Deposu. Tüm hakları saklıdır.</p>
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <div class="comments-section">
+                    <h3>Yorumlar (<span id="modalCommentCount">0</span>)</h3>
+                    <div class="comment-form mb-4">
+                        <textarea id="commentInput" placeholder="Doküman hakkında ne düşünüyorsun? Diğer öğrencilere yardımcı ol..."></textarea>
+                        <button class="btn-primary" onclick="addComment()">Yorum Gönder</button>
+                    </div>
+                    <div class="comment-list" id="modalComments"></div>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+
+    <div id="toast-container"></div>
 
     <script>
-        // --- State Management ---
-        const initialPdfs = [
-            { id: '1', ad: 'Kümeler Konu Anlatımı', ders: 'Matematik', sinif: '6', boyut: 2.4, yeniMi: true, populerMi: true },
-            { id: '2', ad: 'Hücre ve Bölünmeler', ders: 'Fen Bilimleri', sinif: '7', boyut: 3.1, yeniMi: false, populerMi: true },
-            { id: '3', ad: 'Fiilimsiler Testi', ders: 'Türkçe', sinif: '8', boyut: 1.2, yeniMi: true, populerMi: false },
-            { id: '4', ad: 'Güneş Sistemi', ders: 'Fen Bilimleri', sinif: '6', boyut: 4.5, yeniMi: false, populerMi: false },
-            { id: '5', ad: 'Rasyonel Sayılar', ders: 'Matematik', sinif: '7', boyut: 2.8, yeniMi: false, populerMi: true },
-            { id: '6', ad: 'İnkılap Tarihi Deneme 1', ders: 'Sosyal Bilgiler', sinif: '8', boyut: 5.0, yeniMi: true, populerMi: true }
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // VERİ TABANI & BAŞLANGIÇ VERİLERİ
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        const initialPDFs = [
+            // 6. SINIF
+            { id: 101, ad: "Kümeler Yeni Nesil Soru Bankası", sinif: "grade6", ders: "Matematik", boyut: "3.2 MB", views: 1450, rating: 4.8, ratingCount: 45, comments: [{user: "Öğrenci", text: "Çok zor ama öğretici.", date: "2026-04-10"}], favCount: 120, dateAdded: 1670000000000 },
+            { id: 102, ad: "Güneş Sistemi Çalışma Kağıdı", sinif: "grade6", ders: "Fen Bilimleri", boyut: "1.5 MB", views: 980, rating: 4.5, ratingCount: 30, comments: [], favCount: 85, dateAdded: 1670100000000 },
+            { id: 103, ad: "Sözcükte Anlam Konu Anlatımı", sinif: "grade6", ders: "Türkçe", boyut: "2.1 MB", views: 2100, rating: 4.9, ratingCount: 110, comments: [{user: "Ayşe", text: "Özetler harika.", date: "2026-04-12"}], favCount: 300, dateAdded: 1670200000000 },
+            { id: 104, ad: "İpek Yolu Testi", sinif: "grade6", ders: "Sosyal Bilgiler", boyut: "1.8 MB", views: 500, rating: 4.0, ratingCount: 12, comments: [], favCount: 40, dateAdded: 1670300000000 },
+            { id: 105, ad: "Yummy Breakfast Vocabulary", sinif: "grade6", ders: "İngilizce", boyut: "1.1 MB", views: 1200, rating: 4.7, ratingCount: 65, comments: [], favCount: 95, dateAdded: 1670400000000 },
+            { id: 106, ad: "Çarpanlar ve Katlar LGS Hazırlık", sinif: "grade6", ders: "Matematik", boyut: "4.5 MB", views: 3200, rating: 4.9, ratingCount: 210, comments: [], favCount: 450, dateAdded: 1670500000000 },
+            
+            // 7. SINIF
+            { id: 201, ad: "Tam Sayılar İşlemler Föyü", sinif: "grade7", ders: "Matematik", boyut: "2.8 MB", views: 1800, rating: 4.6, ratingCount: 88, comments: [], favCount: 150, dateAdded: 1670600000000 },
+            { id: 202, ad: "Hücre ve Bölünmeler Denemesi", sinif: "grade7", ders: "Fen Bilimleri", boyut: "5.1 MB", views: 2500, rating: 4.8, ratingCount: 150, comments: [{user: "Ali", text: "Şekiller çok net.", date: "2026-04-20"}], favCount: 220, dateAdded: 1670700000000 },
+            { id: 203, ad: "Zarflar Etkinlik Sayfası", sinif: "grade7", ders: "Türkçe", boyut: "1.4 MB", views: 850, rating: 4.2, ratingCount: 25, comments: [], favCount: 60, dateAdded: 1670800000000 },
+            { id: 204, ad: "Osmanlı Devleti Kuruluş Özeti", sinif: "grade7", ders: "Sosyal Bilgiler", boyut: "3.5 MB", views: 3100, rating: 4.9, ratingCount: 180, comments: [], favCount: 400, dateAdded: 1670900000000 },
+            { id: 205, ad: "Sports Unit Reading Comprehension", sinif: "grade7", ders: "İngilizce", boyut: "1.9 MB", views: 1100, rating: 4.5, ratingCount: 45, comments: [], favCount: 110, dateAdded: 1671000000000 },
+            
+            // 8. SINIF
+            { id: 301, ad: "Mevsimlerin Oluşumu Çıkmış Sorular", sinif: "grade8", ders: "Fen Bilimleri", boyut: "6.2 MB", views: 8500, rating: 5.0, ratingCount: 500, comments: [{user: "LGS_Yolcusu", text: "Kesin çözün!", date: "2026-04-21"}], favCount: 1200, dateAdded: 1671100000000 },
+            { id: 302, ad: "Fiilimsiler Taktiklerle Konu Anlatımı", sinif: "grade8", ders: "Türkçe", boyut: "2.5 MB", views: 4200, rating: 4.7, ratingCount: 220, comments: [], favCount: 550, dateAdded: 1671200000000 },
+            { id: 303, ad: "Bir Kahraman Doğuyor Test", sinif: "grade8", ders: "Sosyal Bilgiler", boyut: "1.8 MB", views: 3600, rating: 4.6, ratingCount: 140, comments: [], favCount: 380, dateAdded: 1671300000000 },
+            { id: 304, ad: "Friendship LGS Vocabulary", sinif: "grade8", ders: "İngilizce", boyut: "1.3 MB", views: 5100, rating: 4.8, ratingCount: 310, comments: [], favCount: 600, dateAdded: 1671400000000 },
+            { id: 305, ad: "Kareköklü İfadeler Deneme", sinif: "grade8", ders: "Matematik", boyut: "4.0 MB", views: 7200, rating: 4.9, ratingCount: 420, comments: [{user: "Matematikçi", text: "Güzel sorular.", date: "2026-04-22"}], favCount: 850, dateAdded: 1671500000000 },
+            { id: 306, ad: "Basınç Yeni Nesil Soru Fası", sinif: "grade8", ders: "Fen Bilimleri", boyut: "5.5 MB", views: 6100, rating: 4.8, ratingCount: 290, comments: [], favCount: 720, dateAdded: 1671600000000 }
         ];
 
-        let pdfs = JSON.parse(localStorage.getItem('ders_deposu_pdfs')) || initialPdfs;
-        let favorites = JSON.parse(localStorage.getItem('ders_deposu_favs')) || [];
-        let isEditMode = false;
+        let pdfData = JSON.parse(localStorage.getItem('dersDeposu_pdfs')) || initialPDFs;
+        let userData = JSON.parse(localStorage.getItem('dersDeposu_user')) || {
+            favs: [], rated: {}, comments: []
+        };
+        let currentActivePDF = null;
 
-        // --- Init ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-            }, 800);
-            
-            initTheme();
-            renderAllSections();
-            setupEventListeners();
-        });
+        const subjects = ['Tümü', 'Matematik', 'Türkçe', 'Fen Bilimleri', 'Sosyal Bilgiler', 'İngilizce'];
+        let filters = { grade6: 'Tümü', grade7: 'Tümü', grade8: 'Tümü' };
 
-        // --- Theme System ---
-        function initTheme() {
-            const savedTheme = localStorage.getItem('ders_deposu_theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcon(savedTheme);
+        function saveData() {
+            localStorage.setItem('dersDeposu_pdfs', JSON.stringify(pdfData));
+            localStorage.setItem('dersDeposu_user', JSON.stringify(userData));
         }
 
-        document.getElementById('darkModeToggle').addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('ders_deposu_theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-
-        function updateThemeIcon(theme) {
-            const icon = document.querySelector('#darkModeToggle i');
-            icon.className = theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // YARDIMCI FONKSİYONLAR
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function getGradeText(grade) { return grade.replace('grade', '') + '. Sınıf'; }
+        
+        function showToast(message, type="success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid fa-${type==='success'?'check-circle':'circle-exclamation'}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3500);
         }
 
-        // --- Navigation (SPA) ---
-        function navigate(sectionId) {
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // KART VE GRID RENDER
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function generateCardHTML(pdf) {
+            const isFav = userData.favs.includes(pdf.id);
+            const isTrend = pdf.views > 3000;
+            const isNew = (Date.now() - pdf.dateAdded) < 2592000000; // 30 gün
             
-            document.getElementById(sectionId).classList.add('active');
+            let badges = `<span class="badge ders">${pdf.ders}</span><span class="badge sinif">${getGradeText(pdf.sinif)}</span>`;
+            if(isTrend) badges += `<span class="badge trend"><i class="fa-solid fa-fire"></i> Trend</span>`;
             
-            const activeLink = document.querySelector(`.nav-link[data-target="${sectionId}"]`) || 
-                               document.querySelector(`.nav-link[onclick="navigate('${sectionId}')"]`);
-            if(activeLink) activeLink.classList.add('active');
-
-            if(window.innerWidth <= 768) {
-                document.getElementById('navLinks').classList.remove('active');
-            }
-
-            if(sectionId !== 'admin') {
-                renderAllSections();
-            }
-            window.scrollTo(0,0);
-        }
-
-        // --- Render Engine ---
-        function renderAllSections() {
-            renderGrid('homeGrid', pdfs.filter(p => p.populerMi));
-            renderGrid('grid6', pdfs.filter(p => p.sinif === '6'));
-            renderGrid('grid7', pdfs.filter(p => p.sinif === '7'));
-            renderGrid('grid8', pdfs.filter(p => p.sinif === '8'));
-            
-            const favPdfs = pdfs.filter(p => favorites.includes(p.id));
-            renderGrid('favGrid', favPdfs);
-            document.getElementById('noFavMsg').style.display = favPdfs.length === 0 ? 'block' : 'none';
-            
-            renderAdminTable();
-        }
-
-        function createPdfCard(pdf) {
-            const isFav = favorites.includes(pdf.id);
             return `
-                <div class="pdf-card">
-                    <div class="pdf-badges">
-                        <span class="badge grade">${pdf.sinif}. Sınıf</span>
-                        ${pdf.yeniMi ? '<span class="badge new">Yeni</span>' : ''}
-                        ${pdf.populerMi ? '<span class="badge popular"><i class="fa-solid fa-fire"></i> Popüler</span>' : ''}
-                    </div>
-                    <div class="pdf-icon"><i class="fa-regular fa-file-pdf"></i></div>
-                    <div class="pdf-title">${pdf.ad}</div>
-                    <div class="pdf-meta">
-                        <span><i class="fa-solid fa-book"></i> ${pdf.ders}</span>
-                        <span>${pdf.boyut} MB</span>
-                    </div>
-                    <div class="pdf-actions">
-                        <button class="btn btn-primary ripple-btn" onclick="downloadPdf('${pdf.ad}')">
-                            <i class="fa-solid fa-download"></i> İndir
-                        </button>
-                        <button class="btn btn-fav ${isFav ? 'active' : ''} ripple-btn" onclick="toggleFavorite('${pdf.id}')">
-                            <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="badges">${badges}</div>
+                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${pdf.id}, event)">
+                            <i class="fa-solid fa-heart"></i>
                         </button>
                     </div>
+                    <h3>${pdf.ad}</h3>
+                    <div class="card-stats">
+                        <span><i class="fa-solid fa-star"></i> ${pdf.rating.toFixed(1)} (${pdf.ratingCount})</span>
+                        <span><i class="fa-solid fa-eye"></i> ${pdf.views}</span>
+                        <span><i class="fa-solid fa-comment"></i> ${pdf.comments.length}</span>
+                    </div>
+                    <button class="btn-primary" onclick="openPDFModal(${pdf.id})">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> İncele & İndir
+                    </button>
                 </div>
             `;
         }
 
-        function renderGrid(elementId, items) {
-            const grid = document.getElementById(elementId);
-            if(!grid) return;
-            if(items.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:var(--text-light);">Bu kategoride içerik bulunamadı.</p>`;
+        function renderGrid(containerId, dataArray) {
+            const container = document.getElementById(containerId);
+            if(dataArray.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:50px; color:var(--text-muted);"><i class="fa-solid fa-folder-open" style="font-size:3rem; margin-bottom:15px;"></i><br>İçerik bulunamadı.</div>`;
                 return;
             }
-            grid.innerHTML = items.map(pdf => createPdfCard(pdf)).join('');
-            attachRippleEffects();
+            container.innerHTML = dataArray.map(p => generateCardHTML(p)).join('');
         }
 
-        // --- Actions ---
-        function downloadPdf(name) {
-            showToast(`"${name}" indiriliyor...`, 'success');
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // ROUTING & NAVIGATION
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function switchView(viewId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            const activeLink = document.querySelector(`.nav-links a[data-target="${viewId}"]`);
+            if(activeLink) activeLink.classList.add('active');
+            
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Initialize views
+            if(viewId === 'home') initHome();
+            else if(viewId === 'explore') initExplore();
+            else if(viewId.startsWith('grade')) initGrade(viewId);
+            else if(viewId === 'favorites') initFavorites();
+            else if(viewId === 'profile') initProfile();
+            else if(viewId === 'admin') initAdmin();
         }
 
-        function toggleFavorite(id) {
-            if(favorites.includes(id)) {
-                favorites = favorites.filter(fId => fId !== id);
-                showToast('Favorilerden çıkarıldı', '');
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // HOME & EXPLORE
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function initHome() {
+            document.getElementById('homeSearchResults').style.display = 'none';
+            document.getElementById('homeDefaultContent').style.display = 'block';
+            document.getElementById('globalSearchInput').value = '';
+            
+            const popular = [...pdfData].sort((a,b) => b.views - a.views).slice(0, 6);
+            renderGrid('homePopularGrid', popular);
+        }
+
+        function handleGlobalSearch(e) { if(e.key === 'Enter') executeGlobalSearch(); }
+        
+        function executeGlobalSearch() {
+            const term = document.getElementById('globalSearchInput').value.toLowerCase().trim();
+            if(!term) { initHome(); return; }
+            
+            document.getElementById('homeDefaultContent').style.display = 'none';
+            document.getElementById('homeSearchResults').style.display = 'block';
+            
+            const results = pdfData.filter(p => p.ad.toLowerCase().includes(term) || p.ders.toLowerCase().includes(term));
+            renderGrid('searchGrid', results);
+        }
+
+        function initExplore() {
+            const trending = [...pdfData].sort((a,b) => b.views - a.views).slice(0, 8);
+            const topRated = [...pdfData].sort((a,b) => b.rating - a.rating).slice(0, 8);
+            renderGrid('exploreTrendingGrid', trending);
+            renderGrid('exploreTopRatedGrid', topRated);
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // SINIF SAYFALARI
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function initGrade(gradeId) {
+            renderFilters(gradeId);
+            applyFilter(gradeId, filters[gradeId]);
+        }
+
+        function renderFilters(gradeId) {
+            const container = document.getElementById(`filters-${gradeId}`);
+            container.innerHTML = subjects.map(sub => `
+                <button class="filter-btn ${filters[gradeId] === sub ? 'active' : ''}" 
+                        onclick="applyFilter('${gradeId}', '${sub}')">${sub}</button>
+            `).join('');
+        }
+
+        function applyFilter(gradeId, subject) {
+            filters[gradeId] = subject;
+            renderFilters(gradeId);
+            
+            let filtered = pdfData.filter(p => p.sinif === gradeId);
+            if(subject !== 'Tümü') filtered = filtered.filter(p => p.ders === subject);
+            
+            renderGrid(`grid-${gradeId}`, filtered);
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // SOSYAL İŞLEMLER (FAV, YORUM, PUAN)
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function toggleFavorite(id, event) {
+            event.stopPropagation();
+            const index = userData.favs.indexOf(id);
+            const pdfIndex = pdfData.findIndex(p => p.id === id);
+            
+            if(index > -1) {
+                userData.favs.splice(index, 1);
+                pdfData[pdfIndex].favCount--;
+                showToast("Favorilerden çıkarıldı.");
             } else {
-                favorites.push(id);
-                showToast('Favorilere eklendi', 'success');
+                userData.favs.push(id);
+                pdfData[pdfIndex].favCount++;
+                showToast("Favorilere eklendi! ❤️");
             }
-            localStorage.setItem('ders_deposu_favs', JSON.stringify(favorites));
-            renderAllSections();
-        }
-
-        // --- Search System ---
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            if(term.length === 0) {
-                renderGrid('homeGrid', pdfs.filter(p => p.populerMi));
-                return;
-            }
-            const filtered = pdfs.filter(p => 
-                p.ad.toLowerCase().includes(term) || 
-                p.ders.toLowerCase().includes(term)
-            );
-            renderGrid('homeGrid', filtered);
-        });
-
-        // --- Admin Panel Logic ---
-        function loginAdmin() {
-            const pwd = document.getElementById('adminPwd').value;
-            if(pwd === '1234') {
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                document.getElementById('adminPwd').value = '';
-                showToast('Admin paneline girildi', 'success');
-                renderAdminTable();
-            } else {
-                showToast('Hatalı şifre!', 'error');
-            }
-        }
-
-        function logoutAdmin() {
-            document.getElementById('adminDashboard').style.display = 'none';
-            document.getElementById('adminLogin').style.display = 'block';
-            navigate('home');
-            showToast('Çıkış yapıldı', '');
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('pdfId').value || Date.now().toString();
-            const newPdf = {
-                id: id,
-                ad: document.getElementById('pdfTitle').value,
-                sinif: document.getElementById('pdfGrade').value,
-                ders: document.getElementById('pdfSubject').value,
-                boyut: parseFloat(document.getElementById('pdfSize').value),
-                yeniMi: document.getElementById('pdfNew').checked,
-                populerMi: document.getElementById('pdfPop').checked
-            };
-
-            if(isEditMode) {
-                pdfs = pdfs.map(p => p.id === id ? newPdf : p);
-                showToast('PDF Güncellendi', 'success');
-            } else {
-                pdfs.push(newPdf);
-                showToast('Yeni PDF Eklendi', 'success');
-            }
-
             saveData();
-            resetForm();
+            
+            // Re-render active view
+            const activeSec = document.querySelector('section.active').id;
+            switchView(activeSec);
+            if(currentActivePDF && currentActivePDF.id === id) openPDFModal(id);
+        }
+
+        function initFavorites() {
+            const favPDFs = pdfData.filter(p => userData.favs.includes(p.id));
+            renderGrid('favoritesGrid', favPDFs);
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // MODAL (PDF DETAY) İŞLEMLERİ
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function openPDFModal(id) {
+            const pdfIndex = pdfData.findIndex(p => p.id === id);
+            const pdf = pdfData[pdfIndex];
+            currentActivePDF = pdf;
+            
+            // View Increment
+            pdfData[pdfIndex].views++;
+            saveData();
+
+            document.getElementById('modalTitle').innerText = pdf.ad;
+            document.getElementById('modalSize').innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${pdf.boyut}`;
+            document.getElementById('modalViews').innerHTML = `<i class="fa-solid fa-eye"></i> ${pdf.views}`;
+            document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star" style="color:var(--warning)"></i> ${pdf.rating.toFixed(1)} (${pdf.ratingCount})`;
+            
+            let badges = `<span class="badge ders">${pdf.ders}</span><span class="badge sinif">${getGradeText(pdf.sinif)}</span>`;
+            document.getElementById('modalBadges').innerHTML = badges;
+            
+            // Render Stars
+            const userRating = userData.rated[id] || 0;
+            const starsHTML = Array.from({length:5}, (_,i) => i+1).map(num => `
+                <i class="fa-solid fa-star ${num <= userRating ? 'active' : ''}" style="${num <= userRating ? 'color:var(--warning)' : ''}" onclick="ratePDF(${num})"></i>
+            `).join('');
+            document.getElementById('modalStarInteraction').innerHTML = starsHTML;
+
+            // Render Comments
+            document.getElementById('modalCommentCount').innerText = pdf.comments.length;
+            const commentsHtml = pdf.comments.length === 0 ? '<p style="color:var(--text-muted)">Henüz yorum yapılmamış. İlk yorumu sen yap!</p>' : 
+                pdf.comments.map(c => `
+                    <div class="comment-item">
+                        <div class="comment-header"><strong><i class="fa-solid fa-user-circle"></i> ${c.user}</strong> <span>${c.date}</span></div>
+                        <div class="comment-body">${c.text}</div>
+                    </div>
+                `).join('');
+            document.getElementById('modalComments').innerHTML = commentsHtml;
+            document.getElementById('commentInput').value = '';
+
+            document.getElementById('pdfModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if(e && e.target !== document.getElementById('pdfModal')) return;
+            document.getElementById('pdfModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+            currentActivePDF = null;
+            
+            const activeSec = document.querySelector('section.active').id;
+            if(!activeSec.includes('admin') && !activeSec.includes('profile')) switchView(activeSec);
+        }
+
+        function downloadCurrentPDF() {
+            showToast(`"${currentActivePDF.ad}" indirme işlemi başlatıldı! 🚀`);
+        }
+
+        function ratePDF(score) {
+            if(!currentActivePDF) return;
+            const id = currentActivePDF.id;
+            
+            if(userData.rated[id]) {
+                showToast("Bu dokümanı zaten puanladınız.", "warning");
+                return;
+            }
+            
+            const pdfIndex = pdfData.findIndex(p => p.id === id);
+            let currentTotal = pdfData[pdfIndex].rating * pdfData[pdfIndex].ratingCount;
+            pdfData[pdfIndex].ratingCount++;
+            pdfData[pdfIndex].rating = (currentTotal + score) / pdfData[pdfIndex].ratingCount;
+            
+            userData.rated[id] = score;
+            saveData();
+            showToast("Puanınız kaydedildi! ⭐");
+            openPDFModal(id);
+        }
+
+        function addComment() {
+            const text = document.getElementById('commentInput').value.trim();
+            if(!text) return;
+            
+            const pdfIndex = pdfData.findIndex(p => p.id === currentActivePDF.id);
+            const newComment = {
+                user: "Öğrenci",
+                text: text,
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            pdfData[pdfIndex].comments.unshift(newComment);
+            userData.comments.push({ pdfId: currentActivePDF.id, text: text, date: newComment.date, pdfAd: currentActivePDF.ad });
+            
+            saveData();
+            showToast("Yorumunuz eklendi! 💬");
+            openPDFModal(currentActivePDF.id);
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // PROFİL SİSTEMİ
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function initProfile() {
+            document.getElementById('statFavs').innerText = userData.favs.length;
+            document.getElementById('statComments').innerText = userData.comments.length;
+            document.getElementById('statRatings').innerText = Object.keys(userData.rated).length;
+            
+            // Badges System
+            let badgesHtml = `<span class="user-badge"><i class="fa-solid fa-seedling"></i> Yeni Kullanıcı</span>`;
+            if(userData.comments.length >= 3) badgesHtml += `<span class="user-badge" style="color:var(--secondary); border-color:var(--secondary)"><i class="fa-solid fa-fire"></i> Aktif Öğrenci</span>`;
+            if(userData.favs.length >= 5) badgesHtml += `<span class="user-badge" style="color:var(--primary); border-color:var(--primary)"><i class="fa-solid fa-crown"></i> PDF Ustası</span>`;
+            document.getElementById('profileBadges').innerHTML = badgesHtml;
+
+            // Comments List
+            const comContainer = document.getElementById('profileCommentsList');
+            if(userData.comments.length === 0) {
+                comContainer.innerHTML = '<p class="text-muted">Henüz hiç yorum yapmadın.</p>';
+            } else {
+                comContainer.innerHTML = userData.comments.slice().reverse().map(c => `
+                    <div style="background: rgba(255,255,255,0.05); padding:15px; border-radius:10px; border-left:3px solid var(--secondary);">
+                        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:5px;">${c.pdfAd} - ${c.date}</div>
+                        <div>${c.text}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // ADMİN PANELİ
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function initAdmin() {
+            document.getElementById('adminPass').value = '';
+            document.getElementById('adminError').style.display = 'none';
+            if(sessionStorage.getItem('adminAuth') === 'true') {
+                showAdminDashboard();
+            } else {
+                document.getElementById('adminLoginArea').style.display = 'block';
+                document.getElementById('adminPanelArea').style.display = 'none';
+            }
+        }
+
+        function adminLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === '1234') {
+                sessionStorage.setItem('adminAuth', 'true');
+                showAdminDashboard();
+            } else {
+                document.getElementById('adminError').style.display = 'block';
+            }
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('adminLoginArea').style.display = 'none';
+            document.getElementById('adminPanelArea').style.display = 'grid';
+            updateAdminStats();
             renderAdminTable();
         }
 
-        function editPdf(id) {
-            const pdf = pdfs.find(p => p.id === id);
-            if(!pdf) return;
-            
-            document.getElementById('pdfId').value = pdf.id;
-            document.getElementById('pdfTitle').value = pdf.ad;
-            document.getElementById('pdfGrade').value = pdf.sinif;
-            document.getElementById('pdfSubject').value = pdf.ders;
-            document.getElementById('pdfSize').value = pdf.boyut;
-            document.getElementById('pdfNew').checked = pdf.yeniMi;
-            document.getElementById('pdfPop').checked = pdf.populerMi;
-            
-            isEditMode = true;
-            document.getElementById('formTitle').innerText = 'PDF Güncelle';
-            document.getElementById('cancelEditBtn').style.display = 'block';
-            window.scrollTo(0,0);
-        }
-
-        function deletePdf(id) {
-            if(confirm('Bu PDF silinecek, emin misiniz?')) {
-                pdfs = pdfs.filter(p => p.id !== id);
-                favorites = favorites.filter(fId => fId !== id);
-                saveData();
-                renderAdminTable();
-                showToast('PDF Silindi', 'error');
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('pdfForm').reset();
-            document.getElementById('pdfId').value = '';
-            isEditMode = false;
-            document.getElementById('formTitle').innerText = 'Yeni PDF Ekle';
-            document.getElementById('cancelEditBtn').style.display = 'none';
+        function updateAdminStats() {
+            document.getElementById('adTotPdf').innerText = pdfData.length;
+            document.getElementById('adTotView').innerText = pdfData.reduce((acc, curr) => acc + curr.views, 0);
+            document.getElementById('adTotCom').innerText = pdfData.reduce((acc, curr) => acc + curr.comments.length, 0);
         }
 
         function renderAdminTable() {
-            const tbody = document.getElementById('adminTableBody');
-            tbody.innerHTML = pdfs.map(pdf => `
+            const term = document.getElementById('adminTableSearch').value.toLowerCase();
+            const filtered = pdfData.filter(p => p.ad.toLowerCase().includes(term));
+            
+            const tbody = document.getElementById('adminTbody');
+            tbody.innerHTML = filtered.reverse().map(p => `
                 <tr>
-                    <td>${pdf.ad}</td>
-                    <td>${pdf.sinif}. Sınıf</td>
-                    <td>${pdf.ders}</td>
+                    <td>#${p.id}</td>
+                    <td><strong>${p.ad}</strong></td>
+                    <td><span class="badge sinif">${getGradeText(p.sinif)}</span> <span class="badge ders">${p.ders}</span></td>
+                    <td><i class="fa-solid fa-eye"></i> ${p.views} | <i class="fa-solid fa-star"></i> ${p.rating.toFixed(1)}</td>
                     <td class="action-btns">
-                        <button class="btn-edit" onclick="editPdf('${pdf.id}')"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn-delete" onclick="deletePdf('${pdf.id}')"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn-edit" onclick="editPDF(${p.id})"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete" onclick="deletePDF(${p.id})"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function saveData() {
-            localStorage.setItem('ders_deposu_pdfs', JSON.stringify(pdfs));
-            localStorage.setItem('ders_deposu_favs', JSON.stringify(favorites));
-        }
+        function handleAdminSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editId').value;
+            const newData = {
+                ad: document.getElementById('fmName').value,
+                sinif: document.getElementById('fmGrade').value,
+                ders: document.getElementById('fmSubject').value,
+                boyut: document.getElementById('fmSize').value,
+            };
 
-        // --- UI Utilities ---
-        function showToast(message, type = '') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+            if(editId) {
+                const index = pdfData.findIndex(p => p.id == editId);
+                pdfData[index] = { ...pdfData[index], ...newData };
+                showToast("PDF Güncellendi!");
+            } else {
+                newData.id = Date.now();
+                newData.views = 0; newData.rating = 0; newData.ratingCount = 0;
+                newData.comments = []; newData.favCount = 0; newData.dateAdded = Date.now();
+                pdfData.push(newData);
+                showToast("Yeni PDF Eklendi!");
+            }
             
-            let icon = 'fa-circle-info';
-            if(type === 'success') icon = 'fa-circle-check';
-            if(type === 'error') icon = 'fa-circle-exclamation';
-
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.3s ease-in forwards';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            saveData();
+            resetAdminForm();
+            updateAdminStats();
+            renderAdminTable();
         }
 
-        function setupEventListeners() {
-            // Hamburger
-            document.getElementById('hamburger').addEventListener('click', () => {
-                document.getElementById('navLinks').classList.toggle('active');
-            });
-
-            // Scroll Progress & Back to Top
-            window.addEventListener('scroll', () => {
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (winScroll / height) * 100;
-                document.getElementById('scrollProgress').style.width = scrolled + '%';
-
-                const btt = document.getElementById('backToTop');
-                if (winScroll > 300) {
-                    btt.style.display = 'flex';
-                } else {
-                    btt.style.display = 'none';
-                }
-            });
-
-            document.getElementById('backToTop').addEventListener('click', () => {
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            });
-
-            attachRippleEffects();
-        }
-
-        function attachRippleEffects() {
-            const buttons = document.querySelectorAll('.ripple-btn');
-            buttons.forEach(btn => {
-                // remove old listeners if re-rendering
-                btn.replaceWith(btn.cloneNode(true));
-            });
+        function editPDF(id) {
+            const pdf = pdfData.find(p => p.id === id);
+            document.getElementById('editId').value = pdf.id;
+            document.getElementById('fmName').value = pdf.ad;
+            document.getElementById('fmGrade').value = pdf.sinif;
+            document.getElementById('fmSubject').value = pdf.ders;
+            document.getElementById('fmSize').value = pdf.boyut;
             
-            document.querySelectorAll('.ripple-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const circle = document.createElement('span');
-                    circle.classList.add('ripple');
-                    circle.style.left = `${x}px`;
-                    circle.style.top = `${y}px`;
-                    
-                    this.appendChild(circle);
-                    setTimeout(() => circle.remove(), 600);
-                });
-            });
+            document.getElementById('adminFormTitle').innerText = "PDF Düzenle";
+            document.getElementById('fmSubmitBtn').innerText = "Güncelle";
+            document.getElementById('fmCancelBtn').style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function deletePDF(id) {
+            if(confirm("Bu PDF'i kalıcı olarak silmek istediğinize emin misiniz?")) {
+                pdfData = pdfData.filter(p => p.id !== id);
+                saveData();
+                updateAdminStats();
+                renderAdminTable();
+                showToast("PDF başarıyla silindi.", "warning");
+            }
+        }
+
+        function resetAdminForm() {
+            document.getElementById('adminForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('adminFormTitle').innerText = "Yeni PDF Ekle";
+            document.getElementById('fmSubmitBtn').innerText = "Kaydet";
+            document.getElementById('fmCancelBtn').style.display = "none";
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // TEMA YÖNETİMİ
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('dersDeposu_theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            if(theme === 'dark') { icon.className = "fa-solid fa-moon"; } 
+            else { icon.className = "fa-solid fa-sun"; }
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        // BAŞLATMA (INIT)
+        // ━━━━━━━━━━━━━━━━━━━━━━
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('dersDeposu_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            initHome();
+        };
+
     </script>
 </body>
 </html>
