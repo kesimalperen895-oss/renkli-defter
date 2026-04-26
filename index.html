@@ -61,7 +61,8 @@
         .nav-item i { margin-right: 6px; }
 
         /* LAYOUT & VIEWS */
-        main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 2rem; width: 100%; }
+        main { flex: 1; width: 100%; display: flex; flex-direction: column;}
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; width: 100%; flex: 1; }
         .view { display: none; animation: fadeIn 0.4s ease forwards; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -72,8 +73,11 @@
             background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glass);
             color: white; font-size: 1rem; transition: var(--transition); outline: none;
         }
-        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
         
+        .input-group { display: flex; gap: 15px; }
+        .input-group > * { flex: 1; }
+
         button {
             background: var(--primary); color: white; border: none; padding: 14px 24px;
             border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 1rem;
@@ -85,41 +89,55 @@
         button.outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
         button.outline:hover { background: var(--primary); color: white; }
         
+        /* 🚀 NEW: SPLIT SCREEN AUTHENTICATION DESIGN */
+        .auth-wrapper {
+            display: flex; min-height: calc(100vh - 80px); width: 100%;
+        }
+        .auth-left {
+            flex: 1; padding: 4rem; display: flex; flex-direction: column; justify-content: center;
+            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,41,59,0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop') center/cover;
+            border-right: 1px solid var(--border-glass);
+        }
+        .auth-right {
+            flex: 1; padding: 4rem; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--bg-body);
+        }
+        .auth-box { width: 100%; max-width: 480px; }
+        
+        .feature-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .feature-icon { width: 50px; height: 50px; border-radius: 12px; background: rgba(59, 130, 246, 0.2); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+
+        @media (max-width: 900px) {
+            .auth-wrapper { flex-direction: column; }
+            .auth-left { display: none; } /* Hide image on mobile for better UX */
+            .auth-right { padding: 2rem; }
+            .input-group { flex-direction: column; gap: 0; }
+        }
+
         /* CARDS & GRIDS */
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-        .pdf-card {
-            padding: 20px; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between;
-        }
+        .pdf-card { padding: 20px; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; }
         .pdf-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
         .badge { background: rgba(59, 130, 246, 0.2); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
 
-        /* UPLOAD ZONE */
-        .drop-zone {
-            border: 2px dashed var(--primary); padding: 50px 20px; text-align: center; border-radius: 16px;
-            background: rgba(59, 130, 246, 0.05); cursor: pointer; transition: var(--transition);
-        }
+        /* UPLOAD ZONE & MODALS */
+        .drop-zone { border: 2px dashed var(--primary); padding: 50px 20px; text-align: center; border-radius: 16px; background: rgba(59, 130, 246, 0.05); cursor: pointer; transition: var(--transition); }
         .drop-zone.dragover { background: rgba(59, 130, 246, 0.15); border-color: var(--secondary); transform: scale(1.02); }
         .progress-bar { width: 100%; height: 6px; background: var(--border-glass); border-radius: 10px; margin-top: 15px; overflow: hidden; display: none;}
         .progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
 
-        /* MODAL SYSTEM */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000;
-            opacity: 0; transition: opacity 0.3s;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content { width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; padding: 30px; position: relative;}
         .modal-close { position: absolute; top: 15px; right: 15px; background: transparent; color: var(--text-muted); font-size: 1.5rem; padding: 0; border: none; }
 
-        /* TOAST NOTIFICATIONS */
+        /* TOAST & SKELETON */
         #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 2000; display: flex; flex-direction: column; gap: 12px; }
         .toast { background: var(--bg-glass); border-left: 4px solid var(--primary); padding: 16px 24px; border-radius: 12px; box-shadow: var(--shadow); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         .toast.success { border-color: var(--secondary); }
         .toast.error { border-color: var(--danger); }
         @keyframes slideInRight { from { transform: translateX(120%); } to { transform: translateX(0); } }
 
-        /* SKELETON LOADING */
         .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         .skel-title { height: 24px; width: 70%; margin-bottom: 15px; }
@@ -134,8 +152,7 @@
         <div class="logo"><i class="fas fa-layer-group"></i> DersDeposu</div>
         
         <div id="nav-auth-links" class="nav-menu">
-            <button class="outline" onclick="App.Router.navigate('auth')" style="padding: 8px 16px;">Giriş Yap</button>
-        </div>
+            </div>
         
         <div id="nav-app-links" class="nav-menu" style="display: none;">
             <div class="nav-item active" onclick="App.Router.navigate('home')"><i class="fas fa-compass"></i> Keşfet</div>
@@ -150,86 +167,139 @@
 
     <main>
         <section id="view-auth" class="view active">
-            <div class="glass-panel" style="max-width: 450px; margin: 40px auto; padding: 40px;">
-                <h2 style="text-align: center; margin-bottom: 10px;">Platforma Katıl</h2>
-                <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Ders notlarına sınırsız erişim sağla.</p>
+            <div class="auth-wrapper">
                 
-                <input type="text" id="auth-name" placeholder="Ad Soyad (Sadece Kayıtta)" style="display: none;">
-                <input type="email" id="auth-email" placeholder="E-posta Adresi">
-                <input type="password" id="auth-pass" placeholder="Şifre (Min. 6 Karakter)">
-                
-                <button id="btn-login" style="width: 100%;" onclick="App.Auth.login()">Giriş Yap</button>
-                <button id="btn-register" style="width: 100%; display: none;" onclick="App.Auth.register()">Hesap Oluştur</button>
-                
-                <div style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-                    <span id="auth-switch-text" style="color: var(--text-muted); cursor: pointer;" onclick="App.Auth.toggleMode()">Hesabın yok mu? Kayıt Ol</span>
+                <div class="auth-left">
+                    <h1 style="font-size: 3rem; margin-bottom: 20px; line-height: 1.2;">Öğrenmenin <br><span style="color: var(--primary);">Açık Kaynak</span> Hali.</h1>
+                    <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px; max-width: 80%;">Türkiye'nin en kapsamlı üniversite ders notu ağına katılın. Başarıyı paylaşarak büyütün.</p>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div>
+                            <h3 style="margin-bottom: 5px;">10.000+ Doğrulanmış Not</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Vize ve final öncesi hayat kurtaran içerikler.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(16, 185, 129, 0.2); color: var(--secondary);"><i class="fas fa-users"></i></div>
+                        <div>
+                            <h3 style="margin-bottom: 5px;">Üniversitene Özel Ağ</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Kendi bölümündeki üst dönemlerin notlarına eriş.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <h3 style="margin-bottom: 5px;">Ücretsiz & Güvenli</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Bilgi parayla satılamaz. Tamamen ücretsiz platform.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="auth-right">
+                    <div class="auth-box glass-panel" style="padding: 40px;">
+                        
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h2 id="auth-main-title">Hesap Oluştur</h2>
+                            <p id="auth-sub-title" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Aramıza katılmak için bilgilerini doldur.</p>
+                        </div>
+
+                        <div id="auth-register-fields">
+                            <div class="input-group">
+                                <input type="text" id="reg-name" placeholder="Adınız">
+                                <input type="text" id="reg-surname" placeholder="Soyadınız">
+                            </div>
+                            
+                            <select id="reg-university" style="color: var(--text-muted);" onchange="this.style.color='white'">
+                                <option value="" disabled selected>Üniversitenizi Seçin</option>
+                                <option value="ODTÜ">Orta Doğu Teknik Üniversitesi</option>
+                                <option value="İTÜ">İstanbul Teknik Üniversitesi</option>
+                                <option value="Bilkent">Bilkent Üniversitesi</option>
+                                <option value="Boğaziçi">Boğaziçi Üniversitesi</option>
+                                <option value="Diğer">Diğer Üniversiteler</option>
+                            </select>
+
+                            <input type="text" id="reg-department" placeholder="Bölümünüz (Örn: Bilgisayar Mühendisliği)">
+                        </div>
+
+                        <input type="email" id="auth-email" placeholder="E-posta Adresiniz (Edu.tr zorunlu değil)">
+                        <input type="password" id="auth-pass" placeholder="Şifreniz (En az 6 karakter)">
+                        
+                        <input type="password" id="reg-pass-confirm" placeholder="Şifrenizi Tekrar Girin">
+
+                        <div id="auth-terms-box" style="display: flex; align-items: start; gap: 10px; margin-bottom: 20px;">
+                            <input type="checkbox" id="reg-terms" style="width: auto; margin-top: 3px;">
+                            <label for="reg-terms" style="font-size: 0.85rem; color: var(--text-muted);">
+                                <a href="#" style="color: var(--primary);">Kullanım Koşullarını</a> ve <a href="#" style="color: var(--primary);">Gizlilik Politikasını</a> okudum, kabul ediyorum.
+                            </label>
+                        </div>
+
+                        <button id="btn-submit-auth" style="width: 100%; margin-bottom: 20px;" onclick="App.Auth.process()">Ücretsiz Kayıt Ol</button>
+                        
+                        <div style="text-align: center; border-top: 1px solid var(--border-glass); padding-top: 20px;">
+                            <p style="font-size: 0.9rem; color: var(--text-muted);">
+                                <span id="auth-switch-prompt">Zaten bir hesabın var mı?</span> 
+                                <span style="color: var(--primary); cursor: pointer; font-weight: bold;" onclick="App.Auth.toggleMode()" id="auth-switch-btn">Giriş Yap</span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <section id="view-home" class="view">
+        <section id="view-home" class="view container">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
-                <h2><i class="fas fa-fire" style="color: var(--danger);"></i> Popüler Notlar</h2>
-                
+                <h2><i class="fas fa-fire" style="color: var(--danger);"></i> Keşfet</h2>
                 <div style="display: flex; gap: 10px; flex: 1; max-width: 500px;">
                     <input type="text" id="search-input" placeholder="Döküman, ders veya konu ara..." style="margin: 0; flex: 1;">
                     <button style="margin: 0;" onclick="App.DB.searchPDFs()"><i class="fas fa-search"></i></button>
                 </div>
-
                 <div style="display: flex; gap: 10px;">
                     <button class="outline" onclick="App.DB.loadPDFs('newest')" style="padding: 8px 15px;"><i class="fas fa-clock"></i> Yeniler</button>
                     <button class="outline" onclick="App.DB.loadPDFs('popular')" style="padding: 8px 15px;"><i class="fas fa-star"></i> Popüler</button>
                 </div>
             </div>
-
-            <div id="pdf-grid" class="grid-layout">
-                </div>
-            
+            <div id="pdf-grid" class="grid-layout"></div>
             <div style="text-align: center; margin-top: 30px;">
                 <button id="btn-load-more" class="outline" style="display: none;" onclick="App.DB.loadMore()">Daha Fazla Göster</button>
             </div>
         </section>
 
-        <section id="view-upload" class="view">
+        <section id="view-upload" class="view container">
             <div class="glass-panel" style="max-width: 600px; margin: 20px auto; padding: 40px;">
                 <h2 style="margin-bottom: 20px;"><i class="fas fa-upload"></i> Notunu Paylaş</h2>
-                
-                <label style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px; display: block;">Döküman Başlığı</label>
-                <input type="text" id="upload-title" placeholder="Örn: Algoritmalara Giriş Vize Özeti">
-                
+                <input type="text" id="upload-title" placeholder="Döküman Başlığı (Örn: Algoritmalara Giriş Vize Özeti)">
                 <div class="drop-zone" id="drop-zone">
                     <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
                     <h3 style="margin-bottom: 5px;">PDF'i Buraya Sürükle</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem;">veya seçmek için tıkla (Maks 10MB)</p>
                     <input type="file" id="file-input" accept="application/pdf" style="display: none;">
                 </div>
-                
                 <p id="file-name" style="text-align: center; margin-top: 15px; font-weight: bold; color: var(--secondary);"></p>
-
                 <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-
                 <button style="width: 100%; margin-top: 25px;" onclick="App.Upload.start()"><i class="fas fa-rocket"></i> Sistemi Yükle</button>
             </div>
         </section>
 
-        <section id="view-profile" class="view">
-            <div class="glass-panel" style="text-align: center; margin-bottom: 40px; padding: 30px;">
+        <section id="view-profile" class="view container">
+            <div class="glass-panel" style="text-align: center; margin-bottom: 40px; padding: 30px; position: relative;">
                 <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: white;" id="profile-avatar">U</div>
                 <h2 id="profile-name">Kullanıcı</h2>
-                <p id="profile-email" style="color: var(--text-muted);"></p>
-                <div style="margin-top: 15px;">
-                    <span class="badge" id="profile-role">Öğrenci</span>
-                </div>
+                <p id="profile-email" style="color: var(--text-muted); margin-bottom: 5px;"></p>
+                <p id="profile-uni-info" style="font-size: 0.9rem; color: var(--primary); margin-bottom: 15px; font-weight: bold;"></p>
+                <div><span class="badge" id="profile-role">Öğrenci</span></div>
             </div>
-
             <h3 style="margin-bottom: 20px;"><i class="fas fa-folder-open"></i> Yüklediğim Dökümanlar</h3>
             <div id="profile-grid" class="grid-layout"></div>
         </section>
 
-        <section id="view-admin" class="view">
+        <section id="view-admin" class="view container">
             <div class="glass-panel" style="border-color: var(--danger);">
                 <h2 style="color: var(--danger); margin-bottom: 20px;"><i class="fas fa-shield-alt"></i> Sistem Yönetimi (Admin)</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Bu panel sadece yetkili yöneticiler tarafından görülebilir. Buradan tüm dökümanları denetleyebilir ve silebilirsiniz.</p>
                 <button onclick="App.Admin.loadAllPDFs()"><i class="fas fa-sync"></i> Tüm Veritabanını Getir</button>
                 <div id="admin-grid" class="grid-layout" style="margin-top: 30px;"></div>
             </div>
@@ -239,54 +309,44 @@
     <div class="modal-overlay" id="pdf-modal" onclick="if(event.target === this) App.UI.closeModal()">
         <div class="glass-panel modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="App.UI.closeModal()"><i class="fas fa-times"></i></button>
-            
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
                 <h2 id="modal-title" style="margin-right: 30px;">PDF Başlığı</h2>
                 <span id="modal-size" class="badge">0 MB</span>
             </div>
-            
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
-                Yükleyen: <strong id="modal-uploader" style="color: var(--text-main);">İsim</strong> | 
-                Tarih: <span id="modal-date">Tarih</span>
+                Yükleyen: <strong id="modal-uploader" style="color: var(--text-main);">İsim</strong> | Tarih: <span id="modal-date">Tarih</span>
             </p>
-
             <div style="display: flex; gap: 15px; margin-bottom: 30px;">
                 <a id="modal-read-btn" href="#" target="_blank" style="flex: 1; text-decoration: none;">
-                    <button style="width: 100%; background: var(--secondary);"><i class="fas fa-external-link-alt"></i> Tarayıcıda Oku</button>
+                    <button style="width: 100%; background: var(--secondary);"><i class="fas fa-external-link-alt"></i> Oku</button>
                 </a>
                 <button id="modal-like-btn" class="outline" style="flex: 1;" onclick="App.DB.toggleLike()">
                     <i class="far fa-heart" id="modal-like-icon"></i> <span id="modal-like-count">0</span> Beğeni
                 </button>
             </div>
-
             <hr style="border: 0; border-top: 1px solid var(--border-glass); margin-bottom: 20px;">
-
             <h3><i class="fas fa-comments"></i> Yorumlar</h3>
             <div style="display: flex; gap: 10px; margin: 15px 0;">
                 <input type="text" id="comment-input" placeholder="Düşüncelerini paylaş..." style="margin: 0;">
                 <button onclick="App.DB.addComment()"><i class="fas fa-paper-plane"></i></button>
             </div>
-            
-            <div id="comments-list" style="max-height: 200px; overflow-y: auto; padding-right: 10px;">
-                <p style="color: var(--text-muted); text-align: center;">Yorumlar yükleniyor...</p>
-            </div>
+            <div id="comments-list" style="max-height: 200px; overflow-y: auto; padding-right: 10px;"></div>
         </div>
     </div>
 
     <script type="module">
-        // 1. SDK IMPORTS
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, limit, startAfter, where, serverTimestamp, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-        // 🔥 2. CONFIGURATION (DEVELOPER MUST FILL THIS)
+        // 🔥 FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "API_KEY",
-            authDomain: "PROJECT_ID.firebaseapp.com",
-            projectId: "PROJECT_ID",
-            storageBucket: "PROJECT_ID.appspot.com",
-            appId: "APP_ID"
+            authDomain: "XXX",
+            projectId: "XXX",
+            storageBucket: "XXX",
+            appId: "XXX"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -294,19 +354,9 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // 🧠 3. GLOBAL STATE MANAGEMENT (Source of Truth)
         window.App = {
-            State: {
-                user: null,
-                userData: null, // Holds role and extra info from Firestore
-                authMode: 'login', // 'login' or 'register'
-                selectedFile: null,
-                lastVisibleDoc: null, // For Pagination
-                currentQueryMode: 'newest',
-                activePdfId: null // Used for Modal operations
-            },
+            State: { user: null, userData: null, authMode: 'register', selectedFile: null, lastVisibleDoc: null, currentQueryMode: 'newest', activePdfId: null },
             
-            // 🎨 UI & UX CONTROLLERS
             UI: {
                 toast: (msg, type = 'success') => {
                     const container = document.getElementById('toast-container');
@@ -316,79 +366,81 @@
                     container.appendChild(toast);
                     setTimeout(() => { toast.style.animation = "slideInRight 0.4s reverse forwards"; setTimeout(() => toast.remove(), 400); }, 3500);
                 },
-                getSkeletonHTML: () => `
-                    <div class="glass-panel pdf-card">
-                        <div class="skeleton skel-title"></div>
-                        <div class="skeleton skel-text"></div>
-                        <div class="skeleton skel-text" style="width: 60%"></div>
-                        <div class="skeleton skel-btn"></div>
-                    </div>
-                `,
-                openModal: (pdfId) => {
-                    App.State.activePdfId = pdfId;
-                    document.getElementById('pdf-modal').classList.add('active');
-                    App.DB.loadModalDetails();
-                },
-                closeModal: () => {
-                    document.getElementById('pdf-modal').classList.remove('active');
-                    App.State.activePdfId = null;
-                }
+                getSkeletonHTML: () => `<div class="glass-panel pdf-card"><div class="skeleton skel-title"></div><div class="skeleton skel-text"></div><div class="skeleton skel-btn"></div></div>`,
+                openModal: (pdfId) => { App.State.activePdfId = pdfId; document.getElementById('pdf-modal').classList.add('active'); App.DB.loadModalDetails(); },
+                closeModal: () => { document.getElementById('pdf-modal').classList.remove('active'); App.State.activePdfId = null; }
             },
 
-            // 🛣️ ROUTING SYSTEM (SPA Logic)
             Router: {
                 navigate: (viewId) => {
                     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                     document.querySelectorAll('.nav-item').forEach(v => v.classList.remove('active'));
-                    
                     document.getElementById(`view-${viewId}`).classList.add('active');
-                    
-                    // Highlight nav menu
                     const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick')?.includes(viewId));
                     if(navItem) navItem.classList.add('active');
 
-                    // View specific logic triggers
                     if(viewId === 'home') App.DB.loadPDFs();
                     if(viewId === 'profile') App.DB.loadMyPDFs();
                     if(viewId === 'admin') App.Admin.loadAllPDFs();
                 }
             },
 
-            // 🔐 AUTHENTICATION SYSTEM
+            // 🔐 ENHANCED AUTHENTICATION SYSTEM
             Auth: {
                 toggleMode: () => {
-                    const isLogin = App.State.authMode === 'login';
-                    App.State.authMode = isLogin ? 'register' : 'login';
-                    document.getElementById('auth-name').style.display = isLogin ? 'block' : 'none';
-                    document.getElementById('btn-login').style.display = isLogin ? 'none' : 'block';
-                    document.getElementById('btn-register').style.display = isLogin ? 'block' : 'none';
-                    document.getElementById('auth-switch-text').innerText = isLogin ? 'Zaten hesabın var mı? Giriş Yap' : 'Hesabın yok mu? Kayıt Ol';
+                    const isReg = App.State.authMode === 'register';
+                    App.State.authMode = isReg ? 'login' : 'register';
+                    
+                    document.getElementById('auth-register-fields').style.display = isReg ? 'none' : 'block';
+                    document.getElementById('reg-pass-confirm').style.display = isReg ? 'none' : 'block';
+                    document.getElementById('auth-terms-box').style.display = isReg ? 'none' : 'flex';
+                    
+                    document.getElementById('auth-main-title').innerText = isReg ? 'Giriş Yap' : 'Hesap Oluştur';
+                    document.getElementById('auth-sub-title').innerText = isReg ? 'Platforma dönmek harika!' : 'Aramıza katılmak için bilgilerini doldur.';
+                    document.getElementById('btn-submit-auth').innerText = isReg ? 'Giriş Yap' : 'Ücretsiz Kayıt Ol';
+                    
+                    document.getElementById('auth-switch-prompt').innerText = isReg ? 'Hesabın yok mu?' : 'Zaten bir hesabın var mı?';
+                    document.getElementById('auth-switch-btn').innerText = isReg ? 'Kayıt Ol' : 'Giriş Yap';
                 },
+                
+                process: () => {
+                    if(App.State.authMode === 'register') App.Auth.register();
+                    else App.Auth.login();
+                },
+
                 register: async () => {
-                    const name = document.getElementById('auth-name').value.trim();
+                    const name = document.getElementById('reg-name').value.trim();
+                    const surname = document.getElementById('reg-surname').value.trim();
+                    const uni = document.getElementById('reg-university').value;
+                    const dept = document.getElementById('reg-department').value.trim();
                     const email = document.getElementById('auth-email').value.trim();
                     const pass = document.getElementById('auth-pass').value;
+                    const passConf = document.getElementById('reg-pass-confirm').value;
+                    const terms = document.getElementById('reg-terms').checked;
                     
-                    if(!name || !email || pass.length < 6) return App.UI.toast("Geçerli isim, e-posta ve min 6 haneli şifre girin.", "error");
+                    if(!name || !surname || !uni || !dept || !email) return App.UI.toast("Lütfen tüm alanları doldurun.", "error");
+                    if(pass.length < 6) return App.UI.toast("Şifre en az 6 karakter olmalıdır.", "error");
+                    if(pass !== passConf) return App.UI.toast("Şifreler eşleşmiyor.", "error");
+                    if(!terms) return App.UI.toast("Kullanım koşullarını kabul etmelisiniz.", "error");
                     
+                    const fullName = `${name} ${surname}`;
+
                     try {
                         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                        await updateProfile(cred.user, { displayName: name });
+                        await updateProfile(cred.user, { displayName: fullName });
                         
-                        // Create User profile in Firestore (Crucial for Roles & Security Rules)
-                        await updateDoc(doc(db, "users", cred.user.uid), {
-                            uid: cred.user.uid, email: email, displayName: name, role: "user", createdAt: serverTimestamp()
-                        }).catch(async (e) => {
-                            // If update fails, it means doc doesn't exist, use setDoc/addDoc logic (handled cleanly via setDoc)
-                            const { setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
-                            await setDoc(doc(db, "users", cred.user.uid), {
-                                uid: cred.user.uid, email: email, displayName: name, role: "user", createdAt: serverTimestamp()
-                            });
+                        // 🔥 YENİ: Genişletilmiş Veritabanı Modeli
+                        const { setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+                        await setDoc(doc(db, "users", cred.user.uid), {
+                            uid: cred.user.uid, email: email, displayName: fullName, 
+                            university: uni, department: dept,
+                            role: "user", createdAt: serverTimestamp()
                         });
                         
-                        App.UI.toast("Aramıza hoş geldin!", "success");
+                        App.UI.toast(`Aramıza hoş geldin, ${name}!`, "success");
                     } catch (err) { App.UI.toast(err.message, "error"); }
                 },
+
                 login: async () => {
                     const email = document.getElementById('auth-email').value.trim();
                     const pass = document.getElementById('auth-pass').value;
@@ -396,12 +448,12 @@
                     try {
                         await signInWithEmailAndPassword(auth, email, pass);
                         App.UI.toast("Giriş başarılı.", "success");
-                    } catch (err) { App.UI.toast("Hatalı bilgi.", "error"); }
+                    } catch (err) { App.UI.toast("Hatalı e-posta veya şifre.", "error"); }
                 },
                 logout: () => signOut(auth)
             },
 
-            // 📤 UPLOAD SYSTEM (Drag & Drop + Storage)
+            // 📤 UPLOAD SYSTEM
             Upload: {
                 initDragAndDrop: () => {
                     const zone = document.getElementById('drop-zone');
@@ -431,30 +483,25 @@
                     document.getElementById('progress-bar').style.display = 'block';
 
                     task.on('state_changed', 
-                        (snap) => {
-                            const p = (snap.bytesTransferred / snap.totalBytes) * 100;
-                            document.getElementById('progress-fill').style.width = `${p}%`;
-                        },
+                        (snap) => { document.getElementById('progress-fill').style.width = `${(snap.bytesTransferred / snap.totalBytes) * 100}%`; },
                         (err) => App.UI.toast(err.message, "error"),
                         async () => {
                             const url = await getDownloadURL(task.snapshot.ref);
-                            // Generate lowercase tags for fast search simulation
                             const searchKeywords = title.toLowerCase().split(' ').filter(w => w.length > 2);
+                            
+                            // Ekstra: Uploader'ın üniversitesini de PDF'e etiketle
+                            const uniTag = App.State.userData.university || "";
 
                             await addDoc(collection(db, "pdfs"), {
                                 title: title, url: url, storagePath: uniquePath,
                                 uploaderId: App.State.user.uid, uploaderName: App.State.userData.displayName || "Kullanıcı",
-                                size: file.size, likeCount: 0, likes: [], searchKeywords: searchKeywords,
+                                university: uniTag, size: file.size, likeCount: 0, likes: [], searchKeywords: searchKeywords,
                                 createdAt: serverTimestamp()
                             });
 
                             App.UI.toast("Döküman yayında!", "success");
-                            // Reset
-                            document.getElementById('upload-title').value = '';
-                            App.State.selectedFile = null;
-                            document.getElementById('file-name').innerText = '';
-                            document.getElementById('progress-bar').style.display = 'none';
-                            document.getElementById('progress-fill').style.width = '0%';
+                            document.getElementById('upload-title').value = ''; App.State.selectedFile = null;
+                            document.getElementById('file-name').innerText = ''; document.getElementById('progress-bar').style.display = 'none';
                             App.Router.navigate('home');
                         }
                     );
@@ -467,12 +514,13 @@
                     const data = docSnap.data();
                     const id = docSnap.id;
                     const container = document.getElementById(containerId);
-                    
                     const card = document.createElement('div');
                     card.className = 'glass-panel pdf-card';
                     
                     let deleteBtn = allowDelete || (App.State.userData && App.State.userData.role === 'admin') 
                         ? `<button class="danger" style="padding: 6px 12px; border-radius: 8px;" onclick="event.stopPropagation(); App.DB.deletePDF('${id}', '${data.storagePath}')"><i class="fas fa-trash"></i></button>` : '';
+
+                    let uniHtml = data.university ? `<span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:5px;"><i class="fas fa-university"></i> ${data.university}</span>` : '';
 
                     card.innerHTML = `
                         <div>
@@ -482,6 +530,7 @@
                             </div>
                             <h3 style="margin-bottom: 8px; font-size: 1.1rem; line-height: 1.4;">${data.title}</h3>
                             <p style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-user"></i> ${data.uploaderName}</p>
+                            ${uniHtml}
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid var(--border-glass); padding-top: 15px;">
                             <span style="color: var(--secondary); font-weight: bold;"><i class="fas fa-heart"></i> ${data.likeCount || 0}</span>
@@ -493,32 +542,19 @@
 
                 loadPDFs: async (mode = 'newest', isLoadMore = false) => {
                     const grid = document.getElementById('pdf-grid');
-                    if(!isLoadMore) {
-                        grid.innerHTML = App.UI.getSkeletonHTML().repeat(6);
-                        App.State.lastVisibleDoc = null;
-                        App.State.currentQueryMode = mode;
-                    }
-
+                    if(!isLoadMore) { grid.innerHTML = App.UI.getSkeletonHTML().repeat(6); App.State.lastVisibleDoc = null; App.State.currentQueryMode = mode; }
                     const colRef = collection(db, "pdfs");
-                    let q = mode === 'popular' 
-                        ? query(colRef, orderBy("likeCount", "desc"), limit(6))
-                        : query(colRef, orderBy("createdAt", "desc"), limit(6));
-
-                    if (isLoadMore && App.State.lastVisibleDoc) {
-                        q = query(q, startAfter(App.State.lastVisibleDoc));
-                    }
+                    let q = mode === 'popular' ? query(colRef, orderBy("likeCount", "desc"), limit(6)) : query(colRef, orderBy("createdAt", "desc"), limit(6));
+                    if (isLoadMore && App.State.lastVisibleDoc) q = query(q, startAfter(App.State.lastVisibleDoc));
 
                     try {
                         const snap = await getDocs(q);
                         if(!isLoadMore) grid.innerHTML = '';
-                        
-                        if(snap.empty && !isLoadMore) return grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted);">Henüz döküman yok.</p>';
-
+                        if(snap.empty && !isLoadMore) return grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Henüz döküman yok.</p>';
                         App.State.lastVisibleDoc = snap.docs[snap.docs.length - 1];
                         snap.forEach(d => App.DB.renderCard(d, 'pdf-grid'));
-
                         document.getElementById('btn-load-more').style.display = snap.docs.length === 6 ? 'inline-flex' : 'none';
-                    } catch (e) { App.UI.toast("Veri çekilemedi.", "error"); console.error(e); }
+                    } catch (e) { App.UI.toast("Veri çekilemedi.", "error"); }
                 },
 
                 loadMore: () => App.DB.loadPDFs(App.State.currentQueryMode, true),
@@ -526,34 +562,21 @@
                 loadMyPDFs: async () => {
                     const grid = document.getElementById('profile-grid');
                     grid.innerHTML = App.UI.getSkeletonHTML().repeat(3);
-                    const q = query(collection(db, "pdfs"), where("uploaderId", "==", App.State.user.uid), orderBy("createdAt", "desc"));
-                    const snap = await getDocs(q);
+                    const snap = await getDocs(query(collection(db, "pdfs"), where("uploaderId", "==", App.State.user.uid), orderBy("createdAt", "desc")));
                     grid.innerHTML = '';
                     if(snap.empty) return grid.innerHTML = '<p>Yüklediğin döküman yok.</p>';
-                    snap.forEach(d => App.DB.renderCard(d, 'profile-grid', true)); // allowDelete = true
+                    snap.forEach(d => App.DB.renderCard(d, 'profile-grid', true));
                 },
 
                 searchPDFs: async () => {
                     const term = document.getElementById('search-input').value.toLowerCase().trim();
-                    if(term.length < 3) {
-                        if(term.length === 0) App.DB.loadPDFs();
-                        return;
-                    }
-                    
+                    if(term.length < 3) return term.length === 0 ? App.DB.loadPDFs() : null;
                     const grid = document.getElementById('pdf-grid');
-                    grid.innerHTML = App.UI.getSkeletonHTML().repeat(3);
-                    document.getElementById('btn-load-more').style.display = 'none';
-
-                    // Frontend filtering simulation due to Firestore search limitations
+                    grid.innerHTML = App.UI.getSkeletonHTML().repeat(3); document.getElementById('btn-load-more').style.display = 'none';
                     const snap = await getDocs(query(collection(db, "pdfs"), orderBy("createdAt", "desc")));
-                    grid.innerHTML = '';
-                    let found = 0;
+                    grid.innerHTML = ''; let found = 0;
                     snap.forEach(d => {
-                        const data = d.data();
-                        if(data.title.toLowerCase().includes(term) || (data.searchKeywords && data.searchKeywords.includes(term))) {
-                            App.DB.renderCard(d, 'pdf-grid');
-                            found++;
-                        }
+                        if(d.data().title.toLowerCase().includes(term) || (d.data().searchKeywords && d.data().searchKeywords.includes(term))) { App.DB.renderCard(d, 'pdf-grid'); found++; }
                     });
                     if(found === 0) grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Sonuç bulunamadı.</p>';
                 },
@@ -561,27 +584,18 @@
                 deletePDF: async (id, path) => {
                     if(!confirm("Kalıcı olarak silinecek. Onaylıyor musun?")) return;
                     try {
-                        await deleteObject(ref(storage, path));
-                        await deleteDoc(doc(db, "pdfs", id));
-                        
-                        // Clean up comments logically (in a real backend, use Cloud Functions for this cascading delete)
-                        const commentsSnap = await getDocs(query(collection(db, "comments"), where("pdfId", "==", id)));
-                        commentsSnap.forEach(async (cDoc) => await deleteDoc(doc(db, "comments", cDoc.id)));
-
+                        await deleteObject(ref(storage, path)); await deleteDoc(doc(db, "pdfs", id));
                         App.UI.toast("Silindi.", "success");
-                        // Refresh current view
                         if(document.getElementById('view-home').classList.contains('active')) App.DB.loadPDFs(App.State.currentQueryMode);
                         else if(document.getElementById('view-profile').classList.contains('active')) App.DB.loadMyPDFs();
                         else if(document.getElementById('view-admin').classList.contains('active')) App.Admin.loadAllPDFs();
-                    } catch(e) { App.UI.toast("Yetkisiz işlem veya hata.", "error"); }
+                    } catch(e) { App.UI.toast("Hata oluştu.", "error"); }
                 },
 
-                // 💬 MODAL DATA & INTERACTIONS (Comments & Likes)
                 loadModalDetails: async () => {
                     const id = App.State.activePdfId;
                     const docSnap = await getDoc(doc(db, "pdfs", id));
                     if(!docSnap.exists()) return App.UI.closeModal();
-
                     const data = docSnap.data();
                     const isLiked = data.likes && data.likes.includes(App.State.user.uid);
 
@@ -592,121 +606,87 @@
                     document.getElementById('modal-read-btn').href = data.url;
                     
                     const likeBtn = document.getElementById('modal-like-btn');
-                    const likeIcon = document.getElementById('modal-like-icon');
                     document.getElementById('modal-like-count').innerText = data.likeCount || 0;
-                    
-                    if(isLiked) {
-                        likeBtn.classList.remove('outline'); likeIcon.className = "fas fa-heart";
-                    } else {
-                        likeBtn.classList.add('outline'); likeIcon.className = "far fa-heart";
-                    }
+                    document.getElementById('modal-like-icon').className = isLiked ? "fas fa-heart" : "far fa-heart";
+                    if(isLiked) likeBtn.classList.remove('outline'); else likeBtn.classList.add('outline');
 
                     App.DB.loadComments(id);
                 },
 
                 toggleLike: async () => {
-                    const id = App.State.activePdfId;
-                    const docRef = doc(db, "pdfs", id);
+                    const docRef = doc(db, "pdfs", App.State.activePdfId);
                     const uid = App.State.user.uid;
-                    
                     const docSnap = await getDoc(docRef);
                     const data = docSnap.data();
                     const isLiked = data.likes && data.likes.includes(uid);
-
                     try {
-                        if(isLiked) {
-                            await updateDoc(docRef, { likes: arrayRemove(uid), likeCount: Math.max(0, (data.likeCount || 1) - 1) });
-                        } else {
-                            await updateDoc(docRef, { likes: arrayUnion(uid), likeCount: (data.likeCount || 0) + 1 });
-                        }
-                        App.DB.loadModalDetails(); // Refresh Modal UI silently
+                        if(isLiked) await updateDoc(docRef, { likes: arrayRemove(uid), likeCount: Math.max(0, (data.likeCount || 1) - 1) });
+                        else await updateDoc(docRef, { likes: arrayUnion(uid), likeCount: (data.likeCount || 0) + 1 });
+                        App.DB.loadModalDetails();
                     } catch (e) { App.UI.toast("Beğenilemedi.", "error"); }
                 },
 
                 addComment: async () => {
                     const input = document.getElementById('comment-input');
-                    const text = input.value.trim();
-                    if(!text) return;
-                    
+                    if(!input.value.trim()) return;
                     try {
                         await addDoc(collection(db, "comments"), {
                             pdfId: App.State.activePdfId, userId: App.State.user.uid,
                             userName: App.State.userData.displayName || "Kullanıcı",
-                            text: text, createdAt: serverTimestamp()
+                            text: input.value.trim(), createdAt: serverTimestamp()
                         });
-                        input.value = '';
-                        App.DB.loadComments(App.State.activePdfId);
+                        input.value = ''; App.DB.loadComments(App.State.activePdfId);
                     } catch (e) { App.UI.toast("Yorum eklenemedi.", "error"); }
                 },
 
                 loadComments: async (pdfId) => {
-                    const list = document.getElementById('comments-list');
-                    list.innerHTML = 'Yükleniyor...';
-                    
-                    const q = query(collection(db, "comments"), where("pdfId", "==", pdfId), orderBy("createdAt", "desc"));
-                    const snap = await getDocs(q);
-                    
+                    const list = document.getElementById('comments-list'); list.innerHTML = 'Yükleniyor...';
+                    const snap = await getDocs(query(collection(db, "comments"), where("pdfId", "==", pdfId), orderBy("createdAt", "desc")));
                     list.innerHTML = '';
                     if(snap.empty) return list.innerHTML = '<p style="color: var(--text-muted);">İlk yorumu sen yap!</p>';
-
                     snap.forEach(d => {
                         const c = d.data();
-                        list.innerHTML += `
-                            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                                <strong style="color: var(--secondary); font-size: 0.9rem;">${c.userName}</strong>
-                                <p style="font-size: 0.95rem; margin-top: 5px;">${c.text}</p>
-                            </div>
-                        `;
+                        list.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 10px;"><strong style="color: var(--secondary); font-size: 0.9rem;">${c.userName}</strong><p style="font-size: 0.95rem; margin-top: 5px;">${c.text}</p></div>`;
                     });
                 }
             },
 
-            // 🛡️ ADMIN SYSTEM
             Admin: {
                 loadAllPDFs: async () => {
-                    const grid = document.getElementById('admin-grid');
-                    grid.innerHTML = App.UI.getSkeletonHTML().repeat(3);
+                    const grid = document.getElementById('admin-grid'); grid.innerHTML = App.UI.getSkeletonHTML().repeat(3);
                     const snap = await getDocs(query(collection(db, "pdfs"), orderBy("createdAt", "desc")));
-                    grid.innerHTML = '';
-                    snap.forEach(d => App.DB.renderCard(d, 'admin-grid', true));
+                    grid.innerHTML = ''; snap.forEach(d => App.DB.renderCard(d, 'admin-grid', true));
                 }
             }
         };
 
-        // 🔄 SYSTEM INITIALIZATION & OBSERVERS
+        // 🔄 INITIALIZATION
         App.Upload.initDragAndDrop();
 
         onAuthStateChanged(auth, async (user) => {
             App.State.user = user;
             if (user) {
-                // Fetch user data from Firestore to check Role
                 const userDoc = await getDoc(doc(db, "users", user.uid));
                 App.State.userData = userDoc.exists() ? userDoc.data() : { displayName: user.displayName, role: 'user' };
 
-                document.getElementById('nav-auth-links').style.display = 'none';
+                document.getElementById('view-auth').style.display = 'none';
                 document.getElementById('nav-app-links').style.display = 'flex';
                 
-                // Profile View Population
                 document.getElementById('profile-name').innerText = App.State.userData.displayName || "Kullanıcı";
                 document.getElementById('profile-email').innerText = user.email;
+                document.getElementById('profile-uni-info').innerText = App.State.userData.university ? `${App.State.userData.university} / ${App.State.userData.department}` : "";
                 document.getElementById('profile-avatar').innerText = (App.State.userData.displayName || "K")[0].toUpperCase();
                 document.getElementById('profile-role').innerText = App.State.userData.role === 'admin' ? 'Sistem Yöneticisi' : 'Öğrenci';
 
-                // Admin Logic
-                if(App.State.userData.role === 'admin') {
-                    document.getElementById('nav-admin').style.display = 'block';
-                } else {
-                    document.getElementById('nav-admin').style.display = 'none';
-                }
+                if(App.State.userData.role === 'admin') document.getElementById('nav-admin').style.display = 'block';
 
                 App.Router.navigate('home');
             } else {
-                document.getElementById('nav-auth-links').style.display = 'flex';
+                document.getElementById('view-auth').style.display = 'block';
                 document.getElementById('nav-app-links').style.display = 'none';
                 App.Router.navigate('auth');
             }
         });
-
     </script>
 </body>
 </html>
