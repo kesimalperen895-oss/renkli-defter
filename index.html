@@ -3,951 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renkli Defterim | Kapsamlı Eğitim Platformu</title>
+    <title>Renkli Defterim | Gelişmiş PDF Platformu</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ==========================================================================
-           1. DEĞİŞKENLER VE TEMA SİSTEMİ (DARK / LIGHT MODE ALTYAPISI)
-           ========================================================================== */
         :root {
-            --primary: #6366f1;           /* Ana tema rengi (İndigo) */
-            --primary-hover: #4f46e5;     /* Buton hover rengi */
-            --secondary: #10b981;         /* Başarı/Onay rengi (Zümrüt) */
-            --danger: #ef4444;            /* Hata/Silme rengi (Kırmızı) */
-            --bg-color: #f8fafc;          /* Arka plan rengi (Açık) */
-            --card-bg: #ffffff;           /* Kart arka plan rengi */
-            --text-main: #1e293b;         /* Ana metin rengi */
-            --text-muted: #64748b;        /* Pasif metin rengi */
-            --border-color: #e2e8f0;      /* Kenarlık rengi */
-            --sidebar-bg: #1e293b;        /* Yan menü arka planı */
-            --sidebar-text: #f8fafc;      /* Yan menü metin rengi */
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --radius: 16px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
         }
 
-        /* Karanlık Tema Değişkenleri */
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --sidebar-bg: #0b1120;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-        /* ==========================================================================
-           2. TEMEL SIFIRLAMA VE YAPI
-           ========================================================================== */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--light); color: var(--dark); padding-bottom: 50px; }
+
+        /* Navbar */
+        .navbar {
+            background: var(--primary); color: white; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;
+        }
+        .navbar h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+        /* Upload Section */
+        .upload-card {
+            background: var(--card-bg); border-radius: var(--radius); padding: 30px;
+            box-shadow: var(--shadow); margin-bottom: 40px; border: 1px solid var(--border);
+        }
+        .upload-header { font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
         
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease;
-        }
-
-        /* ==========================================================================
-           3. YAN MENÜ (SIDEBAR) TASARIMI
-           ========================================================================== */
-        .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            color: var(--sidebar-text);
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            overflow-y: auto;
-            transition: var(--transition);
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .brand i { color: var(--primary); font-size: 1.8rem; }
-
-        .menu-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #64748b;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .menu-item {
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #cbd5e1;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            background: rgba(99, 102, 241, 0.15);
-            color: #fff;
-        }
-        .menu-item.active i { color: var(--primary); }
-
-        /* ==========================================================================
-           4. ANA İÇERİK ALANI VE ÜST BAR (TOPBAR)
-           ========================================================================== */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 30px 5%;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            background: var(--card-bg);
-            padding: 15px 25px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--bg-color);
-            border-radius: 8px;
-            padding: 8px 16px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid var(--border-color);
-        }
-
-        .search-box i { color: var(--text-muted); margin-right: 10px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
         
-        .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        .theme-toggle {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-        .theme-toggle:hover { background: var(--bg-color); color: var(--primary); }
-
-        /* ==========================================================================
-           5. YÜKLEME ALANI (DRAG & DROP)
-           ========================================================================== */
-        .upload-section {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .upload-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-main);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
         .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full-width { grid-column: 1 / -1; }
         
-        .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+        input, select, textarea {
+            padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px;
+            font-size: 0.95rem; outline: none; transition: var(--transition); background: var(--light);
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
         
-        .form-control {
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            background: var(--bg-color);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-            transition: var(--transition);
+        .file-drop-area {
+            border: 2px dashed var(--primary); border-radius: 12px; padding: 40px 20px;
+            text-align: center; cursor: pointer; transition: var(--transition); background: rgba(79, 70, 229, 0.02);
         }
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+        .file-drop-area:hover { background: rgba(79, 70, 229, 0.08); }
+        .file-drop-area i { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
+        .file-drop-area .file-name { color: var(--secondary); font-weight: bold; margin-top: 10px; display: none; }
 
-        .drop-zone {
-            border: 2px dashed var(--primary);
-            border-radius: var(--radius-md);
-            padding: 40px;
-            text-align: center;
-            background: rgba(99, 102, 241, 0.02);
-            cursor: pointer;
-            transition: var(--transition);
-            grid-column: 1 / -1; /* Tam genişlik kaplar */
+        .btn {
+            padding: 14px 24px; border: none; border-radius: 8px; font-weight: 600;
+            cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem;
         }
-        .drop-zone:hover, .drop-zone.dragover {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: var(--primary-hover);
-        }
-        .drop-zone i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
-        .drop-zone p { color: var(--text-muted); margin-bottom: 5px; }
-        .drop-zone .file-name { font-weight: bold; color: var(--secondary); margin-top: 10px; display: none; }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            grid-column: 1 / -1;
-        }
+        .btn-primary { background: var(--primary); color: white; width: 100%; }
         .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        /* Yükleme İlerleme Çubuğu (Progress Bar) */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: var(--border-color);
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-            display: none;
-            grid-column: 1 / -1;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--secondary);
-            transition: width 0.2s ease;
-        }
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 8px; background: var(--border); border-radius: 10px; overflow: hidden; margin-top: 20px; display: none; }
+        .progress-bar { height: 100%; width: 0%; background: var(--secondary); transition: width 0.2s ease; }
 
-        /* ==========================================================================
-           6. PDF LİSTELEME VE KART TASARIMI (GRID SİSTEMİ)
-           ========================================================================== */
-        .pdf-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
+        /* Filter Section */
+        .filter-section {
+            display: flex; gap: 15px; margin-bottom: 30px; background: var(--card-bg);
+            padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow);
+            align-items: center; flex-wrap: wrap;
         }
+        .search-box { flex: 1; min-width: 250px; position: relative; }
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+        .search-box input { width: 100%; padding-left: 40px; }
 
+        /* PDF Grid */
+        .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        
         .pdf-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
+            background: var(--card-bg); border-radius: var(--radius); padding: 25px;
+            box-shadow: var(--shadow); transition: var(--transition); border: 1px solid var(--border);
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
         }
-        .pdf-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-
-        /* Kartın üstündeki renkli ince çizgi */
-        .pdf-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary);
-        }
-
-        .badge-container { display: flex; gap: 8px; margin-bottom: 12px; }
+        .pdf-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary); }
+        .pdf-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         
-        .badge {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 700;
-        }
-        .badge-grade { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+        .pdf-badges { display: flex; gap: 8px; margin-bottom: 15px; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+        .badge-grade { background: rgba(79, 70, 229, 0.1); color: var(--primary); }
         .badge-subject { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
-
-        .card-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-meta {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-        }
-
-        .btn-action {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: var(--transition);
-            text-decoration: none;
-        }
         
-        .btn-read { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
-        .btn-read:hover { background: var(--secondary); color: white; }
+        .pdf-title { font-size: 1.2rem; margin-bottom: 10px; color: var(--dark); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .pdf-desc { font-size: 0.9rem; color: var(--gray); margin-bottom: 20px; flex: 1; }
         
-        .btn-like { background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-muted); }
-        .btn-like:hover { border-color: var(--danger); color: var(--danger); background: rgba(239, 68, 68, 0.05); }
-        .btn-like.liked { color: var(--danger); border-color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+        .pdf-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+        .btn-action { flex: 1; padding: 10px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 5px; transition: var(--transition); border: none; cursor: pointer; }
+        .btn-view { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
+        .btn-view:hover { background: var(--secondary); color: white; }
+        .btn-like { background: var(--light); color: var(--gray); border: 1px solid var(--border); }
+        .btn-like:hover { background: #fee2e2; color: #ef4444; border-color: #fca5a5; }
+        .btn-like.liked { background: #fee2e2; color: #ef4444; border-color: #fca5a5; }
 
-        /* ==========================================================================
-           7. YORUM SİSTEMİ (İNTERAKTİF BESLEME)
-           ========================================================================== */
-        .comment-section { display: flex; flex-direction: column; flex: 1; }
+        /* Comments */
+        .comments-area { border-top: 1px solid var(--border); padding-top: 15px; }
+        .comments-list { max-height: 120px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
+        .comments-list::-webkit-scrollbar { width: 4px; }
+        .comments-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        .comment { background: var(--light); padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; }
+        .comment strong { color: var(--primary); display: block; margin-bottom: 3px; font-size: 0.8rem; }
         
-        .comment-list {
-            max-height: 140px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding-right: 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .comment-form { display: flex; flex-direction: column; gap: 8px; }
+        .comment-input-row { display: flex; gap: 8px; }
+        .comment-form input { padding: 8px 12px; font-size: 0.85rem; }
+        .comment-form button { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; }
 
-        /* Kaydırma çubuğu tasarımı */
-        .comment-list::-webkit-scrollbar { width: 4px; }
-        .comment-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        /* Toast */
+        #toast-box { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: white; padding: 15px 20px; border-radius: 8px; box-shadow: var(--shadow); border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+        .toast.error { border-left-color: #ef4444; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        .comment-item {
-            background: var(--bg-color);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            position: relative;
-        }
-        .comment-item .time { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; display: block; }
-        
-        .comment-input-wrapper {
-            display: flex;
-            gap: 8px;
-            margin-top: auto;
-        }
-        .comment-input-wrapper input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-color);
-            color: var(--text-main);
-            outline: none;
-            font-size: 0.85rem;
-        }
-        .comment-input-wrapper input:focus { border-color: var(--primary); }
-        .comment-input-wrapper button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .comment-input-wrapper button:hover { background: var(--primary-hover); }
-
-        /* ==========================================================================
-           8. TOAST BİLDİRİM SİSTEMİ VE SKELETON (YÜKLENİYOR) EFEKTLERİ
-           ========================================================================== */
-        #toast-container {
-            position: fixed; bottom: 30px; right: 30px; z-index: 9999;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        
-        .toast {
-            background: var(--card-bg); color: var(--text-main);
-            padding: 16px 24px; border-radius: 12px;
-            box-shadow: var(--shadow-lg); border-left: 4px solid var(--primary);
-            display: flex; align-items: center; gap: 12px; font-weight: 600;
-            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-        }
-        .toast.success { border-left-color: var(--secondary); }
-        .toast.error { border-left-color: var(--danger); }
-        
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* İskelet Yükleme Ekranı (Veri gelene kadar UX'i iyileştirir) */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-color) 25%, var(--border-color) 50%, var(--bg-color) 75%);
-            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px;
-        }
+        /* Skeleton */
+        .skeleton { background: linear-gradient(90deg, #e2e8f0 25%, #f8fafc 50%, #e2e8f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: var(--radius); height: 350px; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .skel-card { height: 350px; width: 100%; border-radius: var(--radius-lg); }
-
-        /* ==========================================================================
-           9. MOBİL UYARLILIK (RESPONSIVE DESIGN)
-           ========================================================================== */
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(-100%); }
-            .main-content { margin-left: 0; padding: 20px; }
-            /* Mobilde hamburger menü eklenebilir, şimdilik tam genişlik kullanıyoruz */
-        }
-        @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .topbar { flex-direction: column; gap: 15px; }
-            .search-box { max-width: 100%; }
-        }
 
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-    <aside class="sidebar">
-        <div class="brand">
-            <i class="fas fa-layer-group"></i> Renkli Defterim
-        </div>
+    <nav class="navbar">
+        <h1><i class="fas fa-layer-group"></i> Renkli Defterim</h1>
+    </nav>
 
-        <div class="menu-label">Sınıflar</div>
-        <div class="menu-item active" onclick="filterData('grade', 'Tümü', this)"><i class="fas fa-border-all"></i> Tüm Sınıflar</div>
-        <div class="menu-item" onclick="filterData('grade', '5. Sınıf', this)"><i class="fas fa-school"></i> 5. Sınıf</div>
-        <div class="menu-item" onclick="filterData('grade', '6. Sınıf', this)"><i class="fas fa-school"></i> 6. Sınıf</div>
-        <div class="menu-item" onclick="filterData('grade', '7. Sınıf', this)"><i class="fas fa-school"></i> 7. Sınıf</div>
-        <div class="menu-item" onclick="filterData('grade', '8. Sınıf', this)"><i class="fas fa-graduation-cap"></i> 8. Sınıf</div>
+    <div id="toast-box"></div>
 
-        <div class="menu-label" style="margin-top: 30px;">Dersler</div>
-        <div class="menu-item active" onclick="filterData('subject', 'Tümü', this)"><i class="fas fa-layer-group"></i> Tüm Dersler</div>
-        <div class="menu-item" onclick="filterData('subject', 'İngilizce', this)"><i class="fas fa-language"></i> İngilizce</div>
-        <div class="menu-item" onclick="filterData('subject', 'Matematik', this)"><i class="fas fa-square-root-variable"></i> Matematik</div>
-        <div class="menu-item" onclick="filterData('subject', 'Fen Bilimleri', this)"><i class="fas fa-flask"></i> Fen Bilimleri</div>
-        <div class="menu-item" onclick="filterData('subject', 'Türkçe', this)"><i class="fas fa-book"></i> Türkçe</div>
-        <div class="menu-item" onclick="filterData('subject', 'Sosyal Bilgiler', this)"><i class="fas fa-globe"></i> Sosyal Bilgiler</div>
-    </aside>
-
-    <main class="main-content">
-        
-        <header class="topbar">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Notlarda ara... (Örn: Dreams Ünitesi)" onkeyup="searchContent()">
-            </div>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Karanlık/Aydınlık Mod">
-                <i class="fas fa-moon" id="themeIcon"></i>
-            </button>
-        </header>
-
-        <section class="upload-section">
-            <h2 class="upload-title"><i class="fas fa-cloud-upload-alt"></i> Ders Notu Yükle</h2>
+    <div class="container">
+        <div class="upload-card">
+            <div class="upload-header"><i class="fas fa-cloud-upload-alt"></i> Yeni PDF Dökümanı Yükle</div>
             
             <div class="form-grid">
-                <div class="form-group" style="grid-column: 1 / -1;">
-                    <label>Döküman Başlığı</label>
-                    <input type="text" id="pdfTitle" class="form-control" placeholder="Örn: 7. Sınıf İngilizce Dreams Ünitesi Kelimeleri">
+                <div class="form-group full-width">
+                    <label>PDF Başlığı</label>
+                    <input type="text" id="pdfTitle" placeholder="Örn: 7. Sınıf İngilizce Dreams Ünitesi Özeti">
                 </div>
                 
+                <div class="form-group full-width">
+                    <label>Açıklama</label>
+                    <textarea id="pdfDesc" rows="2" placeholder="Döküman hakkında kısa bilgi..."></textarea>
+                </div>
+
                 <div class="form-group">
-                    <label>Sınıf Seviyesi</label>
-                    <select id="pdfGrade" class="form-control">
+                    <label>Sınıf</label>
+                    <select id="pdfGrade">
                         <option value="5. Sınıf">5. Sınıf</option>
                         <option value="6. Sınıf">6. Sınıf</option>
                         <option value="7. Sınıf">7. Sınıf</option>
                         <option value="8. Sınıf">8. Sınıf</option>
-                        <option value="Genel">Genel / Diğer</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Ders Kategorisi</label>
-                    <select id="pdfSubject" class="form-control">
+                    <label>Ders</label>
+                    <select id="pdfSubject">
                         <option value="İngilizce">İngilizce</option>
                         <option value="Matematik">Matematik</option>
                         <option value="Fen Bilimleri">Fen Bilimleri</option>
-                        <option value="Türkçe">Türkçe</option>
-                        <option value="Sosyal Bilgiler">Sosyal Bilgiler</option>
                         <option value="Diğer">Diğer</option>
                     </select>
                 </div>
 
-                <div class="drop-zone" id="dropZone" onclick="document.getElementById('pdfFile').click()">
-                    <i class="fas fa-file-pdf"></i>
-                    <p>PDF Dosyasını Buraya Sürükleyin veya Seçmek İçin Tıklayın</p>
-                    <p style="font-size: 0.8rem;">Maksimum 10MB boyutunda PDF yükleyebilirsiniz.</p>
-                    <div class="file-name" id="fileNameDisplay"></div>
-                    <input type="file" id="pdfFile" accept="application/pdf" style="display: none;" onchange="handleFileSelection(event)">
+                <div class="form-group full-width">
+                    <div class="file-drop-area" onclick="document.getElementById('pdfFile').click()">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>PDF dosyasını seçmek için tıklayın (Maks 15MB)</p>
+                        <div class="file-name" id="fileNameDisplay"></div>
+                        <input type="file" id="pdfFile" accept="application/pdf" style="display: none;" onchange="handleFile(event)">
+                    </div>
                 </div>
-
-                <div class="progress-container" id="progressContainer">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-
-                <button class="btn-primary" onclick="startUpload()">
-                    <i class="fas fa-paper-plane"></i> Notu Platforma Yükle
-                </button>
             </div>
-        </section>
 
-        <h2 class="upload-title" style="margin-bottom: 25px;"><i class="fas fa-book-open"></i> Güncel Notlar</h2>
-        
-        <div class="pdf-grid" id="pdfListContainer">
-            <div class="skeleton skel-card"></div>
-            <div class="skeleton skel-card"></div>
-            <div class="skeleton skel-card"></div>
+            <div class="progress-container" id="progressBox">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="uploadPDF()" style="margin-top: 15px;">
+                <i class="fas fa-upload"></i> Yüklemeyi Başlat
+            </button>
         </div>
 
-    </main>
+        <div class="filter-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Döküman ara..." oninput="searchAndFilter()">
+            </div>
+            <select id="filterGrade" onchange="searchAndFilter()" style="padding: 10px;">
+                <option value="Tümü">Tüm Sınıflar</option>
+                <option value="5. Sınıf">5. Sınıf</option>
+                <option value="6. Sınıf">6. Sınıf</option>
+                <option value="7. Sınıf">7. Sınıf</option>
+                <option value="8. Sınıf">8. Sınıf</option>
+            </select>
+            <select id="filterSubject" onchange="searchAndFilter()" style="padding: 10px;">
+                <option value="Tümü">Tüm Dersler</option>
+                <option value="İngilizce">İngilizce</option>
+                <option value="Matematik">Matematik</option>
+                <option value="Fen Bilimleri">Fen Bilimleri</option>
+                <option value="Diğer">Diğer</option>
+            </select>
+        </div>
 
-    <div id="toast-container"></div>
+        <div class="pdf-grid" id="pdfGrid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </div>
 
     <script type="module">
-        // 1. Firebase Modüler SDK Kurulumu
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, increment, arrayUnion, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, increment, arrayUnion, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-        // 🔥 UYARI: Kendi Firebase Console'unuzdan aldığınız yapılandırmayı buraya yapıştırın.
+        // 🔥 KENDİ BİLGİLERİNİ GİR
         const firebaseConfig = {
             apiKey: "API_KEY",
             authDomain: "XXX.firebaseapp.com",
             projectId: "XXX",
             storageBucket: "XXX.appspot.com",
-            messagingSenderId: "XXX",
             appId: "XXX"
         };
 
-        // Servisleri başlatma
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // 2. Global State (Uygulamanın Hafızası)
-        window.AppState = {
-            allPdfs: [],       // Veritabanından çekilen tüm PDF'lerin orijinal kopyası
-            selectedFile: null, // Yüklenmek üzere seçilen dosya
-            currentFilters: {   // Aktif filtreler
-                grade: 'Tümü',
-                subject: 'Tümü',
-                search: ''
-            }
+        let allPDFs = [];
+        let selectedFile = null;
+
+        // --- YARDIMCI FONKSİYONLAR ---
+        window.showToast = (msg, type = 'success') => {
+            const box = document.getElementById('toast-box');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
+            box.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         };
 
-        // 3. UI (Kullanıcı Arayüzü) Yardımcı Fonksiyonları
-        window.UI = {
-            // Toast bildirim sistemi
-            showToast: (message, type = 'success') => {
-                const container = document.getElementById('toast-container');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                const icon = type === 'success' ? 'check-circle' : 'exclamation-triangle';
-                toast.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
-                container.appendChild(toast);
-                
-                // 3 saniye sonra ekrandan kayarak çıkması için
-                setTimeout(() => {
-                    toast.style.animation = "slideIn 0.3s reverse forwards";
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
-            },
-
-            // Zaman damgasını "2 saat önce, 5 gün önce" gibi okunabilir formata çevirir
-            timeAgo: (timestamp) => {
-                if(!timestamp) return "Az önce";
-                // Firestore timestamp objesini normal JS Date objesine çevirme
-                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-                const seconds = Math.floor((new Date() - date) / 1000);
-                
-                let interval = seconds / 31536000;
-                if (interval > 1) return Math.floor(interval) + " yıl önce";
-                interval = seconds / 2592000;
-                if (interval > 1) return Math.floor(interval) + " ay önce";
-                interval = seconds / 86400;
-                if (interval > 1) return Math.floor(interval) + " gün önce";
-                interval = seconds / 3600;
-                if (interval > 1) return Math.floor(interval) + " saat önce";
-                interval = seconds / 60;
-                if (interval > 1) return Math.floor(interval) + " dk önce";
-                return "Az önce";
-            }
-        };
-
-        // Karanlık/Aydınlık Tema Değiştirici
-        window.toggleTheme = () => {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
-            if(body.getAttribute('data-theme') === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                icon.className = 'fas fa-sun';
-            } else {
-                body.setAttribute('data-theme', 'light');
-                icon.className = 'fas fa-moon';
-            }
-        };
-
-        // 4. Dosya Seçimi ve Sürükle-Bırak Mantığı
-        const dropZone = document.getElementById('dropZone');
-        
-        // Sürükle bırak görsel efektleri
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if(e.dataTransfer.files.length) processSelectedFile(e.dataTransfer.files[0]);
-        });
-
-        // Tıklama ile dosya seçimi
-        window.handleFileSelection = (e) => {
-            if(e.target.files.length) processSelectedFile(e.target.files[0]);
-        };
-
-        // Dosya kontrolü (Format ve Boyut)
-        function processSelectedFile(file) {
-            if(file.type !== "application/pdf") {
-                return UI.showToast("Güvenlik: Sadece PDF dosyaları yüklenebilir!", "error");
-            }
-            if(file.size > 10 * 1024 * 1024) { // 10MB limiti
-                return UI.showToast("Boyut hatası: Dosya 10MB'dan küçük olmalıdır.", "error");
-            }
-            AppState.selectedFile = file;
+        // --- YÜKLEME SİSTEMİ ---
+        window.handleFile = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.type !== "application/pdf") return showToast("Sadece PDF dosyaları yüklenebilir!", "error");
+            if (file.size > 15 * 1024 * 1024) return showToast("Dosya boyutu 15MB'den küçük olmalıdır!", "error");
             
-            // Seçilen dosya ismini UI'da gösterme
+            selectedFile = file;
             const display = document.getElementById('fileNameDisplay');
             display.style.display = 'block';
-            display.innerHTML = `<i class="fas fa-check-circle"></i> Seçildi: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-        }
+            display.innerText = `📄 Seçildi: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+        };
 
-        // 5. Yükleme İşlemi (Storage + Firestore Entegrasyonu)
-        window.startUpload = async () => {
+        window.uploadPDF = () => {
             const title = document.getElementById('pdfTitle').value.trim();
+            const desc = document.getElementById('pdfDesc').value.trim();
             const grade = document.getElementById('pdfGrade').value;
             const subject = document.getElementById('pdfSubject').value;
-            const file = AppState.selectedFile;
 
-            // Form doğrulama (Validation)
-            if(!title) return UI.showToast("Lütfen döküman başlığı girin.", "error");
-            if(!file) return UI.showToast("Lütfen yüklenecek bir PDF dosyası seçin.", "error");
+            if (!title || !selectedFile) return showToast("Başlık ve dosya zorunludur!", "error");
 
-            // Benzersiz dosya ismi oluşturma (Aynı isimli dosyaların çakışmasını engeller)
-            const uniqueName = `pdfs/${Date.now()}_${Math.random().toString(36).substring(7)}_${file.name}`;
-            const storageRef = ref(storage, uniqueName);
+            const storageRef = ref(storage, `pdfs/${Date.now()}_${selectedFile.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, selectedFile);
             
-            // Kesintiye uğrayabilir (Resumable) yükleme başlatma
-            const uploadTask = uploadBytesResumable(storageRef, file);
-            
-            const progressContainer = document.getElementById('progressContainer');
+            const progressBox = document.getElementById('progressBox');
             const progressBar = document.getElementById('progressBar');
-            progressContainer.style.display = 'block';
+            progressBox.style.display = 'block';
 
             uploadTask.on('state_changed', 
                 (snapshot) => {
-                    // İlerleme yüzdesini hesapla ve UI'ı güncelle
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     progressBar.style.width = progress + '%';
                 }, 
-                (error) => {
-                    progressContainer.style.display = 'none';
-                    UI.showToast("Yükleme başarısız: " + error.message, "error");
-                }, 
+                (error) => { showToast(error.message, "error"); progressBox.style.display = 'none'; }, 
                 async () => {
-                    // Yükleme bittiğinde dosyanın indirme URL'ini al
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    const url = await getDownloadURL(uploadTask.snapshot.ref);
+                    await addDoc(collection(db, "pdfs"), {
+                        title, desc, grade, subject, url, 
+                        size: selectedFile.size, likes: 0, comments: [], 
+                        createdAt: Date.now()
+                    });
                     
-                    // Veritabanına (Firestore) meta verileri kaydet
-                    try {
-                        await addDoc(collection(db, "pdfs"), {
-                            title: title,
-                            grade: grade,
-                            subject: subject,
-                            url: downloadURL,
-                            size: file.size,
-                            likes: 0,
-                            comments: [],
-                            createdAt: serverTimestamp() // Sunucu zamanı (Güvenlik için önemli)
-                        });
-
-                        UI.showToast("Döküman başarıyla platforma eklendi!", "success");
-                        
-                        // Formu temizle (Reset)
-                        document.getElementById('pdfTitle').value = '';
-                        AppState.selectedFile = null;
-                        document.getElementById('fileNameDisplay').style.display = 'none';
-                        progressContainer.style.display = 'none';
-                        progressBar.style.width = '0%';
-
-                        // Listeyi yeni veriyle birlikte tekrar çek
-                        fetchAndRenderPDFs();
-
-                    } catch (dbError) {
-                        UI.showToast("Veritabanı kaydı başarısız oldu.", "error");
-                    }
+                    showToast("PDF başarıyla yüklendi!");
+                    
+                    // Temizlik
+                    document.getElementById('pdfTitle').value = '';
+                    document.getElementById('pdfDesc').value = '';
+                    selectedFile = null;
+                    document.getElementById('fileNameDisplay').style.display = 'none';
+                    progressBox.style.display = 'none';
+                    progressBar.style.width = '0%';
                 }
             );
         };
 
-        // 6. Veritabanından Veri Çekme (Okuma)
-        const fetchAndRenderPDFs = async () => {
-            const container = document.getElementById('pdfListContainer');
-            // Veriler gelirken İskelet (Skeleton) göster
-            container.innerHTML = `<div class="skeleton skel-card"></div>`.repeat(6);
+        // --- GERÇEK ZAMANLI VERİ ÇEKME ---
+        const q = query(collection(db, "pdfs"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            allPDFs = [];
+            snapshot.forEach(doc => allPDFs.push({ id: doc.id, ...doc.data() }));
+            searchAndFilter(); // Veri geldiğinde ekrana çiz
+        });
 
-            try {
-                // Zaman damgasına göre en yeniden en eskiye sıralayarak çek
-                const q = query(collection(db, "pdfs"), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
-                
-                AppState.allPdfs = []; // Hafızayı temizle
-                
-                querySnapshot.forEach((doc) => {
-                    // Döküman ID'sini de datanın içine ekleyerek diziye atıyoruz
-                    AppState.allPdfs.push({ id: doc.id, ...doc.data() });
-                });
+        // --- FİLTRELEME & ÇİZME ---
+        window.searchAndFilter = () => {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const grade = document.getElementById('filterGrade').value;
+            const subject = document.getElementById('filterSubject').value;
 
-                applyFiltersAndRender(); // Çekilen veriyi filtreleyip ekrana bas
-
-            } catch (error) {
-                container.innerHTML = `<p style="color:var(--danger); grid-column: 1/-1;">Bağlantı hatası: Veriler alınamadı.</p>`;
-                console.error("Firestore okuma hatası:", error);
-            }
-        };
-
-        // 7. Filtreleme ve Arama Algoritması
-        window.filterData = (type, value, element) => {
-            // Yan menüdeki aktif sınıflandırmayı görsel olarak değiştirme
-            const parent = element.parentElement;
-            // Sadece aynı gruptaki (Sınıf veya Ders) menü öğelerinden active class'ını kaldır
-            const startIndex = Array.from(parent.children).indexOf(element) > 5 ? 7 : 1; 
-            // Basit DOM manipülasyonu yerine menüde dolaşıp renk değiştiriyoruz
-            element.parentNode.querySelectorAll('.menu-item').forEach(el => {
-                if(el.innerHTML.includes(type === 'grade' ? 'Sınıf' : 'fas')) el.classList.remove('active');
+            const filtered = allPDFs.filter(pdf => {
+                const matchSearch = pdf.title.toLowerCase().includes(search) || (pdf.desc && pdf.desc.toLowerCase().includes(search));
+                const matchGrade = grade === 'Tümü' || pdf.grade === grade;
+                const matchSubject = subject === 'Tümü' || pdf.subject === subject;
+                return matchSearch && matchGrade && matchSubject;
             });
-            element.classList.add('active');
 
-            // State'i güncelle
-            AppState.currentFilters[type] = value;
-            applyFiltersAndRender();
+            renderGrid(filtered);
         };
 
-        window.searchContent = () => {
-            AppState.currentFilters.search = document.getElementById('searchInput').value.toLowerCase().trim();
-            applyFiltersAndRender();
-        };
-
-        // Aktif filtrelere göre orijinal diziyi süzüp ekrana çizen ana fonksiyon
-        const applyFiltersAndRender = () => {
-            let filtered = AppState.allPdfs;
-
-            // 1. Sınıf Filtresi
-            if (AppState.currentFilters.grade !== 'Tümü') {
-                filtered = filtered.filter(pdf => pdf.grade === AppState.currentFilters.grade);
-            }
+        const renderGrid = (data) => {
+            const grid = document.getElementById('pdfGrid');
+            grid.innerHTML = '';
             
-            // 2. Ders Filtresi
-            if (AppState.currentFilters.subject !== 'Tümü') {
-                filtered = filtered.filter(pdf => pdf.subject === AppState.currentFilters.subject);
-            }
-            
-            // 3. Kelime Arama Filtresi (Başlık içinde arar)
-            if (AppState.currentFilters.search !== '') {
-                filtered = filtered.filter(pdf => pdf.title.toLowerCase().includes(AppState.currentFilters.search));
-            }
+            if (data.length === 0) return grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--gray);">Döküman bulunamadı.</p>';
 
-            renderToDOM(filtered);
-        };
-
-        // 8. Ekrana HTML Üretme (DOM Rendering)
-        const renderToDOM = (dataArray) => {
-            const container = document.getElementById('pdfListContainer');
-            container.innerHTML = ''; // Önceki içeriği temizle
-
-            if(dataArray.length === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 50px; color: var(--text-muted);">
-                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
-                        <br>Bu kriterlere uygun döküman bulunamadı.
-                    </div>`;
-                return;
-            }
-
-            // Her bir PDF verisi için bir Kart HTML'i oluştur
-            dataArray.forEach(pdf => {
-                // Yorumları (Array) HTML string'ine çevirme
-                const commentsHTML = (pdf.comments || []).map(commentText => `
-                    <div class="comment-item">
-                        <span class="time">${UI.timeAgo(commentText.time)}</span>
-                        ${commentText.text}
-                    </div>
+            data.forEach(pdf => {
+                const isLiked = localStorage.getItem(`liked_${pdf.id}`);
+                
+                const commentsHtml = (pdf.comments || []).map(c => `
+                    <div class="comment"><strong>${c.user}</strong>${c.text}</div>
                 `).join('');
 
-                const cardHTML = `
+                grid.innerHTML += `
                     <div class="pdf-card">
-                        <div class="badge-container">
-                            <span class="badge badge-grade"><i class="fas fa-school"></i> ${pdf.grade}</span>
-                            <span class="badge badge-subject"><i class="fas fa-book"></i> ${pdf.subject}</span>
+                        <div class="pdf-badges">
+                            <span class="badge badge-grade">${pdf.grade}</span>
+                            <span class="badge badge-subject">${pdf.subject}</span>
                         </div>
+                        <h3 class="pdf-title">${pdf.title}</h3>
+                        <p class="pdf-desc">${pdf.desc || 'Açıklama yok.'}</p>
                         
-                        <h3 class="card-title" title="${pdf.title}">${pdf.title}</h3>
-                        
-                        <div class="card-meta">
-                            <span><i class="fas fa-weight-hanging"></i> ${(pdf.size / 1024 / 1024).toFixed(1)} MB</span>
-                            <span><i class="fas fa-clock"></i> ${UI.timeAgo(pdf.createdAt)}</span>
-                        </div>
-                        
-                        <div class="card-actions">
-                            <a href="${pdf.url}" target="_blank" class="btn-action btn-read">
-                                <i class="fas fa-eye"></i> İncele
-                            </a>
-                            <button class="btn-action btn-like" onclick="toggleLike('${pdf.id}')">
-                                <i class="fas fa-heart"></i> <span id="like-count-${pdf.id}">${pdf.likes || 0}</span>
+                        <div class="pdf-actions">
+                            <a href="${pdf.url}" target="_blank" class="btn-action btn-view"><i class="fas fa-eye"></i> İncele / İndir</a>
+                            <button class="btn-action btn-like ${isLiked ? 'liked' : ''}" onclick="likePDF('${pdf.id}')">
+                                <i class="fas fa-heart"></i> ${pdf.likes || 0}
                             </button>
                         </div>
-                        
-                        <div class="comment-section">
-                            <div class="comment-list" id="comment-list-${pdf.id}">
-                                ${commentsHTML || `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center; margin-top:10px;">Henüz yorum yok. İlk sen yaz!</div>`}
-                            </div>
-                            <div class="comment-input-wrapper">
-                                <input type="text" id="comment-input-${pdf.id}" placeholder="Bu nota yorum yap..." onkeypress="if(event.key === 'Enter') addComment('${pdf.id}')">
-                                <button onclick="addComment('${pdf.id}')"><i class="fas fa-paper-plane"></i></button>
+
+                        <div class="comments-area">
+                            <div class="comments-list">${commentsHtml || '<div style="font-size:0.8rem; color:var(--gray); text-align:center;">Henüz yorum yok.</div>'}</div>
+                            <div class="comment-form">
+                                <input type="text" id="c-name-${pdf.id}" placeholder="Adın">
+                                <div class="comment-input-row">
+                                    <input type="text" id="c-text-${pdf.id}" placeholder="Yorumun..." style="flex:1;">
+                                    <button onclick="addComment('${pdf.id}')"><i class="fas fa-paper-plane"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
-                
-                // insertAdjacentHTML iç HTML'i ezerken performansı korur
-                container.insertAdjacentHTML('beforeend', cardHTML);
             });
         };
 
-        // 9. Etkileşimler: Beğeni Sistemi
-        window.toggleLike = async (docId) => {
-            try {
-                const docRef = doc(db, "pdfs", docId);
-                // Firestore'un kendi increment metodunu kullanarak atomik olarak artırıyoruz.
-                // Bu sayede aynı anda 10 kişi beğense bile veri hatası olmaz.
-                await updateDoc(docRef, {
-                    likes: increment(1)
-                });
-                
-                // Hızlı UI güncellemesi (Veritabanını tekrar çekmeden sadece sayıyı artırma)
-                const countSpan = document.getElementById(`like-count-${docId}`);
-                countSpan.innerText = parseInt(countSpan.innerText) + 1;
-                countSpan.parentElement.classList.add('liked');
-
-            } catch (error) {
-                UI.showToast("Beğeni işlenemedi.", "error");
-            }
+        // --- ETKİLEŞİM ---
+        window.likePDF = async (id) => {
+            if (localStorage.getItem(`liked_${id}`)) return showToast("Bu dökümanı zaten beğendiniz.", "error");
+            
+            await updateDoc(doc(db, "pdfs", id), { likes: increment(1) });
+            localStorage.setItem(`liked_${id}`, "true");
         };
 
-        // 10. Etkileşimler: Yorum Sistemi
-        window.addComment = async (docId) => {
-            const inputEl = document.getElementById(`comment-input-${docId}`);
-            const commentText = inputEl.value.trim();
+        window.addComment = async (id) => {
+            const nameInput = document.getElementById(`c-name-${id}`);
+            const textInput = document.getElementById(`c-text-${id}`);
+            const user = nameInput.value.trim() || 'Öğrenci';
+            const text = textInput.value.trim();
 
-            if (!commentText) return;
+            if (!text) return;
 
-            // Güvenlik ve yapı: Yorumları bir string yerine, zaman tutan objeler (object) olarak kaydediyoruz.
-            const newCommentObj = {
-                text: commentText,
-                time: new Date() // Sadece frontend simülasyonu için local tarih kullanıyoruz
-            };
-
-            try {
-                const docRef = doc(db, "pdfs", docId);
-                // Array içine obje ekleme
-                await updateDoc(docRef, {
-                    comments: arrayUnion(newCommentObj)
-                });
-
-                inputEl.value = ''; // Inputu temizle
-                
-                // Sadece o kartın yorum listesini yenileme (Performans için)
-                // Bu adımda local listemizi güncelleyip UI'ı besliyoruz.
-                const pdfInState = AppState.allPdfs.find(p => p.id === docId);
-                if(pdfInState) {
-                    if(!pdfInState.comments) pdfInState.comments = [];
-                    pdfInState.comments.push(newCommentObj);
-                }
-                
-                const listEl = document.getElementById(`comment-list-${docId}`);
-                // Eğer "Henüz yorum yok" yazısı varsa onu kaldır
-                if(listEl.innerHTML.includes('Henüz yorum yok')) listEl.innerHTML = '';
-                
-                listEl.insertAdjacentHTML('beforeend', `
-                    <div class="comment-item">
-                        <span class="time">Az önce</span>
-                        ${commentText}
-                    </div>
-                `);
-                
-                // En alta kaydır
-                listEl.scrollTop = listEl.scrollHeight;
-
-            } catch (error) {
-                UI.showToast("Yorum eklenirken hata oluştu.", "error");
-            }
+            await updateDoc(doc(db, "pdfs", id), {
+                comments: arrayUnion({ user, text })
+            });
+            
+            textInput.value = ''; // Inputu temizle
         };
-
-        // Uygulama yüklendiğinde ilk verileri çek
-        window.onload = fetchAndRenderPDFs;
 
     </script>
 </body>
