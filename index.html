@@ -3,169 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fen Bilimleri Projesi - Işığın Renkleri</title>
+    <title>Newton Çarkı - Renk Birleşimi</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f4f7f6;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 0;
-            color: var(--primary);
-            line-height: 1.6;
-        }
-
-        /* Üst Bilgi Paneli */
-        .header-info {
-            background: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            background: #1a1a2e;
             color: white;
-            padding: 15px 0;
-            text-align: center;
-            border-bottom: 5px solid var(--accent);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .header-info h2 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
-        .header-info p { margin: 5px 0 0; opacity: 0.9; }
-
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
+        /* Künye Bölümü */
+        .header {
+            background: #16213e;
+            width: 100%;
             padding: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        h1 { text-align: center; color: var(--accent); }
-        
-        /* Animasyon Alanı */
-        .animation-box {
             text-align: center;
-            padding: 40px;
-            background: #eee;
-            border-radius: 15px;
-            margin: 20px 0;
+            border-bottom: 4px solid #e94560;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        #newton-wheel {
-            width: 250px;
-            height: 250px;
+        .header h1 { margin: 0; font-size: 1.5rem; color: #e94560; }
+        .header p { margin: 5px 0 0; font-weight: bold; font-size: 1.1rem; }
+
+        .main-container {
+            max-width: 600px;
+            text-align: center;
+            margin-top: 50px;
+            background: #0f3460;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Newton Çarkı Tasarımı */
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        #wheel {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            margin: 0 auto;
+            border: 8px solid #fff;
             background: conic-gradient(
-                red 0deg 51.4deg,
-                orange 51.4deg 102.8deg,
-                yellow 102.8deg 154.2deg,
-                green 154.2deg 205.6deg,
-                blue 205.6deg 257deg,
-                indigo 257deg 308.4deg,
-                violet 308.4deg 360deg
+                #ff0000 0deg 51.4deg,
+                #ff7f00 51.4deg 102.8deg,
+                #ffff00 102.8deg 154.2deg,
+                #00ff00 154.2deg 205.6deg,
+                #0000ff 205.6deg 257deg,
+                #4b0082 257deg 308.4deg,
+                #8b00ff 308.4deg 360deg
             );
-            border: 5px solid #333;
-            transition: transform 0.1s linear;
+            transition: filter 0.1s linear;
+        }
+
+        /* Üzerine binen beyazlık efekti */
+        #white-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 50%;
+            opacity: 0; /* Başlangıçta görünmez */
+            pointer-events: none;
         }
 
         .controls {
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         input[type="range"] {
-            width: 80%;
+            width: 100%;
             cursor: pointer;
+            accent-color: #e94560;
         }
 
-        .info-text {
-            background: #e8f4fd;
-            padding: 15px;
-            border-left: 5px solid var(--accent);
+        .explanation {
             margin-top: 20px;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 40px;
-            padding-bottom: 20px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Öğrenci Bilgileri Üstte -->
-    <div class="header-info">
-        <h2>ALP EREN KESİM - 7/I - NO: 558</h2>
-        <p>Fen Bilimleri Proje Ödevi: Beyaz Işığın Renk Bileşimi</p>
+    <div class="header">
+        <h1>ALP EREN KESİM - 7/I - NO: 558</h1>
+        <p>Fen Bilimleri: Beyaz Işığın Renklerine Ayrılması Projesi</p>
     </div>
 
-    <div class="container">
-        <h1>Işığın Gizemi: Newton Çarkı</h1>
+    <div class="main-container">
+        <h2>Newton Çarkı Simülasyonu</h2>
         
-        <p>Beyaz ışık aslında tek bir renk değil, doğadaki tüm temel renklerin birleşimidir. Bu projede, renklerin birleşerek nasıl beyazı oluşturduğunu interaktif olarak inceleyeceğiz.</p>
-
-        <!-- İnteraktif Animasyon Bölümü -->
-        <div class="animation-box">
-            <div id="newton-wheel"></div>
-            <div class="controls">
-                <label for="speed">Dönüş Hızını Ayarla:</label><br>
-                <input type="range" id="speed" min="0" max="100" value="0">
-                <p>Hız: <span id="speedValue">0</span></p>
-            </div>
-            <p id="observation" style="font-weight: bold; color: #e67e22;"></p>
+        <div class="wheel-container">
+            <div id="wheel"></div>
+            <div id="white-overlay"></div>
         </div>
 
-        <div class="info-text">
-            <h3>Neler Oluyor?</h3>
-            <p><strong>Göz Yanılması ve Renk Karışımı:</strong> Çark yavaş dönerken gözümüz her rengi ayrı ayrı algılar. Ancak hızı artırdığımızda, her bir renk gözümüzün retina tabakasında çok kısa süre kalır ve beyin bu görüntüleri birbirinden ayıramaz. Sonuç olarak tüm renkler üst üste biner ve biz çarkı <b>beyaz</b> (veya beyaza yakın grimsi bir renk) olarak görürüz.</p>
+        <div class="controls">
+            <label>Dönüş Hızını Artır (Hızlandıkça Beyazlaşır):</label>
+            <input type="range" id="speedControl" min="0" max="100" value="0">
+            <p>Hız Seviyesi: <span id="speedValue">0</span></p>
         </div>
 
-        <h3>Deneyin Sonucu</h3>
-        <ul>
-            <li>Beyaz ışık; kırmızı, turuncu, sarı, yeşil, mavi, lacivert ve mor renklerin birleşimidir.</li>
-            <li>Işığın prizmadan geçerek renklere ayrılmasına "ışığın kırılması", bu renklerin birleşerek tekrar beyazı oluşturmasına ise "ışık sentezi" denir.</li>
-        </ul>
+        <div class="explanation">
+            <strong>Bilimsel Gerçek:</strong> Çark hızla döndüğünde gözümüz renkleri tek tek seçemez. Beyin tüm bu renk sinyallerini birleştirir ve biz çarkı <b>beyaz</b> olarak görürüz. Bu, beyaz ışığın tüm renklerin toplamı olduğunu kanıtlar.
+        </div>
     </div>
-
-    <footer>
-        © 2026 - Fen Bilimleri 7. Sınıf Akademik Projesi
-    </footer>
 
     <script>
-        const wheel = document.getElementById('newton-wheel');
-        const speedInput = document.getElementById('speed');
+        const wheel = document.getElementById('wheel');
+        const overlay = document.getElementById('white-overlay');
+        const speedControl = document.getElementById('speedControl');
         const speedValue = document.getElementById('speedValue');
-        const observation = document.getElementById('observation');
-        let rotation = 0;
 
-        function animate() {
-            let speed = parseInt(speedInput.value);
-            rotation += speed;
-            wheel.style.transform = `rotate(${rotation}deg)`;
+        let angle = 0;
+
+        function rotate() {
+            const speed = parseInt(speedControl.value);
+            angle += speed;
             
-            // Hız arttıkça beyazlık efekti ekle (Blur)
-            let blurVal = speed / 10;
-            let opacityVal = 1 - (speed / 150);
-            wheel.style.filter = `blur(${blurVal}px)`;
+            // Dönüşü uygula
+            wheel.style.transform = `rotate(${angle}deg)`;
+            
+            // Hız arttıkça beyazlık ve bulanıklık ekle
+            const whiteOpacity = speed / 110; // Hızlandıkça beyazlık artar
+            const blurAmount = speed / 15;    // Hızlandıkça bulanıklık artar
+            
+            overlay.style.opacity = whiteOpacity;
+            wheel.style.filter = `blur(${blurAmount}px)`;
             
             speedValue.innerText = speed;
 
-            if(speed === 0) {
-                observation.innerText = "Hareketsiz: Tüm renkler net görünüyor.";
-            } else if (speed < 40) {
-                observation.innerText = "Yavaş: Renkler birbirine karışmaya başladı.";
-            } else {
-                observation.innerText = "Hızlı: Renkler birleşti ve BEYAZ oluştu!";
-            }
-
-            requestAnimationFrame(animate);
+            requestAnimationFrame(rotate);
         }
 
-        animate();
+        rotate();
     </script>
 </body>
 </html>
