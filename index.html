@@ -1,983 +1,171 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="light">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Renkli Defterim | Premium Eğitim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fen Bilimleri Projesi - Işığın Renkleri</title>
     <style>
-        /* ==========================================================================
-           1. CSS VARIABLES & THEMING
-           ========================================================================== */
         :root {
-            --bg-color: #f8fafc;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.4);
-            --accent: #f43f5e;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 20px 40px -5px rgba(31, 38, 135, 0.15);
-            --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.3));
-            --skeleton-grad: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
-            --modal-bg: rgba(255, 255, 255, 0.95);
-            --overlay: rgba(15, 23, 42, 0.6);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: rgba(255, 255, 255, 0.8);
-            --radius-md: 12px;
-            --radius-lg: 24px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #0b1120;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --glass-bg: rgba(15, 23, 42, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --primary: #60a5fa;
-            --primary-glow: rgba(96, 165, 250, 0.3);
-            --card-gradient: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.6));
-            --skeleton-grad: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
-            --modal-bg: rgba(15, 23, 42, 0.95);
-            --overlay: rgba(0, 0, 0, 0.8);
-            --nav-bg: rgba(15, 23, 42, 0.85);
-            --input-bg: rgba(30, 41, 59, 0.8);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: var(--primary);
+            line-height: 1.6;
         }
 
-        /* ==========================================================================
-           2. BASE STYLES & RESET
-           ========================================================================== */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg-color); color: var(--text-main); transition: var(--transition); overflow-x: hidden; padding-bottom: 90px; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-
-        /* ==========================================================================
-           3. UTILITIES & GLASSMORPHISM
-           ========================================================================== */
-        .glass { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
-        .hidden { display: none !important; }
-        .flex-center { display: flex; justify-content: center; align-items: center; }
-        .text-gradient { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* Tooltip */
-        [data-tooltip] { position: relative; cursor: pointer; }
-        [data-tooltip]:hover::after {
-            content: attr(data-tooltip); position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
-            background: var(--text-main); color: var(--bg-color); padding: 4px 8px; border-radius: 6px; font-size: 12px;
-            white-space: nowrap; z-index: 100; opacity: 1; animation: fadeUp 0.2s forwards;
+        /* Üst Bilgi Paneli */
+        .header-info {
+            background: var(--primary);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--accent);
         }
 
-        /* ==========================================================================
-           4. LAYOUT COMPONENTS
-           ========================================================================== */
-        /* Scroll Progress */
-        #scroll-progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; z-index: 9999; transition: width 0.1s linear; box-shadow: 0 0 10px var(--primary-glow); }
+        .header-info h2 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
+        .header-info p { margin: 5px 0 0; opacity: 0.9; }
 
-        /* Header */
-        header { position: sticky; top: 0; z-index: 1000; padding: 15px 20px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); transition: var(--transition); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .header-top h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; }
-        
-        .controls { display: flex; gap: 12px; }
-        .icon-btn { background: var(--input-bg); border: 1px solid var(--glass-border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: var(--transition); display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow-sm); }
-        .icon-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--primary-glow); border-color: var(--primary); }
-
-        /* Search & Filters */
-        .search-wrapper { position: relative; width: 100%; display: flex; gap: 10px; flex-wrap: wrap; }
-        .search-input-group { position: relative; flex: 2; min-width: 200px; }
-        .search-input-group input { width: 100%; padding: 14px 20px 14px 45px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: var(--input-bg); color: var(--text-main); font-size: 1rem; transition: var(--transition); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        .search-input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-style: normal; opacity: 0.5; }
-        .search-input-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
-        
-        select.filter-select { flex: 1; min-width: 120px; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: var(--input-bg); color: var(--text-main); outline: none; cursor: pointer; transition: var(--transition); appearance: none; }
-        select.filter-select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
-
-        /* Autocomplete */
-        #autocomplete-box { position: absolute; top: 100%; left: 0; right: 0; background: var(--modal-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: var(--radius-md); margin-top: 5px; box-shadow: var(--shadow-lg); z-index: 1001; max-height: 250px; overflow-y: auto; display: none; }
-        .ac-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-        .ac-item:hover { background: var(--primary-glow); padding-left: 20px; }
-        .ac-item:last-child { border-bottom: none; }
-
-        /* Main Container */
-        main { padding: 30px 20px; max-width: 1600px; margin: 0 auto; min-height: 80vh; }
-        section { margin-bottom: 50px; }
-        section h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-
-        /* Netflix Row */
-        .row-container { position: relative; margin: 0 -20px; padding: 0 20px; }
-        .row { display: flex; overflow-x: auto; gap: 24px; padding: 10px 0 30px 0; scroll-snap-type: x mandatory; scrollbar-width: none; scroll-behavior: smooth; }
-        .row::-webkit-scrollbar { display: none; }
-        
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-
-        /* ==========================================================================
-           5. CARDS (Pro Level UI)
-           ========================================================================== */
-        .card {
-            min-width: 280px; width: 280px; background: var(--card-gradient); backdrop-filter: blur(10px);
-            border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 15px;
-            scroll-snap-align: start; border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm);
-            position: relative; overflow: hidden; opacity: 0; transform: translateY(30px); transition: var(--transition);
-        }
-        
-        /* Entrance Animation via JS Observer */
-        .card.enter { opacity: 1; transform: translateY(0); }
-
-        /* 3D Hover & Shimmer */
-        .card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-20deg); transition: 0.5s; z-index: 1; pointer-events: none;
-        }
-        .card:hover::before { left: 150%; }
-        .card:hover { 
-            transform: translateY(-10px) scale(1.02); 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 20px var(--primary-glow); 
-            border-color: var(--primary); z-index: 10; 
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .card-badges { display: flex; justify-content: space-between; align-items: center; z-index: 2; }
-        .badge { background: rgba(59, 130, 246, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(59, 130, 246, 0.2); }
-        .badge.trend { background: rgba(244, 63, 94, 0.1); color: var(--accent); border-color: rgba(244, 63, 94, 0.2); }
+        h1 { text-align: center; color: var(--accent); }
         
-        .rating-badge { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; font-weight: 600; background: rgba(245, 158, 11, 0.1); color: var(--warning); padding: 4px 8px; border-radius: 12px; }
+        /* Animasyon Alanı */
+        .animation-box {
+            text-align: center;
+            padding: 40px;
+            background: #eee;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
 
-        .card h3 { font-size: 1.15rem; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; z-index: 2; }
-        .card-category { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; z-index: 2; }
+        #newton-wheel {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: conic-gradient(
+                red 0deg 51.4deg,
+                orange 51.4deg 102.8deg,
+                yellow 102.8deg 154.2deg,
+                green 154.2deg 205.6deg,
+                blue 205.6deg 257deg,
+                indigo 257deg 308.4deg,
+                violet 308.4deg 360deg
+            );
+            border: 5px solid #333;
+            transition: transform 0.1s linear;
+        }
 
-        .card-stats { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--glass-border); z-index: 2; }
-        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .controls {
+            margin-top: 25px;
+        }
 
-        .card-actions { display: flex; gap: 10px; z-index: 2; }
-        .btn { padding: 12px; border: none; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; transition: var(--transition); text-align: center; font-size: 0.95rem; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .btn-primary { flex: 1; background: var(--primary); color: white; box-shadow: 0 4px 10px var(--primary-glow); }
-        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 6px 15px var(--primary-glow); }
-        
-        .btn-fav { width: 45px; background: var(--input-bg); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 1.2rem; }
-        .btn-fav:hover { background: rgba(244, 63, 94, 0.1); color: var(--accent); border-color: var(--accent); transform: scale(1.05); }
-        .btn-fav.active { color: var(--accent); background: rgba(244, 63, 94, 0.1); border-color: var(--accent); animation: heartBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        input[type="range"] {
+            width: 80%;
+            cursor: pointer;
+        }
 
-        /* Skeleton Loading */
-        .skeleton { background: var(--skeleton-grad); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: var(--radius-md); }
-        .skeleton-card { min-width: 280px; height: 260px; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); }
+        .info-text {
+            background: #e8f4fd;
+            padding: 15px;
+            border-left: 5px solid var(--accent);
+            margin-top: 20px;
+        }
 
-        /* ==========================================================================
-           6. BOTTOM NAV & FLOATING BUTTONS
-           ========================================================================== */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 10px; padding-bottom: calc(15px + env(safe-area-inset-bottom)); background: var(--nav-bg); backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border); z-index: 1000; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition); width: 60px; }
-        .nav-item i { font-size: 1.5rem; font-style: normal; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .nav-item.active { color: var(--primary); }
-        .nav-item.active i { transform: translateY(-4px) scale(1.1); text-shadow: 0 4px 10px var(--primary-glow); }
-
-        #back-to-top { position: fixed; bottom: 100px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: none; cursor: pointer; box-shadow: 0 10px 20px var(--primary-glow); opacity: 0; transform: translateY(20px) scale(0.8); pointer-events: none; transition: var(--transition); z-index: 999; }
-        #back-to-top.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-        #back-to-top:hover { transform: translateY(-5px) scale(1.1); }
-
-        /* ==========================================================================
-           7. MODALS & FORMS
-           ========================================================================== */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: var(--transition); padding: 20px; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--modal-bg); backdrop-filter: blur(20px); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; transform: scale(0.95) translateY(20px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        
-        .modal-header { padding: 20px 25px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); }
-        .modal-header h3 { font-size: 1.2rem; font-weight: 700; }
-        .modal-body { padding: 25px; overflow-y: auto; scrollbar-width: thin; }
-
-        /* PDF Viewer Simulator */
-        .pdf-viewer-sim { width: 100%; height: 300px; background: var(--input-bg); border: 2px dashed var(--glass-border); border-radius: var(--radius-md); display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-muted); margin-bottom: 20px; position: relative; overflow: hidden; }
-        .spinner { width: 40px; height: 40px; border: 4px solid var(--glass-border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-
-        /* Comments & Ratings */
-        .interaction-section { background: var(--input-bg); border-radius: var(--radius-md); padding: 20px; border: 1px solid var(--glass-border); margin-top: 20px; }
-        .rating-stars { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 8px; font-size: 2rem; margin-bottom: 15px; }
-        .rating-stars input { display: none; }
-        .rating-stars label { color: var(--glass-border); cursor: pointer; transition: 0.2s; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .rating-stars label:hover, .rating-stars label:hover ~ label, .rating-stars input:checked ~ label { color: var(--warning); transform: scale(1.1); }
-        
-        textarea.modern-input { width: 100%; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: var(--bg-color); color: var(--text-main); outline: none; resize: vertical; min-height: 100px; margin-bottom: 15px; font-size: 0.95rem; transition: var(--transition); }
-        textarea.modern-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
-
-        .comment-list { margin-top: 25px; display: flex; flex-direction: column; gap: 15px; }
-        .comment-item { background: var(--bg-color); padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); animation: fadeSlideIn 0.3s ease-out; }
-        .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .comment-meta { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-        .comment-date { font-size: 0.75rem; font-weight: 400; opacity: 0.7; }
-
-        /* Admin Dashboard Components */
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
-        .stat-card { background: var(--card-gradient); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); text-align: center; transition: transform 0.3s; }
-        .stat-card:hover { transform: translateY(-5px); }
-        .stat-card h4 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card .value { font-size: 2rem; font-weight: 800; color: var(--primary); }
-
-        /* CSS Chart */
-        .chart-wrapper { margin-bottom: 30px; background: var(--input-bg); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
-        .chart-bar-container { margin-bottom: 15px; }
-        .chart-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
-        .chart-track { width: 100%; height: 12px; background: var(--glass-border); border-radius: 6px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-        .chart-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 6px; width: 0; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
-
-        /* Admin Form & List */
-        .admin-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .modern-input-sm { padding: 10px 15px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: var(--bg-color); color: var(--text-main); flex: 1; min-width: 150px; outline: none; }
-        .modern-input-sm:focus { border-color: var(--primary); }
-        
-        .admin-list-container { max-height: 350px; overflow-y: auto; border: 1px solid var(--glass-border); border-radius: var(--radius-md); background: var(--input-bg); }
-        .admin-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--glass-border); transition: 0.2s; }
-        .admin-list-item:hover { background: var(--bg-color); }
-        .admin-list-item:last-child { border-bottom: none; }
-        .admin-list-item .title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
-        .admin-list-item .meta { font-size: 0.75rem; color: var(--text-muted); }
-
-        /* ==========================================================================
-           8. TOAST NOTIFICATIONS
-           ========================================================================== */
-        #toast-container { position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 10000; pointer-events: none; }
-        .toast { padding: 14px 20px; border-radius: var(--radius-md); color: white; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-lg); backdrop-filter: blur(10px); transform: translateX(120%) scale(0.9); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: auto; }
-        .toast.show { transform: translateX(0) scale(1); opacity: 1; }
-        .toast.success { background: rgba(16, 185, 129, 0.9); border-left: 4px solid #059669; }
-        .toast.error { background: rgba(239, 68, 68, 0.9); border-left: 4px solid #b91c1c; }
-        .toast.info { background: rgba(59, 130, 246, 0.9); border-left: 4px solid #2563eb; }
-
-        /* ==========================================================================
-           9. ANIMATIONS
-           ========================================================================== */
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        @keyframes heartBounce { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
-        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <div id="scroll-progress"></div>
-    <div id="toast-container"></div>
+    <!-- Öğrenci Bilgileri Üstte -->
+    <div class="header-info">
+        <h2>ALP EREN KESİM - 7/I - NO: 558</h2>
+        <p>Fen Bilimleri Proje Ödevi: Beyaz Işığın Renk Bileşimi</p>
+    </div>
 
-    <header class="glass" id="main-header">
-        <div class="header-top">
-            <h1 class="text-gradient">📚 Renkli Defterim</h1>
-            <div class="controls">
-                <button class="icon-btn" id="theme-toggle" data-tooltip="Tema Değiştir">🌙</button>
-                <button class="icon-btn" id="admin-btn" data-tooltip="Yönetici Paneli">⚙️</button>
-            </div>
-        </div>
-        <div class="search-wrapper">
-            <div class="search-input-group">
-                <i>🔍</i>
-                <input type="text" id="search-input" placeholder="PDF, kategori veya konu ara..." autocomplete="off">
-                <div id="autocomplete-box"></div>
-            </div>
-            <select id="filter-grade" class="filter-select">
-                <option value="all">Tüm Sınıflar</option>
-                <option value="6">6. Sınıf</option>
-                <option value="7">7. Sınıf</option>
-                <option value="8">8. Sınıf</option>
-            </select>
-        </div>
-    </header>
-
-    <main id="app-content">
+    <div class="container">
+        <h1>Işığın Gizemi: Newton Çarkı</h1>
         
-        <section id="sec-search" class="hidden">
-            <h2><i style="font-style:normal">🔍</i> Arama Sonuçları</h2>
-            <div class="grid" id="grid-search"></div>
-        </section>
+        <p>Beyaz ışık aslında tek bir renk değil, doğadaki tüm temel renklerin birleşimidir. Bu projede, renklerin birleşerek nasıl beyazı oluşturduğunu interaktif olarak inceleyeceğiz.</p>
 
-        <div id="state-home">
-            <section>
-                <h2><i style="font-style:normal">🔥</i> Popüler İçerikler (İngilizce)</h2>
-                <div class="row-container">
-                    <div class="row" id="row-trend"></div>
-                </div>
-            </section>
-
-            <section>
-                <h2><i style="font-style:normal">✨</i> Yeni Eklenenler</h2>
-                <div class="row-container">
-                    <div class="row" id="row-new"></div>
-                </div>
-            </section>
-            
-            <section>
-                <h2><i style="font-style:normal">📚</i> Tüm Arşiv</h2>
-                <div class="grid" id="grid-all"></div>
-            </section>
-        </div>
-
-        <section id="sec-fav" class="hidden">
-            <h2><i style="font-style:normal">❤️</i> Favori Kütüphanem</h2>
-            <div class="grid" id="grid-fav"></div>
-        </section>
-
-    </main>
-
-    <nav class="bottom-nav">
-        <div class="nav-item active" data-target="home">
-            <i>🏠</i><span>Keşfet</span>
-        </div>
-        <div class="nav-item" data-target="search-focus">
-            <i>🔍</i><span>Ara</span>
-        </div>
-        <div class="nav-item" data-target="fav">
-            <i>❤️</i><span>Favoriler</span>
-        </div>
-    </nav>
-
-    <button id="back-to-top" data-tooltip="Yukarı Çık">↑</button>
-
-    <div class="modal-overlay" id="modal-view">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div style="display:flex; flex-direction:column; gap:5px;">
-                    <span class="badge" id="view-badge" style="width:fit-content"></span>
-                    <h3 id="view-title">Yükleniyor...</h3>
-                </div>
-                <button class="icon-btn close-modal">✖</button>
+        <!-- İnteraktif Animasyon Bölümü -->
+        <div class="animation-box">
+            <div id="newton-wheel"></div>
+            <div class="controls">
+                <label for="speed">Dönüş Hızını Ayarla:</label><br>
+                <input type="range" id="speed" min="0" max="100" value="0">
+                <p>Hız: <span id="speedValue">0</span></p>
             </div>
-            <div class="modal-body">
-                <div class="pdf-viewer-sim" id="pdf-simulator">
-                    <div class="spinner" id="pdf-spinner"></div>
-                    <span style="font-size:3rem; margin-bottom:10px;" id="pdf-icon" class="hidden">📄</span>
-                    <p id="pdf-text">Güvenli Bağlantı Kuruluyor...</p>
-                    <button class="btn btn-primary hidden" id="pdf-download" style="margin-top:15px; width:auto; padding: 10px 25px;">⬇ PDF'i İndir</button>
-                </div>
-                
-                <div style="display:flex; justify-content:space-between; margin-bottom:25px; padding-bottom:15px; border-bottom:1px solid var(--glass-border);">
-                    <div class="stat-item" style="font-size:1rem"><i style="font-style:normal">👁️</i> <span id="view-count">0</span> Görüntülenme</div>
-                    <div class="stat-item" style="font-size:1rem"><i style="font-style:normal">💾</i> <span id="view-size">0 MB</span></div>
-                </div>
-
-                <div class="interaction-section">
-                    <h4 style="margin-bottom:10px; font-size:1rem;">Topluluk Değerlendirmesi</h4>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <div>
-                            <span style="font-size:2.5rem; font-weight:800; color:var(--text-main)" id="view-rating-avg">0.0</span>
-                            <span style="color:var(--text-muted)">/ 5</span>
-                        </div>
-                        <div class="rating-stars" id="rating-input">
-                            <input type="radio" name="rate" id="star5" value="5"><label for="star5">★</label>
-                            <input type="radio" name="rate" id="star4" value="4"><label for="star4">★</label>
-                            <input type="radio" name="rate" id="star3" value="3"><label for="star3">★</label>
-                            <input type="radio" name="rate" id="star2" value="2"><label for="star2">★</label>
-                            <input type="radio" name="rate" id="star1" value="1"><label for="star1">★</label>
-                        </div>
-                    </div>
-                    
-                    <textarea class="modern-input" id="comment-input" placeholder="Bu içerik sana nasıl yardımcı oldu? Düşüncelerini paylaş..."></textarea>
-                    <button class="btn btn-primary" id="btn-submit-comment" style="width:100%">Gönder</button>
-                </div>
-
-                <div class="comment-list" id="comments-container"></div>
-            </div>
+            <p id="observation" style="font-weight: bold; color: #e67e22;"></p>
         </div>
+
+        <div class="info-text">
+            <h3>Neler Oluyor?</h3>
+            <p><strong>Göz Yanılması ve Renk Karışımı:</strong> Çark yavaş dönerken gözümüz her rengi ayrı ayrı algılar. Ancak hızı artırdığımızda, her bir renk gözümüzün retina tabakasında çok kısa süre kalır ve beyin bu görüntüleri birbirinden ayıramaz. Sonuç olarak tüm renkler üst üste biner ve biz çarkı <b>beyaz</b> (veya beyaza yakın grimsi bir renk) olarak görürüz.</p>
+        </div>
+
+        <h3>Deneyin Sonucu</h3>
+        <ul>
+            <li>Beyaz ışık; kırmızı, turuncu, sarı, yeşil, mavi, lacivert ve mor renklerin birleşimidir.</li>
+            <li>Işığın prizmadan geçerek renklere ayrılmasına "ışığın kırılması", bu renklerin birleşerek tekrar beyazı oluşturmasına ise "ışık sentezi" denir.</li>
+        </ul>
     </div>
 
-    <div class="modal-overlay" id="modal-admin">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h3>⚙️ Sistem Yönetim Paneli</h3>
-                <button class="icon-btn close-modal">✖</button>
-            </div>
-            <div class="modal-body">
-                
-                <div class="admin-grid">
-                    <div class="stat-card">
-                        <h4>Toplam İçerik</h4>
-                        <div class="value" id="stat-total">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Toplam Etkileşim</h4>
-                        <div class="value" id="stat-views">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>En Popüler Kategori</h4>
-                        <div class="value" id="stat-cat" style="font-size: 1.2rem;">-</div>
-                    </div>
-                </div>
-
-                <div class="chart-wrapper">
-                    <h4 style="margin-bottom: 15px; display:flex; align-items:center; gap:8px;">📊 Sınıf Dağılımı (İngilizce)</h4>
-                    <div id="admin-chart-container"></div>
-                </div>
-
-                <div class="chart-wrapper">
-                    <h4 style="margin-bottom: 15px;">➕ Yeni Doküman Ekle</h4>
-                    <div class="admin-controls">
-                        <input type="text" id="add-title" class="modern-input-sm" placeholder="Doküman Başlığı">
-                        <select id="add-grade" class="modern-input-sm" style="flex:0.5">
-                            <option value="6">6. Sınıf</option>
-                            <option value="7">7. Sınıf</option>
-                            <option value="8">8. Sınıf</option>
-                        </select>
-                        <select id="add-type" class="modern-input-sm" style="flex:0.5">
-                            <option value="Vocabulary">Vocabulary</option>
-                            <option value="Grammar">Grammar</option>
-                            <option value="Reading">Reading</option>
-                            <option value="Test">Test</option>
-                        </select>
-                        <button class="btn btn-primary" id="btn-add-pdf" style="flex:0.5">Ekle</button>
-                    </div>
-                </div>
-
-                <div class="chart-wrapper" style="margin-bottom:0">
-                    <h4 style="margin-bottom: 15px;">🗑️ İçerik Envanteri</h4>
-                    <div class="admin-list-container" id="admin-inventory"></div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    <footer>
+        © 2026 - Fen Bilimleri 7. Sınıf Akademik Projesi
+    </footer>
 
     <script>
-        /**
-         * Renkli Defterim - Core Application Logic
-         * Architecture: Modular IIFE & Event Delegation
-         * State: LocalStorage Cache
-         */
-        const App = (function() {
-            // --- STATE MANAGEMENT ---
-            let db = [];
-            let favs = new Set(JSON.parse(localStorage.getItem('rd_favs') || '[]'));
-            let commentsCache = JSON.parse(localStorage.getItem('rd_comments') || '{}');
-            let ratingsCache = JSON.parse(localStorage.getItem('rd_ratings') || '{}');
-            let currentViewId = null;
+        const wheel = document.getElementById('newton-wheel');
+        const speedInput = document.getElementById('speed');
+        const speedValue = document.getElementById('speedValue');
+        const observation = document.getElementById('observation');
+        let rotation = 0;
 
-            // Constants based on User Correction Ledger (English only, Grades 6,7,8)
-            const GRADES = [6, 7, 8];
-            const SUBJECT = "İngilizce";
-            const CATEGORIES = ["Vocabulary Worksheet", "Grammar Quiz", "Reading Comprehension", "Unit Test", "Revision Notes", "Practice Exam"];
-
-            // DOM Elements Cache
-            const DOM = {
-                gridAll: document.getElementById('grid-all'),
-                rowTrend: document.getElementById('row-trend'),
-                rowNew: document.getElementById('row-new'),
-                gridSearch: document.getElementById('grid-search'),
-                gridFav: document.getElementById('grid-fav'),
-                searchInput: document.getElementById('search-input'),
-                filterGrade: document.getElementById('filter-grade'),
-                autocomplete: document.getElementById('autocomplete-box'),
-                toastContainer: document.getElementById('toast-container'),
-                modals: document.querySelectorAll('.modal-overlay')
-            };
-
-            // --- 1. DATA GENERATION & CACHE (120+ Items) ---
-            const initData = () => {
-                const cachedDb = localStorage.getItem('rd_db');
-                if (cachedDb) {
-                    db = JSON.parse(cachedDb);
-                    return;
-                }
-
-                let idCounter = 1;
-                // Generate exactly 120 items: 3 grades * 6 categories * 7 items approx = 126
-                GRADES.forEach(g => {
-                    CATEGORIES.forEach(cat => {
-                        for(let i=1; i<=7; i++) {
-                            const isTrend = Math.random() > 0.85;
-                            const rBase = Math.random() * 1.5 + 3.5; // 3.5 to 5.0
-                            db.push({
-                                id: idCounter++,
-                                title: `${g}. Sınıf ${cat} - Unit ${i}`,
-                                grade: g,
-                                subject: SUBJECT,
-                                category: cat,
-                                viewCount: Math.floor(Math.random() * 15000),
-                                rating: rBase.toFixed(1),
-                                ratingCount: Math.floor(Math.random() * 150) + 10,
-                                size: (Math.random() * 10 + 1).toFixed(1) + " MB",
-                                isTrend: isTrend,
-                                date: Date.now() - Math.floor(Math.random() * 31536000000) // Up to 1 year old
-                            });
-                        }
-                    });
-                });
-                saveDb();
-            };
-
-            const saveDb = () => localStorage.setItem('rd_db', JSON.stringify(db));
-            const saveFavs = () => localStorage.setItem('rd_favs', JSON.stringify([...favs]));
+        function animate() {
+            let speed = parseInt(speedInput.value);
+            rotation += speed;
+            wheel.style.transform = `rotate(${rotation}deg)`;
             
-            // --- 2. UTILITIES & ANIMATIONS ---
-            const showToast = (msg, type = 'info') => {
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
-                toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
-                DOM.toastContainer.appendChild(toast);
-                
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => toast.classList.add('show'));
-                });
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 400);
-                }, 3000);
-            };
+            // Hız arttıkça beyazlık efekti ekle (Blur)
+            let blurVal = speed / 10;
+            let opacityVal = 1 - (speed / 150);
+            wheel.style.filter = `blur(${blurVal}px)`;
+            
+            speedValue.innerText = speed;
 
-            // Intersection Observer for Lazy Loading & Entrance Animations
-            const observerOpts = { root: null, rootMargin: '0px 0px 50px 0px', threshold: 0.1 };
-            const cardObserver = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.classList.add('enter');
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, observerOpts);
+            if(speed === 0) {
+                observation.innerText = "Hareketsiz: Tüm renkler net görünüyor.";
+            } else if (speed < 40) {
+                observation.innerText = "Yavaş: Renkler birbirine karışmaya başladı.";
+            } else {
+                observation.innerText = "Hızlı: Renkler birleşti ve BEYAZ oluştu!";
+            }
 
-            // Generate Skeleton HTML
-            const getSkeletons = (count) => Array(count).fill('<div class="skeleton skeleton-card"></div>').join('');
+            requestAnimationFrame(animate);
+        }
 
-            // --- 3. RENDERING ENGINE ---
-            const createCardHTML = (item) => {
-                const isFav = favs.has(item.id);
-                // Real-time rating calc
-                let currentRating = item.rating;
-                if(ratingsCache[item.id]) {
-                    const totalScore = (parseFloat(item.rating) * item.ratingCount) + ratingsCache[item.id].sum;
-                    const totalVotes = item.ratingCount + ratingsCache[item.id].count;
-                    currentRating = (totalScore / totalVotes).toFixed(1);
-                }
-
-                return `
-                    <div class="card" data-id="${item.id}">
-                        <div class="card-badges">
-                            <span class="badge ${item.isTrend ? 'trend' : ''}">${item.grade}. Sınıf</span>
-                            <span class="rating-badge">⭐ ${currentRating}</span>
-                        </div>
-                        <h3>${item.title}</h3>
-                        <div class="card-category">${item.category}</div>
-                        <div class="card-stats">
-                            <div class="stat-item"><i style="font-style:normal; color:var(--primary)">👁️</i> ${item.viewCount.toLocaleString()}</div>
-                            <div class="stat-item"><i style="font-style:normal; color:var(--accent)">💾</i> ${item.size}</div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn btn-primary action-view" data-id="${item.id}">Görüntüle</button>
-                            <button class="btn btn-fav action-fav ${isFav ? 'active' : ''}" data-id="${item.id}">
-                                ${isFav ? '❤️' : '🤍'}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            };
-
-            const renderUI = (container, dataArray) => {
-                if(!dataArray.length) {
-                    container.innerHTML = `<div style="grid-column:1/-1; padding:40px; text-align:center; color:var(--text-muted); font-size:1.1rem; background:var(--glass-bg); border-radius:var(--radius-lg); border:1px dashed var(--glass-border);">Hiçbir sonuç bulunamadı.</div>`;
-                    return;
-                }
-                container.innerHTML = dataArray.map(createCardHTML).join('');
-                container.querySelectorAll('.card').forEach(c => cardObserver.observe(c));
-            };
-
-            const initialRender = () => {
-                DOM.rowTrend.innerHTML = getSkeletons(5);
-                DOM.rowNew.innerHTML = getSkeletons(5);
-                DOM.gridAll.innerHTML = getSkeletons(8);
-
-                setTimeout(() => {
-                    const sortedViews = [...db].sort((a,b) => b.viewCount - a.viewCount);
-                    const trends = sortedViews.filter(d => d.isTrend).slice(0, 10);
-                    const news = [...db].sort((a,b) => b.date - a.date).slice(0, 10);
-                    const allData = sortedViews.slice(0, 40); // display top 40 in 'All' to avoid dom bloat
-                    
-                    renderUI(DOM.rowTrend, trends);
-                    renderUI(DOM.rowNew, news);
-                    renderUI(DOM.gridAll, allData);
-                }, 600); // UI Polish delay
-            };
-
-            // --- 4. SMART SYSTEMS (Search, Fav, PDF View) ---
-            const handleSearch = () => {
-                const term = DOM.searchInput.value.toLowerCase().trim();
-                const grade = DOM.filterGrade.value;
-                
-                DOM.autocomplete.style.display = 'none';
-
-                if(!term && grade === 'all') {
-                    document.getElementById('state-home').classList.remove('hidden');
-                    document.getElementById('sec-search').classList.add('hidden');
-                    document.getElementById('sec-fav').classList.add('hidden');
-                    updateNav('home');
-                    return;
-                }
-
-                document.getElementById('state-home').classList.add('hidden');
-                document.getElementById('sec-fav').classList.add('hidden');
-                document.getElementById('sec-search').classList.remove('hidden');
-                updateNav('search-focus');
-
-                const results = db.filter(d => {
-                    const matchTerm = d.title.toLowerCase().includes(term) || d.category.toLowerCase().includes(term);
-                    const matchGrade = grade === 'all' ? true : d.grade == grade;
-                    return matchTerm && matchGrade;
-                });
-
-                renderUI(DOM.gridSearch, results);
-            };
-
-            const handleAutocomplete = (e) => {
-                const term = e.target.value.toLowerCase().trim();
-                if(term.length < 2) {
-                    DOM.autocomplete.style.display = 'none';
-                    return;
-                }
-                
-                const suggestions = db.filter(d => d.title.toLowerCase().includes(term) || d.category.toLowerCase().includes(term)).slice(0, 5);
-                
-                if(suggestions.length) {
-                    DOM.autocomplete.innerHTML = suggestions.map(s => 
-                        `<div class="ac-item" data-title="${s.title}">
-                            <span>${s.title}</span> <span class="badge" style="font-size:0.65rem">${s.grade}. Sınıf</span>
-                        </div>`
-                    ).join('');
-                    DOM.autocomplete.style.display = 'block';
-                } else {
-                    DOM.autocomplete.style.display = 'none';
-                }
-            };
-
-            const toggleFavorite = (id, btn) => {
-                id = parseInt(id);
-                if(favs.has(id)) {
-                    favs.delete(id);
-                    btn.classList.remove('active');
-                    btn.innerText = '🤍';
-                    showToast('Favorilerden çıkarıldı.', 'info');
-                } else {
-                    favs.add(id);
-                    btn.classList.add('active');
-                    btn.innerText = '❤️';
-                    showToast('Favorilere eklendi!', 'success');
-                }
-                saveFavs();
-                
-                // If in fav tab, re-render
-                if(!document.getElementById('sec-fav').classList.contains('hidden')) {
-                    renderUI(DOM.gridFav, db.filter(d => favs.has(d.id)));
-                }
-            };
-
-            const openPDFView = (id) => {
-                id = parseInt(id);
-                currentViewId = id;
-                const item = db.find(d => d.id === id);
-                if(!item) return;
-
-                // Update View Count
-                item.viewCount++;
-                saveDb();
-
-                // Calculate Rating
-                let currentRating = item.rating;
-                if(ratingsCache[item.id]) {
-                    const totalScore = (parseFloat(item.rating) * item.ratingCount) + ratingsCache[item.id].sum;
-                    const totalVotes = item.ratingCount + ratingsCache[item.id].count;
-                    currentRating = (totalScore / totalVotes).toFixed(1);
-                }
-
-                // Populate Modal UI
-                document.getElementById('view-badge').innerText = `${item.grade}. Sınıf ${item.category}`;
-                document.getElementById('view-title').innerText = item.title;
-                document.getElementById('view-count').innerText = item.viewCount.toLocaleString();
-                document.getElementById('view-size').innerText = item.size;
-                document.getElementById('view-rating-avg').innerText = currentRating;
-                
-                // Reset Interaction UI
-                document.getElementById('comment-input').value = '';
-                document.querySelectorAll('input[name="rate"]').forEach(r => r.checked = false);
-                
-                // Animate PDF Load Simulation
-                const spinner = document.getElementById('pdf-spinner');
-                const icon = document.getElementById('pdf-icon');
-                const text = document.getElementById('pdf-text');
-                const dlBtn = document.getElementById('pdf-download');
-                
-                spinner.classList.remove('hidden');
-                icon.classList.add('hidden');
-                dlBtn.classList.add('hidden');
-                text.innerText = "Güvenli Bağlantı Kuruluyor...";
-
-                setTimeout(() => {
-                    spinner.classList.add('hidden');
-                    icon.classList.remove('hidden');
-                    text.innerText = "Doküman Görüntülenmeye Hazır.";
-                    dlBtn.classList.remove('hidden');
-                }, 1000);
-
-                renderComments(id);
-
-                document.getElementById('modal-view').classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-
-            const renderComments = (id) => {
-                const container = document.getElementById('comments-container');
-                const comments = commentsCache[id] || [];
-                
-                if(!comments.length) {
-                    container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.9rem;">İlk değerlendiren sen ol!</div>';
-                    return;
-                }
-
-                container.innerHTML = comments.map(c => `
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <div class="comment-meta">
-                                <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:white; display:flex; justify-content:center; align-items:center; font-size:0.7rem;">A</div>
-                                Anonim Öğrenci
-                            </div>
-                            <span style="color:var(--warning); letter-spacing:2px; font-size:0.8rem;">${'★'.repeat(c.rate)}${'☆'.repeat(5-c.rate)}</span>
-                        </div>
-                        <p style="font-size:0.9rem; line-height:1.5; color:var(--text-main); margin-bottom:8px;">${c.text}</p>
-                        <div class="comment-date">${new Date(c.date).toLocaleDateString('tr-TR', {day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
-                    </div>
-                `).join('');
-            };
-
-            const submitInteraction = () => {
-                if(!currentViewId) return;
-                const text = document.getElementById('comment-input').value.trim();
-                const rateEl = document.querySelector('input[name="rate"]:checked');
-                
-                if(!rateEl) return showToast('Lütfen yıldız vererek puanlayın.', 'warning');
-                if(!text) return showToast('Lütfen bir yorum yazın.', 'warning');
-
-                const rate = parseInt(rateEl.value);
-
-                // Update Comment Cache
-                if(!commentsCache[currentViewId]) commentsCache[currentViewId] = [];
-                commentsCache[currentViewId].unshift({ text, rate, date: Date.now() });
-                localStorage.setItem('rd_comments', JSON.stringify(commentsCache));
-
-                // Update Rating Cache
-                if(!ratingsCache[currentViewId]) ratingsCache[currentViewId] = { sum: 0, count: 0 };
-                ratingsCache[currentViewId].sum += rate;
-                ratingsCache[currentViewId].count += 1;
-                localStorage.setItem('rd_ratings', JSON.stringify(ratingsCache));
-
-                showToast('Değerlendirmeniz başarıyla eklendi!', 'success');
-                openPDFView(currentViewId); // Re-render modal silently
-            };
-
-            // --- 5. ADMIN DASHBOARD (Direct Access) ---
-            const openAdmin = () => {
-                document.getElementById('modal-admin').classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                const total = db.length;
-                const views = db.reduce((a, b) => a + b.viewCount, 0);
-                
-                // Most popular category
-                const catMap = {};
-                db.forEach(d => catMap[d.category] = (catMap[d.category] || 0) + d.viewCount);
-                const popCat = Object.keys(catMap).reduce((a,b) => catMap[a] > catMap[b] ? a : b);
-
-                document.getElementById('stat-total').innerText = total;
-                document.getElementById('stat-views').innerText = (views / 1000).toFixed(1) + 'k';
-                document.getElementById('stat-cat').innerText = popCat;
-
-                // Chart: Grade Distribution
-                const gMap = {6:0, 7:0, 8:0};
-                db.forEach(d => gMap[d.grade]++);
-                
-                document.getElementById('admin-chart-container').innerHTML = Object.keys(gMap).map(g => {
-                    const pct = ((gMap[g] / total) * 100).toFixed(1);
-                    return `
-                        <div class="chart-bar-container">
-                            <div class="chart-label"><span>${g}. Sınıf</span> <span>${gMap[g]} İçerik (${pct}%)</span></div>
-                            <div class="chart-track">
-                                <div class="chart-fill" style="width: 0%" data-target="${pct}%"></div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                // Trigger chart animation
-                setTimeout(() => {
-                    document.querySelectorAll('.chart-fill').forEach(bar => bar.style.width = bar.getAttribute('data-target'));
-                }, 100);
-
-                renderAdminList();
-            };
-
-            const renderAdminList = () => {
-                const sorted = [...db].sort((a,b) => b.id - a.id);
-                document.getElementById('admin-inventory').innerHTML = sorted.map(d => `
-                    <div class="admin-list-item">
-                        <div>
-                            <div class="title">${d.title}</div>
-                            <div class="meta">ID: ${d.id} | ${d.grade}. Sınıf | ${d.category}</div>
-                        </div>
-                        <button class="btn btn-primary action-del" style="background:var(--danger); padding:8px 12px; font-size:0.8rem" data-id="${d.id}">Sil</button>
-                    </div>
-                `).join('');
-            };
-
-            const addPDF = () => {
-                const title = document.getElementById('add-title').value.trim();
-                const grade = document.getElementById('add-grade').value;
-                const type = document.getElementById('add-type').value;
-
-                if(!title) return showToast('Lütfen bir başlık girin.', 'error');
-
-                db.push({
-                    id: Date.now(),
-                    title: title,
-                    grade: parseInt(grade),
-                    subject: SUBJECT,
-                    category: type,
-                    viewCount: 0,
-                    rating: "5.0",
-                    ratingCount: 0,
-                    size: (Math.random() * 5 + 1).toFixed(1) + " MB",
-                    isTrend: true,
-                    date: Date.now()
-                });
-                
-                saveDb();
-                document.getElementById('add-title').value = '';
-                showToast('İçerik başarıyla eklendi.', 'success');
-                openAdmin(); // Refresh
-                initialRender(); // Refresh BG
-            };
-
-            const delPDF = (id) => {
-                id = parseInt(id);
-                if(confirm('Bu içeriği tamamen silmek istediğinize emin misiniz?')) {
-                    db = db.filter(d => d.id !== id);
-                    if(favs.has(id)) { favs.delete(id); saveFavs(); }
-                    saveDb();
-                    showToast('İçerik sistemden silindi.', 'success');
-                    openAdmin();
-                    initialRender();
-                }
-            };
-
-            // --- 6. EVENT DELEGATION & LISTENERS ---
-            const setupEvents = () => {
-                // Theme Toggle
-                const themeBtn = document.getElementById('theme-toggle');
-                const savedTheme = localStorage.getItem('rd_theme') || 'light';
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                themeBtn.innerText = savedTheme === 'dark' ? '☀️' : '🌙';
-
-                themeBtn.addEventListener('click', () => {
-                    const curr = document.documentElement.getAttribute('data-theme');
-                    const next = curr === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', next);
-                    localStorage.setItem('rd_theme', next);
-                    themeBtn.innerText = next === 'dark' ? '☀️' : '🌙';
-                    showToast(`${next === 'dark' ? 'Karanlık' : 'Aydınlık'} Mod Aktif`, 'info');
-                });
-
-                // Scroll Progress & Back to Top
-                const btt = document.getElementById('back-to-top');
-                window.addEventListener('scroll', () => {
-                    const winScroll = document.documentElement.scrollTop;
-                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                    document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
-                    
-                    if(winScroll > 400) btt.classList.add('show');
-                    else btt.classList.remove('show');
-                });
-                btt.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
-
-                // Navigation
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        const target = e.currentTarget.getAttribute('data-target');
-                        updateNav(target);
-                        document.getElementById('state-home').classList.add('hidden');
-                        document.getElementById('sec-search').classList.add('hidden');
-                        document.getElementById('sec-fav').classList.add('hidden');
-                        window.scrollTo({top:0, behavior:'smooth'});
-
-                        if(target === 'home') {
-                            document.getElementById('state-home').classList.remove('hidden');
-                            DOM.searchInput.value = ''; DOM.filterGrade.value = 'all';
-                        } else if(target === 'search-focus') {
-                            document.getElementById('sec-search').classList.remove('hidden');
-                            DOM.searchInput.focus();
-                            handleSearch();
-                        } else if(target === 'fav') {
-                            document.getElementById('sec-fav').classList.remove('hidden');
-                            renderUI(DOM.gridFav, db.filter(d => favs.has(d.id)));
-                        }
-                    });
-                });
-
-                // Search Inputs
-                DOM.searchInput.addEventListener('input', (e) => { handleAutocomplete(e); handleSearch(); });
-                DOM.filterGrade.addEventListener('change', handleSearch);
-                DOM.autocomplete.addEventListener('click', (e) => {
-                    const item = e.target.closest('.ac-item');
-                    if(item) {
-                        DOM.searchInput.value = item.getAttribute('data-title');
-                        DOM.autocomplete.style.display = 'none';
-                        handleSearch();
-                    }
-                });
-                document.addEventListener('click', (e) => { if(!e.target.closest('.search-input-group')) DOM.autocomplete.style.display = 'none'; });
-
-                // Global Click Delegation (Performance)
-                document.addEventListener('click', (e) => {
-                    const viewBtn = e.target.closest('.action-view');
-                    if(viewBtn) openPDFView(viewBtn.getAttribute('data-id'));
-
-                    const favBtn = e.target.closest('.action-fav');
-                    if(favBtn) toggleFavorite(favBtn.getAttribute('data-id'), favBtn);
-
-                    const delBtn = e.target.closest('.action-del');
-                    if(delBtn) delPDF(delBtn.getAttribute('data-id'));
-
-                    if(e.target.closest('.close-modal') || e.target.classList.contains('modal-overlay')) {
-                        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-
-                // Admin & Comments
-                document.getElementById('admin-btn').addEventListener('click', openAdmin);
-                document.getElementById('btn-add-pdf').addEventListener('click', addPDF);
-                document.getElementById('btn-submit-comment').addEventListener('click', submitInteraction);
-                document.getElementById('pdf-download').addEventListener('click', () => showToast('İndirme işlemi başlatıldı...', 'success'));
-            };
-
-            const updateNav = (target) => {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                const activeNav = document.querySelector(`.nav-item[data-target="${target}"]`);
-                if(activeNav) activeNav.classList.add('active');
-            };
-
-            // Public API
-            return {
-                init: () => {
-                    initData();
-                    setupEvents();
-                    initialRender();
-                }
-            };
-        })();
-
-        // Boot Application
-        document.addEventListener('DOMContentLoaded', App.init);
+        animate();
     </script>
 </body>
 </html>
