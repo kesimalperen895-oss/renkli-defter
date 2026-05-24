@@ -103,7 +103,6 @@
             padding-right: 5px;
         }
 
-        /* Scrollbar stilleri */
         .scoreboard-list::-webkit-scrollbar {
             width: 6px;
         }
@@ -203,30 +202,33 @@
         <h1>ALP EREN KESİM SKOR TABLOSU</h1>
         
         <div class="input-area">
-            <input type="text" id="playerNameInput" placeholder="Oyuncu adı girin..." autocomplete="off">
+            <input type="text" id="playerNameInput" placeholder="Yeni oyuncu adı girin..." autocomplete="off">
             <button class="add-btn" onclick="addPlayer()">Ekle</button>
         </div>
 
         <div class="scoreboard-list" id="scoreboardList">
-            <!-- Oyuncular buraya dinamik olarak eklenecek -->
+            <!-- Oyuncular buraya yüklenecek -->
         </div>
     </div>
 
     <script>
-        // Tarayıcı hafızasından verileri çek, yoksa boş dizi oluştur
-        let players = JSON.parse(localStorage.getItem('scoreboard_players')) || [];
+        // Başlangıçta 2 tane hazır oyuncu şablonu (Hafıza boşsa devreye girer)
+        const defaultPlayers = [
+            { id: 1, name: "Oyuncu 1", score: 0 },
+            { id: 2, name: "Oyuncu 2", score: 0 }
+        ];
 
-        // Sayfa yüklendiğinde listeyi göster
+        // Tarayıcı hafızasından çek, yoksa varsayılan 2 oyuncuyu yükle
+        let players = JSON.parse(localStorage.getItem('scoreboard_players')) || defaultPlayers;
+
         document.addEventListener('DOMContentLoaded', renderScoreboard);
 
-        // Enter tuşuna basınca da ekleme yapabilmek için
         document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addPlayer();
             }
         });
 
-        // Yeni Oyuncu Ekleme Fonksiyonu
         function addPlayer() {
             const input = document.getElementById('playerNameInput');
             const name = input.value.trim();
@@ -244,13 +246,11 @@
 
             players.push(newPlayer);
             saveAndRender();
-            input.value = ''; // Giriş alanını temizle
+            input.value = '';
             input.focus();
         }
 
-        // Skoru 1 Artırma Fonksiyonu
         function increaseScore(id, event) {
-            // Eğer silme butonuna tıklandıysa skoru artırma
             if (event.target.classList.contains('delete-btn') || event.target.closest('.delete-btn')) {
                 return;
             }
@@ -264,24 +264,21 @@
             saveAndRender();
         }
 
-        // Oyuncu Silme Fonksiyonu
         function deletePlayer(id) {
             players = players.filter(player => player.id !== id);
             saveAndRender();
         }
 
-        // Verileri Kaydet ve Listeyi Yenile
         function saveAndRender() {
             localStorage.setItem('scoreboard_players', JSON.stringify(players));
             renderScoreboard();
         }
 
-        // Listeyi Ekrana Basma Fonksiyonu
         function renderScoreboard() {
             const listContainer = document.getElementById('scoreboardList');
             listContainer.innerHTML = '';
 
-            // Skorlara göre büyükten küçüğe sırala (İstersen bu satırı silebilirsin)
+            // Skorlara göre sıralama (İptal etmek istersen bu satırın başına // koyabilirsin)
             players.sort((a, b) => b.score - a.score);
 
             if (players.length === 0) {
